@@ -233,15 +233,6 @@ class WelcomePage extends StatelessWidget {
                                   ),
 
                                   const SizedBox(height: 18),
-
-                                  const Text(
-                                    'Tanpa login, reservasi jadi lebih mudah.',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xFF777777),
-                                    ),
-                                  ),
                                 ],
                               ),
                             ),

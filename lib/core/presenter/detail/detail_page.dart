@@ -162,30 +162,33 @@ class DetailKostPage extends StatelessWidget {
 
           const SizedBox(height: 12),
 
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              FacilityBox(
-                icon: Icons.king_bed_outlined,
-                label: 'Kasur',
-              ),
-              FacilityBox(
-                icon: Icons.door_front_door_outlined,
-                label: 'Lemari',
-              ),
-              FacilityBox(
-                icon: Icons.tv_outlined,
-                label: 'AC',
-              ),
-              FacilityBox(
-                icon: Icons.wifi,
-                label: 'WiFi',
-              ),
-              FacilityBox(
-                icon: Icons.shower_outlined,
-                label: 'Kamar Mandi\nDalam',
-              ),
-            ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FacilityBox(
+                  icon: Icons.king_bed_outlined,
+                  label: 'Kasur',
+                ),
+                FacilityBox(
+                  icon: Icons.door_front_door_outlined,
+                  label: 'Lemari',
+                ),
+                FacilityBox(
+                  icon: Icons.tv_outlined,
+                  label: 'AC',
+                ),
+                FacilityBox(
+                  icon: Icons.wifi,
+                  label: 'WiFi',
+                ),
+                FacilityBox(
+                  icon: Icons.shower_outlined,
+                  label: 'Kamar Mandi\nDalam',
+                ),
+              ],
+            ),
           ),
 
           const SizedBox(height: 24),
@@ -201,26 +204,29 @@ class DetailKostPage extends StatelessWidget {
 
           const SizedBox(height: 12),
 
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              FacilityBox(
-                icon: Icons.local_parking_outlined,
-                label: 'Parkiran',
-              ),
-              FacilityBox(
-                icon: Icons.local_laundry_service_outlined,
-                label: 'Dapur\nBersama',
-              ),
-              FacilityBox(
-                icon: Icons.videocam_outlined,
-                label: 'CCTV',
-              ),
-              FacilityBox(
-                icon: Icons.mosque_outlined,
-                label: 'Mushola',
-              ),
-            ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FacilityBox(
+                  icon: Icons.local_parking_outlined,
+                  label: 'Parkiran',
+                ),
+                FacilityBox(
+                  icon: Icons.local_laundry_service_outlined,
+                  label: 'Dapur\nBersama',
+                ),
+                FacilityBox(
+                  icon: Icons.videocam_outlined,
+                  label: 'CCTV',
+                ),
+                FacilityBox(
+                  icon: Icons.mosque_outlined,
+                  label: 'Mushola',
+                ),
+              ],
+            ),
           ),
 
           const SizedBox(height: 16),

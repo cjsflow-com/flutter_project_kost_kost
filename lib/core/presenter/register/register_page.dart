@@ -1,35 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
-import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   static const Color primaryGreen = Color(0xFF0F5B2B);
   static const Color softGreen = Color(0xFFF4FAF4);
 
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
+  final phoneController = TextEditingController();
   final passwordController = TextEditingController();
 
+  int? gender; // 1 = Laki-laki, 2 = Perempuan
   bool isPasswordHidden = true;
-  bool rememberMe = false;
 
   @override
   void dispose() {
+    nameController.dispose();
     emailController.dispose();
+    phoneController.dispose();
     passwordController.dispose();
     super.dispose();
   }
 
-  void handleLogin() {
-    // TODO: sambungkan ke API login Laravel
-    DialogHelper.goNamed(context: context, nameRoutes: RouteNames.home_page);
+  void handleRegister() {
+    // TODO: hubungkan ke API
+    context.go('/home');
   }
 
   @override
@@ -122,45 +124,62 @@ class _LoginPageState extends State<LoginPage> {
         const SizedBox(height: 28),
         Center(
           child: const Text(
-            'Masuk Akun',
+            'Buat Akun Baru',
             style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.w900,
               color: Color(0xFF162016),
-            ), 
+            ),
           ),
         ),
         const SizedBox(height: 6),
-        const Text(
-          'Silakan masuk untuk melihat reservasi dan data kos kamu.',
-          style: TextStyle(
-            fontSize: 13,
-            height: 1.5,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF747474),
+        Center(
+          child: const Text(
+            'Isi data berikut untuk membuat akun baru.',
+            style: TextStyle(
+              fontSize: 13,
+              height: 1.5,
+              fontWeight: FontWeight.w500,
+              color: Color(0xFF747474),
+            ),
           ),
-          textAlign: TextAlign.center,
         ),
         const SizedBox(height: 28),
 
+        _buildLabel('Nama Lengkap'),
+        const SizedBox(height: 8),
+        _buildTextField(
+          controller: nameController,
+          hintText: 'Masukkan nama lengkap',
+          prefixIcon: Icons.person_outline,
+        ),
+
+        const SizedBox(height: 18),
         _buildLabel('Email'),
         const SizedBox(height: 8),
         _buildTextField(
           controller: emailController,
-          hintText: 'Masukkan email kamu',
-          keyboardType: TextInputType.emailAddress,
+          hintText: 'Masukkan email',
           prefixIcon: Icons.email_outlined,
         ),
 
         const SizedBox(height: 18),
+        _buildLabel('No. Telepon'),
+        const SizedBox(height: 8),
+        _buildTextField(
+          controller: phoneController,
+          hintText: 'Masukkan no. telepon',
+          prefixIcon: Icons.phone_outlined,
+        ),
 
+        const SizedBox(height: 18),
         _buildLabel('Password'),
         const SizedBox(height: 8),
         _buildTextField(
           controller: passwordController,
           hintText: 'Masukkan password',
-          obscureText: isPasswordHidden,
           prefixIcon: Icons.lock_outline,
+          obscureText: isPasswordHidden,
           suffixIcon: IconButton(
             onPressed: () {
               setState(() {
@@ -177,60 +196,23 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
 
-        const SizedBox(height: 12),
+        const SizedBox(height: 18),
+        _buildLabel('Jenis Kelamin'),
+        const SizedBox(height: 8),
         Row(
           children: [
-            SizedBox(
-              width: 22,
-              height: 22,
-              child: Checkbox(
-                value: rememberMe,
-                activeColor: primaryGreen,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                side: const BorderSide(
-                  color: Color(0xFFD2D2D2),
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    rememberMe = value ?? false;
-                  });
-                },
-              ),
-            ),
-            const SizedBox(width: 8),
-            const Text(
-              'Ingat saya',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF555555),
-              ),
-            ),
-            const Spacer(),
-            GestureDetector(
-              onTap: () {
-                // TODO: forgot password
-              },
-              child: const Text(
-                'Lupa password?',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w800,
-                  color: primaryGreen,
-                ),
-              ),
-            ),
+            _buildGenderOption(1, 'Laki-laki'),
+            const SizedBox(width: 20),
+            _buildGenderOption(2, 'Perempuan'),
           ],
         ),
 
-        const SizedBox(height: 26),
+        const SizedBox(height: 28),
         SizedBox(
           width: double.infinity,
           height: 52,
           child: ElevatedButton(
-            onPressed: handleLogin,
+            onPressed: handleRegister,
             style: ElevatedButton.styleFrom(
               backgroundColor: primaryGreen,
               foregroundColor: Colors.white,
@@ -240,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             child: const Text(
-              'Masuk',
+              'Daftar',
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w900,
@@ -249,76 +231,32 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
 
-        const SizedBox(height: 22),
+        const SizedBox(height: 20),
         Row(
-          children: const [
-            Expanded(
-              child: Divider(color: Color(0xFFE6E6E6)),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Sudah punya akun? ',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF666666),
+              ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12),
-              child: Text(
-                'atau',
+            GestureDetector(
+              onTap: () {
+                context.go('/login');
+              },
+              child: const Text(
+                'Masuk',
                 style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF9A9A9A),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w800,
+                  color: primaryGreen,
                 ),
               ),
             ),
-            Expanded(
-              child: Divider(color: Color(0xFFE6E6E6)),
-            ),
           ],
-        ),
-
-        const SizedBox(height: 22),
-        SizedBox(
-          width: double.infinity,
-          height: 50,
-          child: OutlinedButton(
-            onPressed: () {
-              // Navigasi ke halaman register
-              DialogHelper.pushNamed(
-                  context: context, nameRoutes: RouteNames.register);
-            },
-            style: OutlinedButton.styleFrom(
-              foregroundColor: primaryGreen,
-              side: const BorderSide(
-                color: primaryGreen,
-                width: 1.2,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
-              ),
-            ),
-            child: const Text(
-              'Buat Akun Baru',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-          ),
-        ),
-
-        const SizedBox(height: 22),
-        Center(
-          child: GestureDetector(
-            onTap: () {
-              DialogHelper.goNamed(
-                  context: context, nameRoutes: RouteNames.home_page);
-            },
-            child: const Text(
-              'Lewati dulu dan lihat kamar',
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w800,
-                color: primaryGreen,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
         ),
 
         const SizedBox(height: 24),
@@ -381,6 +319,34 @@ class _LoginPageState extends State<LoginPage> {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: primaryGreen, width: 1.4),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGenderOption(int value, String label) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          gender = value;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        decoration: BoxDecoration(
+          color: gender == value ? primaryGreen.withOpacity(0.15) : Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: gender == value ? primaryGreen : const Color(0xFFD2D2D2),
+          ),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: gender == value ? primaryGreen : const Color(0xFF444444),
+          ),
         ),
       ),
     );
