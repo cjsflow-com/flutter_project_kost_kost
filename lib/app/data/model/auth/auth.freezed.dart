@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Auth {
 
- bool get success; String get message; String? get token; Customer? get customer; int? get code;
+ bool get success; String get message; String get token; dynamic get customer;
 /// Create a copy of Auth
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $AuthCopyWith<Auth> get copyWith => _$AuthCopyWithImpl<Auth>(this as Auth, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Auth&&(identical(other.success, success) || other.success == success)&&(identical(other.message, message) || other.message == message)&&(identical(other.token, token) || other.token == token)&&(identical(other.customer, customer) || other.customer == customer)&&(identical(other.code, code) || other.code == code));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Auth&&(identical(other.success, success) || other.success == success)&&(identical(other.message, message) || other.message == message)&&(identical(other.token, token) || other.token == token)&&const DeepCollectionEquality().equals(other.customer, customer));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,success,message,token,customer,code);
+int get hashCode => Object.hash(runtimeType,success,message,token,const DeepCollectionEquality().hash(customer));
 
 @override
 String toString() {
-  return 'Auth(success: $success, message: $message, token: $token, customer: $customer, code: $code)';
+  return 'Auth(success: $success, message: $message, token: $token, customer: $customer)';
 }
 
 
@@ -48,11 +48,11 @@ abstract mixin class $AuthCopyWith<$Res>  {
   factory $AuthCopyWith(Auth value, $Res Function(Auth) _then) = _$AuthCopyWithImpl;
 @useResult
 $Res call({
- bool success, String message, String? token, Customer? customer, int? code
+ bool success, String message, String token, dynamic customer
 });
 
 
-$CustomerCopyWith<$Res>? get customer;
+
 
 }
 /// @nodoc
@@ -65,29 +65,16 @@ class _$AuthCopyWithImpl<$Res>
 
 /// Create a copy of Auth
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? success = null,Object? message = null,Object? token = freezed,Object? customer = freezed,Object? code = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? success = null,Object? message = null,Object? token = null,Object? customer = freezed,}) {
   return _then(_self.copyWith(
 success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
 as bool,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,token: freezed == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
-as String?,customer: freezed == customer ? _self.customer : customer // ignore: cast_nullable_to_non_nullable
-as Customer?,code: freezed == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
-as int?,
+as String,token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
+as String,customer: freezed == customer ? _self.customer : customer // ignore: cast_nullable_to_non_nullable
+as dynamic,
   ));
 }
-/// Create a copy of Auth
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$CustomerCopyWith<$Res>? get customer {
-    if (_self.customer == null) {
-    return null;
-  }
 
-  return $CustomerCopyWith<$Res>(_self.customer!, (value) {
-    return _then(_self.copyWith(customer: value));
-  });
-}
 }
 
 
@@ -169,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool success,  String message,  String? token,  Customer? customer,  int? code)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool success,  String message,  String token,  dynamic customer)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Auth() when $default != null:
-return $default(_that.success,_that.message,_that.token,_that.customer,_that.code);case _:
+return $default(_that.success,_that.message,_that.token,_that.customer);case _:
   return orElse();
 
 }
@@ -190,10 +177,10 @@ return $default(_that.success,_that.message,_that.token,_that.customer,_that.cod
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool success,  String message,  String? token,  Customer? customer,  int? code)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool success,  String message,  String token,  dynamic customer)  $default,) {final _that = this;
 switch (_that) {
 case _Auth():
-return $default(_that.success,_that.message,_that.token,_that.customer,_that.code);case _:
+return $default(_that.success,_that.message,_that.token,_that.customer);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -210,10 +197,10 @@ return $default(_that.success,_that.message,_that.token,_that.customer,_that.cod
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool success,  String message,  String? token,  Customer? customer,  int? code)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool success,  String message,  String token,  dynamic customer)?  $default,) {final _that = this;
 switch (_that) {
 case _Auth() when $default != null:
-return $default(_that.success,_that.message,_that.token,_that.customer,_that.code);case _:
+return $default(_that.success,_that.message,_that.token,_that.customer);case _:
   return null;
 
 }
@@ -225,14 +212,13 @@ return $default(_that.success,_that.message,_that.token,_that.customer,_that.cod
 @JsonSerializable()
 
 class _Auth implements Auth {
-  const _Auth({required this.success, required this.message, this.token, this.customer, this.code});
+  const _Auth({required this.success, required this.message, required this.token, required this.customer});
   factory _Auth.fromJson(Map<String, dynamic> json) => _$AuthFromJson(json);
 
 @override final  bool success;
 @override final  String message;
-@override final  String? token;
-@override final  Customer? customer;
-@override final  int? code;
+@override final  String token;
+@override final  dynamic customer;
 
 /// Create a copy of Auth
 /// with the given fields replaced by the non-null parameter values.
@@ -247,16 +233,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Auth&&(identical(other.success, success) || other.success == success)&&(identical(other.message, message) || other.message == message)&&(identical(other.token, token) || other.token == token)&&(identical(other.customer, customer) || other.customer == customer)&&(identical(other.code, code) || other.code == code));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Auth&&(identical(other.success, success) || other.success == success)&&(identical(other.message, message) || other.message == message)&&(identical(other.token, token) || other.token == token)&&const DeepCollectionEquality().equals(other.customer, customer));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,success,message,token,customer,code);
+int get hashCode => Object.hash(runtimeType,success,message,token,const DeepCollectionEquality().hash(customer));
 
 @override
 String toString() {
-  return 'Auth(success: $success, message: $message, token: $token, customer: $customer, code: $code)';
+  return 'Auth(success: $success, message: $message, token: $token, customer: $customer)';
 }
 
 
@@ -267,11 +253,11 @@ abstract mixin class _$AuthCopyWith<$Res> implements $AuthCopyWith<$Res> {
   factory _$AuthCopyWith(_Auth value, $Res Function(_Auth) _then) = __$AuthCopyWithImpl;
 @override @useResult
 $Res call({
- bool success, String message, String? token, Customer? customer, int? code
+ bool success, String message, String token, dynamic customer
 });
 
 
-@override $CustomerCopyWith<$Res>? get customer;
+
 
 }
 /// @nodoc
@@ -284,30 +270,17 @@ class __$AuthCopyWithImpl<$Res>
 
 /// Create a copy of Auth
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? success = null,Object? message = null,Object? token = freezed,Object? customer = freezed,Object? code = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? success = null,Object? message = null,Object? token = null,Object? customer = freezed,}) {
   return _then(_Auth(
 success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
 as bool,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,token: freezed == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
-as String?,customer: freezed == customer ? _self.customer : customer // ignore: cast_nullable_to_non_nullable
-as Customer?,code: freezed == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
-as int?,
+as String,token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
+as String,customer: freezed == customer ? _self.customer : customer // ignore: cast_nullable_to_non_nullable
+as dynamic,
   ));
 }
 
-/// Create a copy of Auth
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$CustomerCopyWith<$Res>? get customer {
-    if (_self.customer == null) {
-    return null;
-  }
 
-  return $CustomerCopyWith<$Res>(_self.customer!, (value) {
-    return _then(_self.copyWith(customer: value));
-  });
-}
 }
 
 

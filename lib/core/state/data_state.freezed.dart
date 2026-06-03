@@ -125,12 +125,12 @@ return failed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  success,TResult Function( String message)?  failed,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( T data)?  success,TResult Function( String message)?  failed,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case DataStateInitial() when initial != null:
 return initial();case DataStateLoading() when loading != null:
 return loading();case DataStateSuccess() when success != null:
-return success();case DataStateFailed() when failed != null:
+return success(_that.data);case DataStateFailed() when failed != null:
 return failed(_that.message);case _:
   return orElse();
 
@@ -149,12 +149,12 @@ return failed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  success,required TResult Function( String message)  failed,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( T data)  success,required TResult Function( String message)  failed,}) {final _that = this;
 switch (_that) {
 case DataStateInitial():
 return initial();case DataStateLoading():
 return loading();case DataStateSuccess():
-return success();case DataStateFailed():
+return success(_that.data);case DataStateFailed():
 return failed(_that.message);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -169,12 +169,12 @@ return failed(_that.message);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  success,TResult? Function( String message)?  failed,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( T data)?  success,TResult? Function( String message)?  failed,}) {final _that = this;
 switch (_that) {
 case DataStateInitial() when initial != null:
 return initial();case DataStateLoading() when loading != null:
 return loading();case DataStateSuccess() when success != null:
-return success();case DataStateFailed() when failed != null:
+return success(_that.data);case DataStateFailed() when failed != null:
 return failed(_that.message);case _:
   return null;
 
@@ -251,33 +251,67 @@ String toString() {
 
 
 class DataStateSuccess<T> implements DataState<T> {
-  const DataStateSuccess();
+  const DataStateSuccess(this.data);
   
 
+ final  T data;
 
-
+/// Create a copy of DataState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DataStateSuccessCopyWith<T, DataStateSuccess<T>> get copyWith => _$DataStateSuccessCopyWithImpl<T, DataStateSuccess<T>>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DataStateSuccess<T>);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DataStateSuccess<T>&&const DeepCollectionEquality().equals(other.data, data));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(data));
 
 @override
 String toString() {
-  return 'DataState<$T>.success()';
+  return 'DataState<$T>.success(data: $data)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class $DataStateSuccessCopyWith<T,$Res> implements $DataStateCopyWith<T, $Res> {
+  factory $DataStateSuccessCopyWith(DataStateSuccess<T> value, $Res Function(DataStateSuccess<T>) _then) = _$DataStateSuccessCopyWithImpl;
+@useResult
+$Res call({
+ T data
+});
 
 
+
+
+}
+/// @nodoc
+class _$DataStateSuccessCopyWithImpl<T,$Res>
+    implements $DataStateSuccessCopyWith<T, $Res> {
+  _$DataStateSuccessCopyWithImpl(this._self, this._then);
+
+  final DataStateSuccess<T> _self;
+  final $Res Function(DataStateSuccess<T>) _then;
+
+/// Create a copy of DataState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? data = freezed,}) {
+  return _then(DataStateSuccess<T>(
+freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as T,
+  ));
+}
+
+
+}
 
 /// @nodoc
 

@@ -9,12 +9,8 @@ part of 'auth.dart';
 _Auth _$AuthFromJson(Map<String, dynamic> json) => _Auth(
   success: json['success'] as bool,
   message: json['message'] as String,
-  token: json['token'] as String?,
-  customer:
-      json['customer'] == null
-          ? null
-          : Customer.fromJson(json['customer'] as Map<String, dynamic>),
-  code: (json['code'] as num?)?.toInt(),
+  token: json['token'] as String,
+  customer: json['customer'],
 );
 
 Map<String, dynamic> _$AuthToJson(_Auth instance) => <String, dynamic>{
@@ -22,7 +18,6 @@ Map<String, dynamic> _$AuthToJson(_Auth instance) => <String, dynamic>{
   'message': instance.message,
   'token': instance.token,
   'customer': instance.customer,
-  'code': instance.code,
 };
 
 _Customer _$CustomerFromJson(Map<String, dynamic> json) => _Customer(

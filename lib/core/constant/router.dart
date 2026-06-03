@@ -3,8 +3,11 @@ import 'package:rimbun_cicio_kost/core/constant/constant.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
 import 'package:rimbun_cicio_kost/core/presenter/component/main_navigation.dart';
 import 'package:rimbun_cicio_kost/core/presenter/detail/detail_page.dart';
+import 'package:rimbun_cicio_kost/core/presenter/detail/detail_payment_page.dart';
 import 'package:rimbun_cicio_kost/core/presenter/login/login_page.dart';
+import 'package:rimbun_cicio_kost/core/presenter/payment/payment_page.dart';
 import 'package:rimbun_cicio_kost/core/presenter/register/register_page.dart';
+import 'package:rimbun_cicio_kost/core/presenter/reservation/form_reservation_page.dart';
 import '../presenter/welcome/welcome.dart';
 
 final GoRouter router = GoRouter(
@@ -35,5 +38,20 @@ final GoRouter router = GoRouter(
       name: RouteNames.register,
       builder: (context, state) => const RegisterPage(),
     ),
+    GoRoute(
+      path: FORM_RESERVATION,
+      name: RouteNames.form_reservation_page,
+      builder: (context, state) => const ReservationFormPage()
+    ),
+    GoRoute(
+      path: PAYMENT,
+      name: RouteNames.payment,
+      builder: (context, state) => const PaymentMethodPageInteractive()
+    ),
+    GoRoute(
+      path: DETAIL_PAYMENT_PAGE,
+      name: RouteNames.payment_detail,
+      builder: (context, state) => const PaymentStatusPageFull()
+    )
   ],
 );

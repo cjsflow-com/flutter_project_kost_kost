@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:rimbun_cicio_kost/core/presenter/auth/auth_provider.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -12,30 +14,16 @@ class _RegisterPageState extends State<RegisterPage> {
   static const Color primaryGreen = Color(0xFF0F5B2B);
   static const Color softGreen = Color(0xFFF4FAF4);
 
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final phoneController = TextEditingController();
-  final passwordController = TextEditingController();
 
-  int? gender; // 1 = Laki-laki, 2 = Perempuan
-  bool isPasswordHidden = true;
-
-  @override
-  void dispose() {
-    nameController.dispose();
-    emailController.dispose();
-    phoneController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
-
-  void handleRegister() {
-    // TODO: hubungkan ke API
+  void handleRegister() async {
+    final provider = context.read<AuthProvider>();
+    await provider.register();
     context.go('/home');
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<AuthProvider>();
     final size = MediaQuery.sizeOf(context);
     final isTablet = size.width >= 600;
 
@@ -62,7 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 460),
-                  child: _buildForm(),
+                  child: _buildForm(provider),
                 ),
               ),
             ),
@@ -117,7 +105,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _buildForm() {
+  Widget _buildForm(AuthProvider provider) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -149,7 +137,7 @@ class _RegisterPageState extends State<RegisterPage> {
         _buildLabel('Nama Lengkap'),
         const SizedBox(height: 8),
         _buildTextField(
-          controller: nameController,
+          controller: provider.nameController,
           hintText: 'Masukkan nama lengkap',
           prefixIcon: Icons.person_outline,
         ),
@@ -158,7 +146,7 @@ class _RegisterPageState extends State<RegisterPage> {
         _buildLabel('Email'),
         const SizedBox(height: 8),
         _buildTextField(
-          controller: emailController,
+          controller: provider.emailController,
           hintText: 'Masukkan email',
           prefixIcon: Icons.email_outlined,
         ),
@@ -167,7 +155,7 @@ class _RegisterPageState extends State<RegisterPage> {
         _buildLabel('No. Telepon'),
         const SizedBox(height: 8),
         _buildTextField(
-          controller: phoneController,
+          controller: provider.phoneController,
           hintText: 'Masukkan no. telepon',
           prefixIcon: Icons.phone_outlined,
         ),
@@ -176,18 +164,14 @@ class _RegisterPageState extends State<RegisterPage> {
         _buildLabel('Password'),
         const SizedBox(height: 8),
         _buildTextField(
-          controller: passwordController,
+          controller: provider.passwordController,
           hintText: 'Masukkan password',
           prefixIcon: Icons.lock_outline,
-          obscureText: isPasswordHidden,
+          obscureText: provider.isShowPassword,
           suffixIcon: IconButton(
-            onPressed: () {
-              setState(() {
-                isPasswordHidden = !isPasswordHidden;
-              });
-            },
+            onPressed: provider.togglePassword,
             icon: Icon(
-              isPasswordHidden
+              provider.isShowPassword
                   ? Icons.visibility_off_outlined
                   : Icons.visibility_outlined,
               size: 20,
@@ -325,19 +309,16 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _buildGenderOption(int value, String label) {
+    final provider = context.watch<AuthProvider>();
     return InkWell(
-      onTap: () {
-        setState(() {
-          gender = value;
-        });
-      },
+      onTap: () {provider.setGender(value);},
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
-          color: gender == value ? primaryGreen.withOpacity(0.15) : Colors.white,
+          color: provider.gender == value ? primaryGreen.withOpacity(0.15) : Colors.white,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: gender == value ? primaryGreen : const Color(0xFFD2D2D2),
+            color: provider.gender == value ? primaryGreen : const Color(0xFFD2D2D2),
           ),
         ),
         child: Text(
@@ -345,7 +326,7 @@ class _RegisterPageState extends State<RegisterPage> {
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: gender == value ? primaryGreen : const Color(0xFF444444),
+            color: provider.gender == value ? primaryGreen : const Color(0xFF444444),
           ),
         ),
       ),

@@ -9,9 +9,8 @@ abstract class Auth with _$Auth{
   const factory Auth({
     required bool success,
     required String message,
-    String? token,
-    Customer? customer,
-    int? code,
+    required String token,
+    required customer,
 }) = _Auth;
 
   factory Auth.fromJson(Map<String, dynamic> json) => _$AuthFromJson(json);

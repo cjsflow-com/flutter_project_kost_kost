@@ -281,7 +281,7 @@ class DetailKostPage extends StatelessWidget {
         height: 50,
         child: ElevatedButton(
           onPressed: () {
-             DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.login);
+             DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.form_reservation_page);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: primaryGreen,
