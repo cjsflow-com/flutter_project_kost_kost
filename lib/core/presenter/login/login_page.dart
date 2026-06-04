@@ -18,7 +18,6 @@ class _LoginPageState extends State<LoginPage> {
   static const Color primaryGreen = Color(0xFF0F5B2B);
   static const Color softGreen = Color(0xFFF4FAF4);
 
-  // bool isPasswordHidden = true;
   bool rememberMe = false;
 
   void handleLogin(BuildContext context, AuthProvider provider) async {

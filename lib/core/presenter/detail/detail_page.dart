@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rimbun_cicio_kost/core/constant/constant.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
 import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
 import 'package:rimbun_cicio_kost/core/helper/shared_prefrences_helper.dart';
+import 'package:rimbun_cicio_kost/core/presenter/auth/auth_provider.dart';
 import 'package:rimbun_cicio_kost/core/presenter/component/widgets/facility_box.dart';
 
 class DetailKostPage extends StatelessWidget {
@@ -273,41 +275,45 @@ class DetailKostPage extends StatelessWidget {
   }
 
   Widget _buildBottomButton(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(18, 12, 18, 24),
-      decoration: const BoxDecoration(
-        color: backgroundColor,
-      ),
-      child: SizedBox(
-        width: double.infinity,
-        height: 50,
-        child: ElevatedButton(
-          onPressed: () async {
-            final token = await SharedPreferencesHelper.getString(PREF_AUTH);
-            if (token != null){
-              DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.form_reservation_page);
-            }else {
-              DialogHelper.pushNamed(
-                  context: context, nameRoutes: RouteNames.login);
-            }
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: primaryGreen,
-            foregroundColor: Colors.white,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+    return Consumer<AuthProvider>(
+      builder: (context, authProvider, child){
+        return Container(
+          padding: const EdgeInsets.fromLTRB(18, 12, 18, 24),
+          decoration: const BoxDecoration(
+            color: backgroundColor,
+          ),
+          child: SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: ElevatedButton(
+              onPressed: () async {
+                final token = await SharedPreferencesHelper.getString(PREF_AUTH);
+                if (token != null){
+                  DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.form_reservation_page);
+                }else {
+                  DialogHelper.pushNamed(
+                      context: context, nameRoutes: RouteNames.login);
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primaryGreen,
+                foregroundColor: Colors.white,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Text(
+                'Reservasi Sekarang',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
             ),
           ),
-          child: const Text(
-            'Reservasi Sekarang',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
