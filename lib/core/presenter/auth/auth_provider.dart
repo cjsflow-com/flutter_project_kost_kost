@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rimbun_cicio_kost/app/data/model/auth/auth.dart';
 import 'package:rimbun_cicio_kost/app/module/use_case/auth_use_case.dart';
+import 'package:rimbun_cicio_kost/core/constant/constant.dart';
+import 'package:rimbun_cicio_kost/core/helper/shared_prefrences_helper.dart';
 import 'package:rimbun_cicio_kost/core/state/data_state.dart';
 
 class AuthProvider extends ChangeNotifier{
@@ -11,16 +13,18 @@ class AuthProvider extends ChangeNotifier{
   DataState<Auth?> _state = const DataState.initial();
   DataState<Auth?> get state => _state;
 
-  late String _name;
+  late String _name = '';
   String get name => _name;
 
-  late String _email;
+  late String _email = '';
   String get email => _email;
 
-  late int _gender;
+  late int _gender = 0;
   int get gender => _gender;
 
   bool _isShowPassword = false;
+  bool _isLoggedIn = false;
+
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -29,6 +33,7 @@ class AuthProvider extends ChangeNotifier{
 
 
   bool get isShowPassword => _isShowPassword;
+  bool get isLoggedIn => _isLoggedIn;
   TextEditingController get emailController => _emailController;
   TextEditingController get passwordController => _passwordController;
   TextEditingController get nameController => _nameController;
@@ -48,6 +53,18 @@ class AuthProvider extends ChangeNotifier{
 
     final result = await _authUseCase.login(emailControllerText, passwordControllerrText);
     _state = result;
+    notifyListeners();
+  }
+
+  Future<void> checkLogin() async{
+    final String? token = await SharedPreferencesHelper.getString(PREF_AUTH);
+    _isLoggedIn = token != null && token.isNotEmpty;
+    notifyListeners();
+  }
+
+  Future<void> logout() async {
+    await SharedPreferencesHelper.logout();
+    _isLoggedIn = false;
     notifyListeners();
   }
 

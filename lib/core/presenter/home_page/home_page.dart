@@ -1,19 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
+import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
+import 'package:rimbun_cicio_kost/core/presenter/auth/auth_provider.dart';
 
-import '../component/widgets/promo_banner.dart';
 import '../component/widgets/room_card.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   static const Color primaryGreen = Color(0xFF0F5B2B);
   static const Color backgroundColor = Color(0xFFF4FAF4);
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  @override
+  void initState() {
+    super.initState();
+    final authProvider = context.read<AuthProvider>();
+    authProvider.checkLogin();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      color: backgroundColor,
-      child: SafeArea(
+    return Scaffold(
+      backgroundColor: HomePage.backgroundColor,
+      floatingActionButton: Consumer<AuthProvider>(
+        builder: (context,provider,child){
+          if (!provider.isLoggedIn) return const SizedBox();
+          return FloatingActionButton(
+            backgroundColor: Colors.red,
+            onPressed: () async {
+              await provider.logout();
+              DialogHelper.goNamed(context: context, nameRoutes: RouteNames.login);
+            },
+          );
+        },
+        child: const Icon(Icons.logout),
+      ),
+      body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
           children: [
@@ -71,11 +100,11 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Rimbun Kos',
+                'Cicio Rimbun Kos',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w800,
-                  color: primaryGreen,
+                  color: HomePage.primaryGreen,
                   decoration: TextDecoration.none,
                 ),
               ),
@@ -85,7 +114,7 @@ class HomePage extends StatelessWidget {
                   Icon(
                     Icons.location_on,
                     size: 15,
-                    color: primaryGreen,
+                    color: HomePage.primaryGreen,
                   ),
                   SizedBox(width: 4),
                   Expanded(
@@ -173,7 +202,7 @@ class HomePage extends StatelessWidget {
           ),
           child: const Icon(
             Icons.tune,
-            color: primaryGreen,
+            color: HomePage.primaryGreen,
             size: 22,
           ),
         ),
@@ -200,7 +229,7 @@ class HomePage extends StatelessWidget {
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w700,
-            color: primaryGreen,
+            color: HomePage.primaryGreen,
             decoration: TextDecoration.none,
           ),
         ),

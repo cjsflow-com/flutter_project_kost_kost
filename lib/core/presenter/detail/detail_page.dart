@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rimbun_cicio_kost/core/constant/constant.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
 import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
+import 'package:rimbun_cicio_kost/core/helper/shared_prefrences_helper.dart';
 import 'package:rimbun_cicio_kost/core/presenter/component/widgets/facility_box.dart';
 
 class DetailKostPage extends StatelessWidget {
@@ -280,8 +282,14 @@ class DetailKostPage extends StatelessWidget {
         width: double.infinity,
         height: 50,
         child: ElevatedButton(
-          onPressed: () {
-             DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.form_reservation_page);
+          onPressed: () async {
+            final token = await SharedPreferencesHelper.getString(PREF_AUTH);
+            if (token != null){
+              DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.form_reservation_page);
+            }else {
+              DialogHelper.pushNamed(
+                  context: context, nameRoutes: RouteNames.login);
+            }
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: primaryGreen,

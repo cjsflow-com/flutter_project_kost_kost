@@ -10,7 +10,7 @@ abstract class Auth with _$Auth{
     required bool success,
     required String message,
     required String token,
-    required customer,
+    required Customer customer,
 }) = _Auth;
 
   factory Auth.fromJson(Map<String, dynamic> json) => _$AuthFromJson(json);
@@ -23,7 +23,7 @@ abstract class Customer with _$Customer{
     required String name,
     required String email,
     required String phone,
-    required int gener,
+    required int gender,
     @JsonKey(name: 'created_at') String? created_at,
     @JsonKey(name: 'updated_at') String? updatedAt,
 }) = _Customer;

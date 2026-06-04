@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
         provider.emailController.clear();
         provider.passwordController.clear();
         DialogHelper.showSnackBar(context: context, text: data.message);
-        context.goNamed(RouteNames.home_page);
+        context.goNamed(RouteNames.form_reservation_page);
         break;
       case DataStateFailed(:var message):
         DialogHelper.showSnackBar(context: context, text: message);
@@ -312,11 +312,11 @@ class _LoginPageState extends State<LoginPage> {
                 onTap: () {
                   DialogHelper.goNamed(
                     context: context,
-                    nameRoutes: RouteNames.home_page,
+                    nameRoutes: RouteNames.welcome,
                   );
                 },
                 child: const Text(
-                  'Lewati dulu dan lihat kamar',
+                  'Kembali Halaman Selamat Datang',
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w800,

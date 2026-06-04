@@ -9,7 +9,7 @@ const FORM_RESERVATION = "/form_reservation";
 const PAYMENT = "/payment_page";
 const DETAIL_PAYMENT_PAGE = "/detail_payment_page";
 
-const BASE_URL = "http://127.0.0.1:8000/api";
+const BASE_URL = "http://10.9.0.16:5000/api";
 
 const _PREFIX_AUTH = "/auth";
 // ENDPOINT AUTH

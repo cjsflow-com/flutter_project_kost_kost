@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Auth {
 
- bool get success; String get message; String get token; dynamic get customer;
+ bool get success; String get message; String get token; Customer get customer;
 /// Create a copy of Auth
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,12 +28,12 @@ $AuthCopyWith<Auth> get copyWith => _$AuthCopyWithImpl<Auth>(this as Auth, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Auth&&(identical(other.success, success) || other.success == success)&&(identical(other.message, message) || other.message == message)&&(identical(other.token, token) || other.token == token)&&const DeepCollectionEquality().equals(other.customer, customer));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Auth&&(identical(other.success, success) || other.success == success)&&(identical(other.message, message) || other.message == message)&&(identical(other.token, token) || other.token == token)&&(identical(other.customer, customer) || other.customer == customer));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,success,message,token,const DeepCollectionEquality().hash(customer));
+int get hashCode => Object.hash(runtimeType,success,message,token,customer);
 
 @override
 String toString() {
@@ -48,11 +48,11 @@ abstract mixin class $AuthCopyWith<$Res>  {
   factory $AuthCopyWith(Auth value, $Res Function(Auth) _then) = _$AuthCopyWithImpl;
 @useResult
 $Res call({
- bool success, String message, String token, dynamic customer
+ bool success, String message, String token, Customer customer
 });
 
 
-
+$CustomerCopyWith<$Res> get customer;
 
 }
 /// @nodoc
@@ -65,16 +65,25 @@ class _$AuthCopyWithImpl<$Res>
 
 /// Create a copy of Auth
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? success = null,Object? message = null,Object? token = null,Object? customer = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? success = null,Object? message = null,Object? token = null,Object? customer = null,}) {
   return _then(_self.copyWith(
 success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
 as bool,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
-as String,customer: freezed == customer ? _self.customer : customer // ignore: cast_nullable_to_non_nullable
-as dynamic,
+as String,customer: null == customer ? _self.customer : customer // ignore: cast_nullable_to_non_nullable
+as Customer,
   ));
 }
-
+/// Create a copy of Auth
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CustomerCopyWith<$Res> get customer {
+  
+  return $CustomerCopyWith<$Res>(_self.customer, (value) {
+    return _then(_self.copyWith(customer: value));
+  });
+}
 }
 
 
@@ -156,7 +165,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool success,  String message,  String token,  dynamic customer)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool success,  String message,  String token,  Customer customer)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Auth() when $default != null:
 return $default(_that.success,_that.message,_that.token,_that.customer);case _:
@@ -177,7 +186,7 @@ return $default(_that.success,_that.message,_that.token,_that.customer);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool success,  String message,  String token,  dynamic customer)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool success,  String message,  String token,  Customer customer)  $default,) {final _that = this;
 switch (_that) {
 case _Auth():
 return $default(_that.success,_that.message,_that.token,_that.customer);case _:
@@ -197,7 +206,7 @@ return $default(_that.success,_that.message,_that.token,_that.customer);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool success,  String message,  String token,  dynamic customer)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool success,  String message,  String token,  Customer customer)?  $default,) {final _that = this;
 switch (_that) {
 case _Auth() when $default != null:
 return $default(_that.success,_that.message,_that.token,_that.customer);case _:
@@ -218,7 +227,7 @@ class _Auth implements Auth {
 @override final  bool success;
 @override final  String message;
 @override final  String token;
-@override final  dynamic customer;
+@override final  Customer customer;
 
 /// Create a copy of Auth
 /// with the given fields replaced by the non-null parameter values.
@@ -233,12 +242,12 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Auth&&(identical(other.success, success) || other.success == success)&&(identical(other.message, message) || other.message == message)&&(identical(other.token, token) || other.token == token)&&const DeepCollectionEquality().equals(other.customer, customer));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Auth&&(identical(other.success, success) || other.success == success)&&(identical(other.message, message) || other.message == message)&&(identical(other.token, token) || other.token == token)&&(identical(other.customer, customer) || other.customer == customer));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,success,message,token,const DeepCollectionEquality().hash(customer));
+int get hashCode => Object.hash(runtimeType,success,message,token,customer);
 
 @override
 String toString() {
@@ -253,11 +262,11 @@ abstract mixin class _$AuthCopyWith<$Res> implements $AuthCopyWith<$Res> {
   factory _$AuthCopyWith(_Auth value, $Res Function(_Auth) _then) = __$AuthCopyWithImpl;
 @override @useResult
 $Res call({
- bool success, String message, String token, dynamic customer
+ bool success, String message, String token, Customer customer
 });
 
 
-
+@override $CustomerCopyWith<$Res> get customer;
 
 }
 /// @nodoc
@@ -270,24 +279,33 @@ class __$AuthCopyWithImpl<$Res>
 
 /// Create a copy of Auth
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? success = null,Object? message = null,Object? token = null,Object? customer = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? success = null,Object? message = null,Object? token = null,Object? customer = null,}) {
   return _then(_Auth(
 success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
 as bool,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
-as String,customer: freezed == customer ? _self.customer : customer // ignore: cast_nullable_to_non_nullable
-as dynamic,
+as String,customer: null == customer ? _self.customer : customer // ignore: cast_nullable_to_non_nullable
+as Customer,
   ));
 }
 
-
+/// Create a copy of Auth
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CustomerCopyWith<$Res> get customer {
+  
+  return $CustomerCopyWith<$Res>(_self.customer, (value) {
+    return _then(_self.copyWith(customer: value));
+  });
+}
 }
 
 
 /// @nodoc
 mixin _$Customer {
 
- int get id; String get name; String get email; String get phone; int get gener;@JsonKey(name: 'created_at') String? get created_at;@JsonKey(name: 'updated_at') String? get updatedAt;
+ int get id; String get name; String get email; String get phone; int get gender;@JsonKey(name: 'created_at') String? get created_at;@JsonKey(name: 'updated_at') String? get updatedAt;
 /// Create a copy of Customer
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -300,16 +318,16 @@ $CustomerCopyWith<Customer> get copyWith => _$CustomerCopyWithImpl<Customer>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Customer&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.gener, gener) || other.gener == gener)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Customer&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,email,phone,gener,created_at,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,name,email,phone,gender,created_at,updatedAt);
 
 @override
 String toString() {
-  return 'Customer(id: $id, name: $name, email: $email, phone: $phone, gener: $gener, created_at: $created_at, updatedAt: $updatedAt)';
+  return 'Customer(id: $id, name: $name, email: $email, phone: $phone, gender: $gender, created_at: $created_at, updatedAt: $updatedAt)';
 }
 
 
@@ -320,7 +338,7 @@ abstract mixin class $CustomerCopyWith<$Res>  {
   factory $CustomerCopyWith(Customer value, $Res Function(Customer) _then) = _$CustomerCopyWithImpl;
 @useResult
 $Res call({
- int id, String name, String email, String phone, int gener,@JsonKey(name: 'created_at') String? created_at,@JsonKey(name: 'updated_at') String? updatedAt
+ int id, String name, String email, String phone, int gender,@JsonKey(name: 'created_at') String? created_at,@JsonKey(name: 'updated_at') String? updatedAt
 });
 
 
@@ -337,13 +355,13 @@ class _$CustomerCopyWithImpl<$Res>
 
 /// Create a copy of Customer
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? email = null,Object? phone = null,Object? gener = null,Object? created_at = freezed,Object? updatedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? email = null,Object? phone = null,Object? gender = null,Object? created_at = freezed,Object? updatedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
-as String,gener: null == gener ? _self.gener : gener // ignore: cast_nullable_to_non_nullable
+as String,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
 as int,created_at: freezed == created_at ? _self.created_at : created_at // ignore: cast_nullable_to_non_nullable
 as String?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -431,10 +449,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String email,  String phone,  int gener, @JsonKey(name: 'created_at')  String? created_at, @JsonKey(name: 'updated_at')  String? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String email,  String phone,  int gender, @JsonKey(name: 'created_at')  String? created_at, @JsonKey(name: 'updated_at')  String? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Customer() when $default != null:
-return $default(_that.id,_that.name,_that.email,_that.phone,_that.gener,_that.created_at,_that.updatedAt);case _:
+return $default(_that.id,_that.name,_that.email,_that.phone,_that.gender,_that.created_at,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -452,10 +470,10 @@ return $default(_that.id,_that.name,_that.email,_that.phone,_that.gener,_that.cr
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String email,  String phone,  int gener, @JsonKey(name: 'created_at')  String? created_at, @JsonKey(name: 'updated_at')  String? updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String email,  String phone,  int gender, @JsonKey(name: 'created_at')  String? created_at, @JsonKey(name: 'updated_at')  String? updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Customer():
-return $default(_that.id,_that.name,_that.email,_that.phone,_that.gener,_that.created_at,_that.updatedAt);case _:
+return $default(_that.id,_that.name,_that.email,_that.phone,_that.gender,_that.created_at,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -472,10 +490,10 @@ return $default(_that.id,_that.name,_that.email,_that.phone,_that.gener,_that.cr
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String email,  String phone,  int gener, @JsonKey(name: 'created_at')  String? created_at, @JsonKey(name: 'updated_at')  String? updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String email,  String phone,  int gender, @JsonKey(name: 'created_at')  String? created_at, @JsonKey(name: 'updated_at')  String? updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Customer() when $default != null:
-return $default(_that.id,_that.name,_that.email,_that.phone,_that.gener,_that.created_at,_that.updatedAt);case _:
+return $default(_that.id,_that.name,_that.email,_that.phone,_that.gender,_that.created_at,_that.updatedAt);case _:
   return null;
 
 }
@@ -487,14 +505,14 @@ return $default(_that.id,_that.name,_that.email,_that.phone,_that.gener,_that.cr
 @JsonSerializable()
 
 class _Customer implements Customer {
-  const _Customer({required this.id, required this.name, required this.email, required this.phone, required this.gener, @JsonKey(name: 'created_at') this.created_at, @JsonKey(name: 'updated_at') this.updatedAt});
+  const _Customer({required this.id, required this.name, required this.email, required this.phone, required this.gender, @JsonKey(name: 'created_at') this.created_at, @JsonKey(name: 'updated_at') this.updatedAt});
   factory _Customer.fromJson(Map<String, dynamic> json) => _$CustomerFromJson(json);
 
 @override final  int id;
 @override final  String name;
 @override final  String email;
 @override final  String phone;
-@override final  int gener;
+@override final  int gender;
 @override@JsonKey(name: 'created_at') final  String? created_at;
 @override@JsonKey(name: 'updated_at') final  String? updatedAt;
 
@@ -511,16 +529,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Customer&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.gener, gener) || other.gener == gener)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Customer&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,email,phone,gener,created_at,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,name,email,phone,gender,created_at,updatedAt);
 
 @override
 String toString() {
-  return 'Customer(id: $id, name: $name, email: $email, phone: $phone, gener: $gener, created_at: $created_at, updatedAt: $updatedAt)';
+  return 'Customer(id: $id, name: $name, email: $email, phone: $phone, gender: $gender, created_at: $created_at, updatedAt: $updatedAt)';
 }
 
 
@@ -531,7 +549,7 @@ abstract mixin class _$CustomerCopyWith<$Res> implements $CustomerCopyWith<$Res>
   factory _$CustomerCopyWith(_Customer value, $Res Function(_Customer) _then) = __$CustomerCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String name, String email, String phone, int gener,@JsonKey(name: 'created_at') String? created_at,@JsonKey(name: 'updated_at') String? updatedAt
+ int id, String name, String email, String phone, int gender,@JsonKey(name: 'created_at') String? created_at,@JsonKey(name: 'updated_at') String? updatedAt
 });
 
 
@@ -548,13 +566,13 @@ class __$CustomerCopyWithImpl<$Res>
 
 /// Create a copy of Customer
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? email = null,Object? phone = null,Object? gener = null,Object? created_at = freezed,Object? updatedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? email = null,Object? phone = null,Object? gender = null,Object? created_at = freezed,Object? updatedAt = freezed,}) {
   return _then(_Customer(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
-as String,gener: null == gener ? _self.gener : gener // ignore: cast_nullable_to_non_nullable
+as String,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
 as int,created_at: freezed == created_at ? _self.created_at : created_at // ignore: cast_nullable_to_non_nullable
 as String?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as String?,
