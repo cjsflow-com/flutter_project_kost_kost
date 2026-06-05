@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:rimbun_cicio_kost/app/data/model/room/room.dart';
 import 'package:rimbun_cicio_kost/core/constant/constant.dart';
 
 class ApiService{
@@ -37,6 +38,14 @@ class ApiService{
         'phone': phone,
         'gender': gender,
       }),
+    );
+  }
+
+  Future<http.Response> getRooms({int page = 1}) async {
+    final url = Uri.parse('$BASE_URL/room?page=$page');
+    return await _client.get(
+      url,
+      headers: {'Content-Type': CONTENT_TYPE},
     );
   }
 }
