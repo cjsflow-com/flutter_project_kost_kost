@@ -35,18 +35,60 @@ class HomeProvider extends ChangeNotifier {
          _state = DataState.loading();
          notifyListeners();
        }
-       final token = await SharedPreferencesHelper.getString(PREF_AUTH);
-
-       if(token == null){
-         _state = const DataState.failed("Token authentikasi tidak ditemukan");
-         notifyListeners();
-         return;
-       }
+       // final token = await SharedPreferencesHelper.getString(PREF_AUTH);
+       //
+       // if(token == null){
+       //   _state = const DataState.failed("Token authentikasi tidak ditemukan");
+       //   notifyListeners();
+       //   return;
+       // }
        final result = await _roomUseCase.getRooms(page: pageItems!);
 
        switch (result){
-         case DataStateSuccess<RoomResponse>(:var data)
+         case DataStateSuccess<RoomResponse>(:var data):
+           final newRooms = data.data.rooms;
+           if (newRooms.length < sizeItems){
+             pageItems = null;
+             isLastPage = true;
+           }else{
+             pageItems = pageItems! + 1;
+           }
+           _rooms.addAll(newRooms);
+           _state = DataState.success(data);
+           break;
+         case DataStateFailed(:var message):
+           _state = DataState.failed(message);
+           break;
+         case DataStateLoading():
+           _state = const DataState.loading();
+           break;
+         case DataStateInitial():
+           _state = const DataState.initial();
+           break;
        }
+       notifyListeners();
+     }catch (e){
+       _state = DataState.failed('Terjadi kesalahan: ${e.toString()}');
+       notifyListeners();
+     }finally {
+       isFetching = false;
+       notifyListeners();
      }
+  }
+
+  Future<void> refreshRooms() async {
+    pageItems = 1;
+    _rooms.clear();
+    await fetchRooms();
+  }
+
+  void listener(){
+    _scrollController.addListener((){
+      if(_scrollController.position.pixels >= _scrollController.position.maxScrollExtent){
+        if(pageItems != null){
+          fetchRooms();
+        }
+      }
+    });
   }
 }

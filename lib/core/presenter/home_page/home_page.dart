@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rimbun_cicio_kost/app/data/model/room/room.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
 import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
 import 'package:rimbun_cicio_kost/core/presenter/auth/auth_provider.dart';
+import 'package:rimbun_cicio_kost/core/presenter/component/widgets/loader_animation.dart';
+import 'package:rimbun_cicio_kost/core/presenter/component/widgets/rgb_progress_indicator.dart';
+import 'package:rimbun_cicio_kost/core/presenter/home_page/home_provider.dart';
+import 'package:rimbun_cicio_kost/core/state/data_state.dart';
+import 'dart:math' as math;
 
 import '../component/widgets/room_card.dart';
 
@@ -16,12 +22,30 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  late AnimationController loaderController;
+  late Animation<double> loaderAnimation;
+  late HomeProvider _homeProvider;
 
   @override
   void initState() {
     super.initState();
     final authProvider = context.read<AuthProvider>();
+    _homeProvider = context.read<HomeProvider>();
+
+    _homeProvider.listener();
+    loaderController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+    loaderAnimation = Tween(
+      begin: 1.0,
+      end: 1.4,
+    ).animate(CurvedAnimation(parent: loaderController, curve: Curves.easeIn));
+    loaderController.repeat(reverse: true);
+    Future.microtask(
+      () => Provider.of<HomeProvider>(context, listen: false).fetchRooms(),
+    );
     authProvider.checkLogin();
   }
 
@@ -30,64 +54,100 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: HomePage.backgroundColor,
       floatingActionButton: Consumer<AuthProvider>(
-        builder: (context,provider,child){
+        builder: (context, provider, child) {
           if (!provider.isLoggedIn) return const SizedBox();
           return FloatingActionButton(
             backgroundColor: Colors.red,
             onPressed: () async {
               await provider.logout();
-              DialogHelper.goNamed(context: context, nameRoutes: RouteNames.login);
+              DialogHelper.goNamed(
+                context: context,
+                nameRoutes: RouteNames.login,
+              );
             },
           );
         },
         child: const Icon(Icons.logout),
       ),
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
-          children: [
-            _buildHeader(),
+      body: Consumer<HomeProvider>(
+        builder: (context, provider, _) {
+          final state = provider.state;
+          return switch (state) {
+            DataStateInitial() ||
+            DataStateLoading() => Center(child: RGBProgressIndicator()),
+            DataStateFailed(:final message) => Center(child: Text(message)),
+            DataStateSuccess() => _onSuccess(provider),
+          };
+        },
+      ),
+    );
+  }
 
-            const SizedBox(height: 16),
+  Widget _onSuccess(HomeProvider provider) {
+    return SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Bagian fix di atas, tidak ikut scroll
+          _buildHeader(),
+          const SizedBox(height: 16),
+          _buildSearch(),
+          const SizedBox(height: 16),
+          _buildSectionTitle(),
+          const SizedBox(height: 12),
 
-            _buildSearch(),
+          // Bagian scrollable
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: () => _homeProvider.refreshRooms(),
+              child: ListView.builder(
+                controller: provider.scrollController,
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+                itemCount:
+                    provider.rooms.length +
+                    (provider.pageItems == null ? 0 : 1),
+                itemBuilder: (context, index) {
+                  if (index == provider.rooms.length &&
+                      provider.pageItems != null) {
+                    return Center(
+                      child: AnimatedBuilder(
+                        animation: loaderAnimation,
+                        builder: (context, child) {
+                          return Transform.rotate(
+                            angle:
+                                loaderController.status ==
+                                        AnimationStatus.forward
+                                    ? (math.pi * 2) * loaderController.value
+                                    : -(math.pi * 2) * loaderController.value,
+                            child: CustomPaint(
+                              foregroundPainter: LoaderAnimation(
+                                radiusRatio: loaderAnimation.value,
+                              ),
+                              size: const Size(50, 50),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }
+                  final rooms = provider.rooms[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: RoomCard(
+                      roomName: rooms.title,
+                      price: 'Rp${rooms.pricePerMonth}/bulan',
+                      imageUrl:
+                          rooms.images.isNotEmpty
+                              ? rooms.images[0].image
+                              : 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=400',
+                    ),
+                  );
 
-            const SizedBox(height: 16),
-
-            // const PromoBanner(),
-
-            const SizedBox(height: 18),
-
-            _buildSectionTitle(),
-
-            const SizedBox(height: 12),
-
-            const RoomCard(
-              roomName: 'Kamar A01',
-              price: 'Rp 1.200.000/bulan',
-              imageUrl:
-              'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=400',
+                },
+              ),
             ),
-
-            const SizedBox(height: 12),
-
-            const RoomCard(
-              roomName: 'Kamar B02',
-              price: 'Rp 1.350.000/bulan',
-              imageUrl:
-              'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400',
-            ),
-
-            const SizedBox(height: 12),
-
-            const RoomCard(
-              roomName: 'Kamar C03',
-              price: 'Rp 1.100.000/bulan',
-              imageUrl:
-              'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400',
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -161,17 +221,11 @@ class _HomePageState extends State<HomePage> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: const Color(0xFFE5E5E5),
-              ),
+              border: Border.all(color: const Color(0xFFE5E5E5)),
             ),
             child: const Row(
               children: [
-                Icon(
-                  Icons.search,
-                  size: 20,
-                  color: Color(0xFF8A8A8A),
-                ),
+                Icon(Icons.search, size: 20, color: Color(0xFF8A8A8A)),
                 SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -196,15 +250,9 @@ class _HomePageState extends State<HomePage> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: const Color(0xFFE5E5E5),
-            ),
+            border: Border.all(color: const Color(0xFFE5E5E5)),
           ),
-          child: const Icon(
-            Icons.tune,
-            color: HomePage.primaryGreen,
-            size: 22,
-          ),
+          child: const Icon(Icons.tune, color: HomePage.primaryGreen, size: 22),
         ),
       ],
     );

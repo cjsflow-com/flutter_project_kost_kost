@@ -41,11 +41,13 @@ class ApiService{
     );
   }
 
-  Future<http.Response> getRooms({int page = 1}) async {
-    final url = Uri.parse('$BASE_URL/room?page=$page');
-    return await _client.get(
-      url,
-      headers: {'Content-Type': CONTENT_TYPE},
+  Future<http.Response> getRooms({int page = 1, int per_page = 10}) async {
+    final url = Uri.parse('$BASE_URL/rooms').replace(
+      queryParameters: {
+        'page': page.toString(),
+        'per_page':  per_page.toString(),
+      }
     );
+    return _client.get(url);
   }
 }
