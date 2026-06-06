@@ -864,7 +864,7 @@ as int,
 /// @nodoc
 mixin _$Room {
 
- int get id;@JsonKey(name: 'room_number') String get roomNumber; String get title; String get description;@JsonKey(name: 'price_per_month') String get pricePerMonth;@JsonKey(name: 'room_size') String get roomSize; int get floor; int get capacity;@JsonKey(name: 'status_id') int get statusId;@JsonKey(name: 'status_name') String get statusName; String get thumbnail; List<Facility> get facilities; List<RoomImage> get images;
+ int get id;@JsonKey(name: 'room_number') String get roomNumber; String get title; String get description;@JsonKey(name: 'price_per_month') int get pricePerMonth;@JsonKey(name: 'room_size') String get roomSize; int get floor; int get capacity;@JsonKey(name: 'status_id') int get statusId;@JsonKey(name: 'status_name') String get statusName; String get thumbnail; List<Facility> get facilities; List<RoomImage> get images;
 /// Create a copy of Room
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -897,7 +897,7 @@ abstract mixin class $RoomCopyWith<$Res>  {
   factory $RoomCopyWith(Room value, $Res Function(Room) _then) = _$RoomCopyWithImpl;
 @useResult
 $Res call({
- int id,@JsonKey(name: 'room_number') String roomNumber, String title, String description,@JsonKey(name: 'price_per_month') String pricePerMonth,@JsonKey(name: 'room_size') String roomSize, int floor, int capacity,@JsonKey(name: 'status_id') int statusId,@JsonKey(name: 'status_name') String statusName, String thumbnail, List<Facility> facilities, List<RoomImage> images
+ int id,@JsonKey(name: 'room_number') String roomNumber, String title, String description,@JsonKey(name: 'price_per_month') int pricePerMonth,@JsonKey(name: 'room_size') String roomSize, int floor, int capacity,@JsonKey(name: 'status_id') int statusId,@JsonKey(name: 'status_name') String statusName, String thumbnail, List<Facility> facilities, List<RoomImage> images
 });
 
 
@@ -921,7 +921,7 @@ as int,roomNumber: null == roomNumber ? _self.roomNumber : roomNumber // ignore:
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,pricePerMonth: null == pricePerMonth ? _self.pricePerMonth : pricePerMonth // ignore: cast_nullable_to_non_nullable
-as String,roomSize: null == roomSize ? _self.roomSize : roomSize // ignore: cast_nullable_to_non_nullable
+as int,roomSize: null == roomSize ? _self.roomSize : roomSize // ignore: cast_nullable_to_non_nullable
 as String,floor: null == floor ? _self.floor : floor // ignore: cast_nullable_to_non_nullable
 as int,capacity: null == capacity ? _self.capacity : capacity // ignore: cast_nullable_to_non_nullable
 as int,statusId: null == statusId ? _self.statusId : statusId // ignore: cast_nullable_to_non_nullable
@@ -1014,7 +1014,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'room_number')  String roomNumber,  String title,  String description, @JsonKey(name: 'price_per_month')  String pricePerMonth, @JsonKey(name: 'room_size')  String roomSize,  int floor,  int capacity, @JsonKey(name: 'status_id')  int statusId, @JsonKey(name: 'status_name')  String statusName,  String thumbnail,  List<Facility> facilities,  List<RoomImage> images)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'room_number')  String roomNumber,  String title,  String description, @JsonKey(name: 'price_per_month')  int pricePerMonth, @JsonKey(name: 'room_size')  String roomSize,  int floor,  int capacity, @JsonKey(name: 'status_id')  int statusId, @JsonKey(name: 'status_name')  String statusName,  String thumbnail,  List<Facility> facilities,  List<RoomImage> images)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Room() when $default != null:
 return $default(_that.id,_that.roomNumber,_that.title,_that.description,_that.pricePerMonth,_that.roomSize,_that.floor,_that.capacity,_that.statusId,_that.statusName,_that.thumbnail,_that.facilities,_that.images);case _:
@@ -1035,7 +1035,7 @@ return $default(_that.id,_that.roomNumber,_that.title,_that.description,_that.pr
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'room_number')  String roomNumber,  String title,  String description, @JsonKey(name: 'price_per_month')  String pricePerMonth, @JsonKey(name: 'room_size')  String roomSize,  int floor,  int capacity, @JsonKey(name: 'status_id')  int statusId, @JsonKey(name: 'status_name')  String statusName,  String thumbnail,  List<Facility> facilities,  List<RoomImage> images)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'room_number')  String roomNumber,  String title,  String description, @JsonKey(name: 'price_per_month')  int pricePerMonth, @JsonKey(name: 'room_size')  String roomSize,  int floor,  int capacity, @JsonKey(name: 'status_id')  int statusId, @JsonKey(name: 'status_name')  String statusName,  String thumbnail,  List<Facility> facilities,  List<RoomImage> images)  $default,) {final _that = this;
 switch (_that) {
 case _Room():
 return $default(_that.id,_that.roomNumber,_that.title,_that.description,_that.pricePerMonth,_that.roomSize,_that.floor,_that.capacity,_that.statusId,_that.statusName,_that.thumbnail,_that.facilities,_that.images);case _:
@@ -1055,7 +1055,7 @@ return $default(_that.id,_that.roomNumber,_that.title,_that.description,_that.pr
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id, @JsonKey(name: 'room_number')  String roomNumber,  String title,  String description, @JsonKey(name: 'price_per_month')  String pricePerMonth, @JsonKey(name: 'room_size')  String roomSize,  int floor,  int capacity, @JsonKey(name: 'status_id')  int statusId, @JsonKey(name: 'status_name')  String statusName,  String thumbnail,  List<Facility> facilities,  List<RoomImage> images)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id, @JsonKey(name: 'room_number')  String roomNumber,  String title,  String description, @JsonKey(name: 'price_per_month')  int pricePerMonth, @JsonKey(name: 'room_size')  String roomSize,  int floor,  int capacity, @JsonKey(name: 'status_id')  int statusId, @JsonKey(name: 'status_name')  String statusName,  String thumbnail,  List<Facility> facilities,  List<RoomImage> images)?  $default,) {final _that = this;
 switch (_that) {
 case _Room() when $default != null:
 return $default(_that.id,_that.roomNumber,_that.title,_that.description,_that.pricePerMonth,_that.roomSize,_that.floor,_that.capacity,_that.statusId,_that.statusName,_that.thumbnail,_that.facilities,_that.images);case _:
@@ -1077,7 +1077,7 @@ class _Room implements Room {
 @override@JsonKey(name: 'room_number') final  String roomNumber;
 @override final  String title;
 @override final  String description;
-@override@JsonKey(name: 'price_per_month') final  String pricePerMonth;
+@override@JsonKey(name: 'price_per_month') final  int pricePerMonth;
 @override@JsonKey(name: 'room_size') final  String roomSize;
 @override final  int floor;
 @override final  int capacity;
@@ -1132,7 +1132,7 @@ abstract mixin class _$RoomCopyWith<$Res> implements $RoomCopyWith<$Res> {
   factory _$RoomCopyWith(_Room value, $Res Function(_Room) _then) = __$RoomCopyWithImpl;
 @override @useResult
 $Res call({
- int id,@JsonKey(name: 'room_number') String roomNumber, String title, String description,@JsonKey(name: 'price_per_month') String pricePerMonth,@JsonKey(name: 'room_size') String roomSize, int floor, int capacity,@JsonKey(name: 'status_id') int statusId,@JsonKey(name: 'status_name') String statusName, String thumbnail, List<Facility> facilities, List<RoomImage> images
+ int id,@JsonKey(name: 'room_number') String roomNumber, String title, String description,@JsonKey(name: 'price_per_month') int pricePerMonth,@JsonKey(name: 'room_size') String roomSize, int floor, int capacity,@JsonKey(name: 'status_id') int statusId,@JsonKey(name: 'status_name') String statusName, String thumbnail, List<Facility> facilities, List<RoomImage> images
 });
 
 
@@ -1156,7 +1156,7 @@ as int,roomNumber: null == roomNumber ? _self.roomNumber : roomNumber // ignore:
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,pricePerMonth: null == pricePerMonth ? _self.pricePerMonth : pricePerMonth // ignore: cast_nullable_to_non_nullable
-as String,roomSize: null == roomSize ? _self.roomSize : roomSize // ignore: cast_nullable_to_non_nullable
+as int,roomSize: null == roomSize ? _self.roomSize : roomSize // ignore: cast_nullable_to_non_nullable
 as String,floor: null == floor ? _self.floor : floor // ignore: cast_nullable_to_non_nullable
 as int,capacity: null == capacity ? _self.capacity : capacity // ignore: cast_nullable_to_non_nullable
 as int,statusId: null == statusId ? _self.statusId : statusId // ignore: cast_nullable_to_non_nullable

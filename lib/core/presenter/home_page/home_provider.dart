@@ -35,14 +35,7 @@ class HomeProvider extends ChangeNotifier {
          _state = DataState.loading();
          notifyListeners();
        }
-       // final token = await SharedPreferencesHelper.getString(PREF_AUTH);
-       //
-       // if(token == null){
-       //   _state = const DataState.failed("Token authentikasi tidak ditemukan");
-       //   notifyListeners();
-       //   return;
-       // }
-       final result = await _roomUseCase.getRooms(page: pageItems!);
+       final result = await _roomUseCase.getRooms(page: pageItems!,perPage: sizeItems);
 
        switch (result){
          case DataStateSuccess<RoomResponse>(:var data):
@@ -91,4 +84,5 @@ class HomeProvider extends ChangeNotifier {
       }
     });
   }
+
 }

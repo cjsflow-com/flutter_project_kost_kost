@@ -1,3 +1,4 @@
+import 'package:rimbun_cicio_kost/app/data/model/room/detail_room.dart';
 import 'package:rimbun_cicio_kost/app/data/model/room/room.dart';
 import 'package:rimbun_cicio_kost/app/module/repository/room_repository.dart';
 import 'package:rimbun_cicio_kost/core/state/data_state.dart';
@@ -7,5 +8,6 @@ class RoomUseCase {
 
   RoomUseCase(this._roomRepository);
 
-  Future<DataState<RoomResponse>> getRooms({int page = 1}) => _roomRepository.getRooms(page: page);
+  Future<DataState<RoomResponse>> getRooms({required int page, required perPage}) => _roomRepository.getRooms(page: page, perPage: perPage);
+  Future<DataState<RoomDetailResponse>> getRoomById({required int id}) => _roomRepository.getRoomById(id: id);
 }

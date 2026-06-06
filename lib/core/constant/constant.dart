@@ -11,8 +11,11 @@ const DETAIL_PAYMENT_PAGE = "/detail_payment_page";
 
 const BASE_URL = "http://10.9.0.16:5000/api";
 
+// ENDPOINT
 const _PREFIX_AUTH = "/auth";
-// ENDPOINT AUTH
+const GET_ROOMS = "/rooms";
+
+
 const LOGIN = "${_PREFIX_AUTH}/login";
 const REGISTER = "${_PREFIX_AUTH}/register";
 

@@ -53,7 +53,7 @@ _Room _$RoomFromJson(Map<String, dynamic> json) => _Room(
   roomNumber: json['room_number'] as String,
   title: json['title'] as String,
   description: json['description'] as String,
-  pricePerMonth: json['price_per_month'] as String,
+  pricePerMonth: (json['price_per_month'] as num).toInt(),
   roomSize: json['room_size'] as String,
   floor: (json['floor'] as num).toInt(),
   capacity: (json['capacity'] as num).toInt(),

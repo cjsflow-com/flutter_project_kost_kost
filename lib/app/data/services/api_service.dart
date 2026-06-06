@@ -42,12 +42,17 @@ class ApiService{
   }
 
   Future<http.Response> getRooms({int page = 1, int per_page = 10}) async {
-    final url = Uri.parse('$BASE_URL/rooms').replace(
+    final url = Uri.parse('$BASE_URL$GET_ROOMS').replace(
       queryParameters: {
         'page': page.toString(),
         'per_page':  per_page.toString(),
       }
     );
     return _client.get(url);
+  }
+
+  Future<http.Response> getRoomById({required int id}) async{
+    final uri = Uri.parse('$BASE_URL$GET_ROOMS/$id');
+    return http.get(uri);
   }
 }

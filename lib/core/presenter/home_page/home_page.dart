@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rimbun_cicio_kost/app/data/model/room/room.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
 import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
+import 'package:rimbun_cicio_kost/core/helper/number_helper.dart';
 import 'package:rimbun_cicio_kost/core/presenter/auth/auth_provider.dart';
 import 'package:rimbun_cicio_kost/core/presenter/component/widgets/loader_animation.dart';
 import 'package:rimbun_cicio_kost/core/presenter/component/widgets/rgb_progress_indicator.dart';
@@ -27,12 +28,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late Animation<double> loaderAnimation;
   late HomeProvider _homeProvider;
 
+  // @override
+  // void didChangeDependencies() {
+  //   _homeProvider = context.read<HomeProvider>();
+  //   super.didChangeDependencies();
+  // }
+
   @override
   void initState() {
     super.initState();
     final authProvider = context.read<AuthProvider>();
-    _homeProvider = context.read<HomeProvider>();
 
+    _homeProvider = context.read<HomeProvider>();
     _homeProvider.listener();
     loaderController = AnimationController(
       vsync: this,
@@ -59,15 +66,36 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           return FloatingActionButton(
             backgroundColor: Colors.red,
             onPressed: () async {
-              await provider.logout();
-              DialogHelper.goNamed(
+              final isLogout = await showDialog<bool>(
                 context: context,
-                nameRoutes: RouteNames.login,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text('Konfirmasi'),
+                    content: const Text('Apakah anda ingin keluar ?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, false),
+                        child: const Text('Tidak'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () => Navigator.pop(context, true),
+                        child: const Text('Ya'),
+                      ),
+                    ],
+                  );
+                },
               );
+              if (isLogout == true) {
+                await provider.logout();
+                DialogHelper.goNamed(
+                  context: context,
+                  nameRoutes: RouteNames.welcome,
+                );
+              }
             },
+            child: const Icon(Icons.logout),
           );
         },
-        child: const Icon(Icons.logout),
       ),
       body: Consumer<HomeProvider>(
         builder: (context, provider, _) {
@@ -134,15 +162,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: RoomCard(
+                      statusName: rooms.statusName,
                       roomName: rooms.title,
-                      price: 'Rp${rooms.pricePerMonth}/bulan',
+                      price:
+                          '${NumberHelper.formatIdr(rooms.pricePerMonth)}/bulan',
                       imageUrl:
                           rooms.images.isNotEmpty
                               ? rooms.images[0].image
                               : 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=400',
+                      facilities: rooms.facilities,
                     ),
                   );
-
                 },
               ),
             ),
@@ -156,42 +186,45 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Row(
       children: [
         const Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Cicio Rimbun Kos',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w800,
-                  color: HomePage.primaryGreen,
-                  decoration: TextDecoration.none,
-                ),
-              ),
-              SizedBox(height: 4),
-              Row(
-                children: [
-                  Icon(
-                    Icons.location_on,
-                    size: 15,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Cicio Rimbun Kos',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w800,
                     color: HomePage.primaryGreen,
+                    decoration: TextDecoration.none,
                   ),
-                  SizedBox(width: 4),
-                  Expanded(
-                    child: Text(
-                      'Yogyakarta, Daerah Istimewa Yogyakarta',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF606060),
-                        decoration: TextDecoration.none,
+                ),
+                SizedBox(height: 4),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.location_on,
+                      size: 15,
+                      color: HomePage.primaryGreen,
+                    ),
+                    SizedBox(width: 4),
+                    Expanded(
+                      child: Text(
+                        'Yogyakarta, Daerah Istimewa Yogyakarta',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF606060),
+                          decoration: TextDecoration.none,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
         Container(
@@ -259,29 +292,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   Widget _buildSectionTitle() {
-    return const Row(
-      children: [
-        Expanded(
-          child: Text(
-            'Kamar Tersedia',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w800,
-              color: Color(0xFF222222),
-              decoration: TextDecoration.none,
-            ),
-          ),
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+      child: Text(
+        'Kamar Tersedia',
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w800,
+          color: Color(0xFF222222),
+          decoration: TextDecoration.none,
         ),
-        Text(
-          'Lihat semua',
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w700,
-            color: HomePage.primaryGreen,
-            decoration: TextDecoration.none,
-          ),
-        ),
-      ],
+      ),
     );
+  }
+
+  @override
+  void dispose() {
+    loaderController.dispose();
+    _homeProvider.scrollController.dispose();
+    super.dispose();
   }
 }

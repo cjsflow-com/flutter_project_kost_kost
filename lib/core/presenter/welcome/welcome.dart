@@ -1,18 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
 import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
+import 'package:rimbun_cicio_kost/core/presenter/auth/auth_provider.dart';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
 
   static const Color primaryGreen = Color(0xFF0F5B2B);
   static const Color softGreen = Color(0xFFEFF7EF);
 
   @override
+  State<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final authProvider = context.read<AuthProvider>();
+      await authProvider.checkLogin();
+      if(authProvider.isLoggedIn){
+        context.goNamed(RouteNames.home_page);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: softGreen,
+      backgroundColor: WelcomePage.softGreen,
       body: SafeArea(
         child: Center(
           child: Container(
@@ -62,7 +82,7 @@ class WelcomePage extends StatelessWidget {
                                 fontSize: 28,
                                 height: 0.9,
                                 fontWeight: FontWeight.w800,
-                                color: primaryGreen,
+                                color: WelcomePage.primaryGreen,
                               ),
                             ),
                             Text(
@@ -71,7 +91,7 @@ class WelcomePage extends StatelessWidget {
                                 fontSize: 28,
                                 height: 0.9,
                                 fontWeight: FontWeight.w800,
-                                color: primaryGreen,
+                                color: WelcomePage.primaryGreen,
                               ),
                             ),
                           ],
@@ -118,7 +138,7 @@ class WelcomePage extends StatelessWidget {
                             child: Icon(
                               Icons.park,
                               size: 70,
-                              color: primaryGreen.withOpacity(0.45),
+                              color: WelcomePage.primaryGreen.withOpacity(0.45),
                             ),
                           ),
 
@@ -128,7 +148,7 @@ class WelcomePage extends StatelessWidget {
                             child: Icon(
                               Icons.forest,
                               size: 78,
-                              color: primaryGreen.withOpacity(0.45),
+                              color: WelcomePage.primaryGreen.withOpacity(0.45),
                             ),
                           ),
 
@@ -163,10 +183,10 @@ class WelcomePage extends StatelessWidget {
                                     height: 48,
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.home_page);
+                                        DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.login);
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: primaryGreen,
+                                        backgroundColor: WelcomePage.primaryGreen,
                                         foregroundColor: Colors.white,
                                         elevation: 2,
                                         shadowColor: Colors.black26,
@@ -182,17 +202,10 @@ class WelcomePage extends StatelessWidget {
                                           alignment: Alignment.center,
                                           children: [
                                             const Text(
-                                              "Lihat Kamar",
+                                              "Login",
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w700,
-                                              ),
-                                            ),
-                                            const Positioned(
-                                              right: 16,
-                                              child: Icon(
-                                                Icons.arrow_forward,
-                                                size: 18,
                                               ),
                                             ),
                                           ],
@@ -208,12 +221,12 @@ class WelcomePage extends StatelessWidget {
                                     height: 45,
                                     child: OutlinedButton(
                                       onPressed: () {
-                                        // TODO: pindah ke halaman cek reservasi
+                                         DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.register);
                                       },
                                       style: OutlinedButton.styleFrom(
-                                        foregroundColor: primaryGreen,
+                                        foregroundColor: WelcomePage.primaryGreen,
                                         side: const BorderSide(
-                                          color: primaryGreen,
+                                          color: WelcomePage.primaryGreen,
                                           width: 1,
                                         ),
                                         shape: RoundedRectangleBorder(
@@ -223,7 +236,7 @@ class WelcomePage extends StatelessWidget {
                                         ),
                                       ),
                                       child: const Text(
-                                        'Cek Reservasi',
+                                        'Daftar',
                                         style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w700,

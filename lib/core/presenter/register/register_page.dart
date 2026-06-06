@@ -21,14 +21,14 @@ class _RegisterPageState extends State<RegisterPage> {
   void handleRegister(AuthProvider auth) async {
     await auth.register();
     final result = auth.state;
-    switch(result) {
+    switch (result) {
       case DataStateSuccess(:var data?):
         auth.emailController.clear();
         auth.nameController.clear();
         auth.passwordController.clear();
         auth.phoneController.clear();
         DialogHelper.showSnackBar(context: context, text: data.message);
-        context.pushNamed(RouteNames.form_reservation_page);
+        context.goNamed(RouteNames.home_page);
         print(data);
         break;
       case DataStateFailed(:var message):
@@ -179,8 +179,15 @@ class _RegisterPageState extends State<RegisterPage> {
               hintText: 'Masukkan no. telepon',
               prefixIcon: Icons.phone_outlined,
             ),
-
             const SizedBox(height: 18),
+            _buildLabel('Alamat'),
+            const SizedBox(height: 8),
+            _buildTextField(
+              controller: provider.addressController,
+              hintText: 'Masukkan Alamat',
+              prefixIcon: Icons.location_on,
+            ),
+            const SizedBox(height: 8),
             _buildLabel('Password'),
             const SizedBox(height: 8),
             _buildTextField(
@@ -212,31 +219,36 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
 
             const SizedBox(height: 28),
-            provider.state is DataStateLoading ? const Center(
-              child: SizedBox(
-                height: 30,
-                width: 30,
-                child: RGBProgressIndicator(),
-              ),
-            ) : SizedBox(
-              width: double.infinity,
-              height: 52,
-              child: ElevatedButton(
-                onPressed: () => handleRegister(provider),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryGreen,
-                  foregroundColor: Colors.white,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
+            provider.state is DataStateLoading
+                ? const Center(
+                  child: SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: RGBProgressIndicator(),
+                  ),
+                )
+                : SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: ElevatedButton(
+                    onPressed: () => handleRegister(provider),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryGreen,
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: const Text(
+                      'Daftar',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
                   ),
                 ),
-                child: const Text(
-                  'Daftar',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
-                ),
-              ),
-            ),
 
             const SizedBox(height: 20),
             Row(
@@ -253,7 +265,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 GestureDetector(
                   onTap: () {
                     DialogHelper.pushNamed(
-                        context: context, nameRoutes: RouteNames.login);
+                      context: context,
+                      nameRoutes: RouteNames.login,
+                    );
                   },
                   child: const Text(
                     'Masuk',
@@ -274,7 +288,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-// Jangan lupa ubah _buildGenderOption agar menerima provider:
+  // Jangan lupa ubah _buildGenderOption agar menerima provider:
   Widget _buildGenderOption(int value, String label, AuthProvider provider) {
     return InkWell(
       onTap: () {
@@ -283,12 +297,16 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
-          color: provider.gender == value
-              ? primaryGreen.withOpacity(0.15)
-              : Colors.white,
+          color:
+              provider.gender == value
+                  ? primaryGreen.withOpacity(0.15)
+                  : Colors.white,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: provider.gender == value ? primaryGreen : const Color(0xFFD2D2D2),
+            color:
+                provider.gender == value
+                    ? primaryGreen
+                    : const Color(0xFFD2D2D2),
           ),
         ),
         child: Text(
@@ -296,13 +314,15 @@ class _RegisterPageState extends State<RegisterPage> {
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: provider.gender == value ? primaryGreen : const Color(0xFF444444),
+            color:
+                provider.gender == value
+                    ? primaryGreen
+                    : const Color(0xFF444444),
           ),
         ),
       ),
     );
   }
-
 
   Widget _buildLabel(String text) {
     return Text(
@@ -359,5 +379,4 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
-
 }

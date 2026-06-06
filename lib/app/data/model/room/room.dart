@@ -45,7 +45,7 @@ abstract class Room with _$Room {
     @JsonKey(name: 'room_number') required String roomNumber,
     required String title,
     required String description,
-    @JsonKey(name: 'price_per_month') required String pricePerMonth,
+    @JsonKey(name: 'price_per_month') required int pricePerMonth,
     @JsonKey(name: 'room_size') required String roomSize,
     required int floor,
     required int capacity,

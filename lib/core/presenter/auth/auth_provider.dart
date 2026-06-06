@@ -30,6 +30,7 @@ class AuthProvider extends ChangeNotifier{
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _nameController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
+  TextEditingController _addressController = TextEditingController();
 
 
   bool get isShowPassword => _isShowPassword;
@@ -38,6 +39,7 @@ class AuthProvider extends ChangeNotifier{
   TextEditingController get passwordController => _passwordController;
   TextEditingController get nameController => _nameController;
   TextEditingController get phoneController => _phoneController;
+  TextEditingController get addressController => _addressController;
 
   Future<void> login() async{
     final emailControllerText = _emailController.text;
@@ -94,9 +96,10 @@ class AuthProvider extends ChangeNotifier{
     final name = _nameController.text;
     final phone = _phoneController.text;
     final password = _passwordController.text;
+    final address = _addressController.text;
     final gender = _gender;
 
-    if(email.isEmpty || name.isEmpty || phone.isEmpty || password.isEmpty || gender == null){
+    if(email.isEmpty || name.isEmpty || phone.isEmpty || password.isEmpty || address.isEmpty){
       _state = const DataState.failed('Semua file wajib diisi');
       notifyListeners();
       return;
@@ -115,6 +118,7 @@ class AuthProvider extends ChangeNotifier{
     _passwordController.dispose();
     _nameController.dispose();
     _phoneController.dispose();
+    _addressController.dispose();
     super.dispose();
   }
 
