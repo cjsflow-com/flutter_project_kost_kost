@@ -11,17 +11,15 @@ class DetailProvider extends ChangeNotifier {
   DataState<RoomDetailResponse> _detailRoom = const DataState.initial();
   DataState<RoomDetailResponse> get detailRoom => _detailRoom;
 
-  bool _isFetching = false;
-  bool get isFetching => _isFetching;
 
-  Future<void> fetchDetailRoom(int roomId) async {
-    if (_isFetching) return;
+  Future<void> fetchDetailRoom(String id) async {
 
-    _isFetching = true;
+    if (_detailRoom is DataStateLoading) return;
+
     _detailRoom = const DataState.loading();
     notifyListeners();
 
-      final result = await _roomUseCase.getRoomById(id: roomId);
+      final result = await _roomUseCase.getRoomById(id: id);
 
       switch (result) {
         case DataStateSuccess<RoomDetailResponse>(:final data):
@@ -30,12 +28,13 @@ class DetailProvider extends ChangeNotifier {
         case DataStateFailed(:final message):
           _detailRoom = DataState.failed(message);
           break;
-        case DataStateLoading():
-          _detailRoom = const DataState.loading();
-          break;
         case DataStateInitial():
           _detailRoom = const DataState.initial();
           break;
+        default:
+          _detailRoom = const DataState.initial();
+          break;
       }
+      notifyListeners();
   }
 }

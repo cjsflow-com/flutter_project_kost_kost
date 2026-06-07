@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rimbun_cicio_kost/app/data/model/room/room.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
 import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
 
 class RoomCard extends StatelessWidget {
+  final String id;
   final String roomName;
   final String price;
   final String imageUrl;
@@ -12,6 +14,7 @@ class RoomCard extends StatelessWidget {
 
   const RoomCard({
     super.key,
+    required this.id,
     required this.roomName,
     required this.price,
     required this.statusName,
@@ -27,10 +30,7 @@ class RoomCard extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(12),
       onTap: () {
-        DialogHelper.pushNamed(
-          context: context,
-          nameRoutes: RouteNames.detail_page,
-        );
+        context.pushNamed(RouteNames.detail_page, pathParameters: {'id': id});
       },
       child: Container(
         height: 118,

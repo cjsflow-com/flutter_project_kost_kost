@@ -1,28 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:rimbun_cicio_kost/app/data/model/reservation/reservation.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
 import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
+import 'package:rimbun_cicio_kost/core/helper/number_helper.dart';
+import 'package:rimbun_cicio_kost/core/presenter/component/widgets/rgb_progress_indicator.dart';
+import 'package:rimbun_cicio_kost/core/presenter/reservation/reservation_provider.dart';
+import 'package:rimbun_cicio_kost/core/state/data_state.dart';
 
 class ReservationFormPage extends StatefulWidget {
-  const ReservationFormPage({super.key});
+  final Map<String, dynamic> roomData;
+
+  ReservationFormPage({super.key, required this.roomData});
 
   @override
   State<ReservationFormPage> createState() => _ReservationFormPageState();
 }
 
 class _ReservationFormPageState extends State<ReservationFormPage> {
+  late Map<String, dynamic> roomData;
   static const Color primaryGreen = Color(0xFF0F5B2B);
   static const Color backgroundColor = Color(0xFFF4FAF4);
+
+  final int adminFee = 100000;
+  final int deposit = 500000;
+
+  @override
+  void initState() {
+    super.initState();
+    roomData = widget.roomData;
+  }
 
   DateTime selectedDate = DateTime.now();
   int duration = 1;
 
   final List<int> durationOptions = [1, 2, 3, 4, 5, 6, 12];
 
+  int get hargaSewa => roomData['price'] * duration;
+
+  int get totalPembayaran => hargaSewa + adminFee + deposit;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     final isTablet = size.width >= 600;
+    final roomId = roomData['roomId'] ?? 0;
+    final title = roomData['title'] ?? '';
+    final pricePerMonth = roomData['price'] ?? 0;
+    final status = roomData['status'] ?? '';
+    final images = roomData['images'] as List<dynamic>? ?? [];
+    final imageUrl =
+        images.isNotEmpty
+            ? "${roomData['thumbnail'] ?? ''}/${images[0]['image']}"
+            : "https://via.placeholder.com/400";
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -31,7 +63,10 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
           children: [
             // Header
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: isTablet ? 48 : 16, vertical: 12),
+              padding: EdgeInsets.symmetric(
+                horizontal: isTablet ? 48 : 16,
+                vertical: 12,
+              ),
               child: Row(
                 children: [
                   InkWell(
@@ -44,24 +79,27 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
                         color: Colors.grey.shade200,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.arrow_back, color: Colors.black87),
+                      child: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.black87,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 12),
                   const Text(
                     'Lanjut Reservasi',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  )
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+                  ),
                 ],
               ),
             ),
 
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: isTablet ? 48 : 16, vertical: 12),
+                padding: EdgeInsets.symmetric(
+                  horizontal: isTablet ? 48 : 16,
+                  vertical: 12,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -69,7 +107,7 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.network(
-                        'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=900',
+                        imageUrl,
                         width: double.infinity,
                         height: 180,
                         fit: BoxFit.cover,
@@ -84,9 +122,9 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
+                            children: [
                               Text(
-                                'Kamar A01',
+                                title,
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w900,
@@ -94,7 +132,7 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                'Rp 1.200.000/bulan',
+                                '${NumberHelper.formatIdr(pricePerMonth)}/bulan',
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
@@ -105,20 +143,23 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
                           ),
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: const Color(0xFFE8F5E9),
                             borderRadius: BorderRadius.circular(999),
                           ),
-                          child: const Text(
-                            'Tersedia',
+                          child: Text(
+                            status,
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w800,
                               color: primaryGreen,
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                     const SizedBox(height: 20),
@@ -131,7 +172,10 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Tanggal Masuk', style: TextStyle(fontWeight: FontWeight.w700)),
+                              const Text(
+                                'Tanggal Masuk',
+                                style: TextStyle(fontWeight: FontWeight.w700),
+                              ),
                               const SizedBox(height: 6),
                               InkWell(
                                 onTap: () async {
@@ -139,19 +183,30 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
                                     context: context,
                                     initialDate: selectedDate,
                                     firstDate: DateTime.now(),
-                                    lastDate: DateTime.now().add(const Duration(days: 365)),
+                                    lastDate: DateTime.now().add(
+                                      const Duration(days: 365),
+                                    ),
                                   );
                                   if (picked != null) {
                                     setState(() => selectedDate = picked);
                                   }
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 14,
+                                  ),
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey.shade400),
+                                    border: Border.all(
+                                      color: Colors.grey.shade400,
+                                    ),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: Text(DateFormat('dd MMM yyyy').format(selectedDate)),
+                                  child: Text(
+                                    DateFormat(
+                                      'dd MMM yyyy',
+                                    ).format(selectedDate),
+                                  ),
                                 ),
                               ),
                             ],
@@ -162,23 +217,35 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Durasi Sewa', style: TextStyle(fontWeight: FontWeight.w700)),
+                              const Text(
+                                'Durasi Sewa',
+                                style: TextStyle(fontWeight: FontWeight.w700),
+                              ),
                               const SizedBox(height: 6),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                ),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey.shade400),
+                                  border: Border.all(
+                                    color: Colors.grey.shade400,
+                                  ),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: DropdownButton<int>(
                                   isExpanded: true,
                                   value: duration,
                                   underline: const SizedBox(),
-                                  items: durationOptions.map((e) {
-                                    return DropdownMenuItem(value: e, child: Text('$e Bulan'));
-                                  }).toList(),
+                                  items:
+                                      durationOptions.map((e) {
+                                        return DropdownMenuItem(
+                                          value: e,
+                                          child: Text('$e Bulan'),
+                                        );
+                                      }).toList(),
                                   onChanged: (val) {
-                                    if (val != null) setState(() => duration = val);
+                                    if (val != null)
+                                      setState(() => duration = val);
                                   },
                                 ),
                               ),
@@ -191,7 +258,10 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
                     const SizedBox(height: 20),
 
                     // Rincian pembayaran
-                    const Text('Rincian Pembayaran', style: TextStyle(fontWeight: FontWeight.w700)),
+                    const Text(
+                      'Rincian Pembayaran',
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
                     const SizedBox(height: 6),
                     Container(
                       padding: const EdgeInsets.all(12),
@@ -202,13 +272,26 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
                       ),
                       child: Column(
                         children: [
-                          _buildPaymentRow('Harga Sewa', 'Rp 7.200.000'),
+                          _buildPaymentRow(
+                            'Harga Sewa',
+                            NumberHelper.formatIdr(hargaSewa),
+                          ),
                           const SizedBox(height: 6),
-                          _buildPaymentRow('Biaya Admin', 'Rp 100.000'),
+                          _buildPaymentRow(
+                            'Biaya Admin',
+                            NumberHelper.formatIdr(adminFee),
+                          ),
                           const SizedBox(height: 6),
-                          _buildPaymentRow('Deposit', 'Rp 500.000'),
+                          _buildPaymentRow(
+                            'Deposit',
+                            NumberHelper.formatIdr(deposit),
+                          ),
                           const Divider(height: 20),
-                          _buildPaymentRow('Total Pembayaran', 'Rp 7.800.000', isTotal: true),
+                          _buildPaymentRow(
+                            'Total Pembayaran',
+                            NumberHelper.formatIdr(totalPembayaran),
+                            isTotal: true,
+                          ),
                         ],
                       ),
                     ),
@@ -227,25 +310,76 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
 
             // Tombol Ajukan Reservasi
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: isTablet ? 48 : 16, vertical: 12),
+              padding: EdgeInsets.symmetric(
+                horizontal: isTablet ? 48 : 16,
+                vertical: 12,
+              ),
               child: SizedBox(
                 width: double.infinity,
                 height: 50,
-                child: ElevatedButton(
-                  onPressed: () {
-                    DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.payment);
+                child: Consumer<ReservationProvider>(
+                  builder: (context, provider, child) {
+                    return switch (provider.state) {
+                      DataStateLoading() => const Center(
+                        child: RGBProgressIndicator(),
+                      ),
+
+                      _ => ElevatedButton(
+                        onPressed: () async {
+                          await provider.createReservation(
+                            roomId,
+                            NumberHelper.convertDateTimeToBackendString(
+                              selectedDate,
+                            ),
+                            duration,
+                            deposit,
+                            adminFee,
+                          );
+
+                          switch (provider.state) {
+                            case DataStateSuccess(data: final response):
+                              final dataReservation = response.reservation;
+
+                              context.goNamed(
+                                RouteNames.payment,
+                                extra: {'id': dataReservation?.id, 'totalPrice': dataReservation?.totalPrice},
+                              );
+
+                              DialogHelper.showSnackBar(
+                                context: context,
+                                text:
+                                    'Reservasi berhasil: ${dataReservation?.reservationCode}',
+                              );
+                              break;
+
+                            case DataStateFailed(message: final message):
+                              DialogHelper.showSnackBar(
+                                context: context,
+                                text: message,
+                              );
+                              break;
+
+                            default:
+                              break;
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primaryGreen,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: const Text(
+                          'Ajukan Reservasi',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    };
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryGreen,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: const Text(
-                    'Ajukan Reservasi',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
-                  ),
                 ),
               ),
             ),
@@ -259,8 +393,19 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: TextStyle(fontWeight: isTotal ? FontWeight.w900 : FontWeight.w500)),
-        Text(value, style: TextStyle(fontWeight: isTotal ? FontWeight.w900 : FontWeight.w500, color: isTotal ? primaryGreen : Colors.black)),
+        Text(
+          title,
+          style: TextStyle(
+            fontWeight: isTotal ? FontWeight.w900 : FontWeight.w500,
+          ),
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            fontWeight: isTotal ? FontWeight.w900 : FontWeight.w500,
+            color: isTotal ? primaryGreen : Colors.black,
+          ),
+        ),
       ],
     );
   }

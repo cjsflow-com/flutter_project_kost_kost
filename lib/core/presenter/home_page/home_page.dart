@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rimbun_cicio_kost/app/data/model/room/room.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
@@ -129,6 +130,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             child: RefreshIndicator(
               onRefresh: () => _homeProvider.refreshRooms(),
               child: ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
                 controller: provider.scrollController,
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
                 itemCount:
@@ -162,13 +164,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: RoomCard(
+                      id: rooms.id,
                       statusName: rooms.statusName,
                       roomName: rooms.title,
                       price:
                           '${NumberHelper.formatIdr(rooms.pricePerMonth)}/bulan',
                       imageUrl:
                           rooms.images.isNotEmpty
-                              ? rooms.images[0].image
+                              ? "${rooms.thumbnail}/${rooms.images[0].image}"
                               : 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=400',
                       facilities: rooms.facilities,
                     ),
@@ -211,7 +214,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     SizedBox(width: 4),
                     Expanded(
                       child: Text(
-                        'Yogyakarta, Daerah Istimewa Yogyakarta',
+                        'Medan',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -308,8 +311,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    // TODO: implement dispose
     loaderController.dispose();
-    _homeProvider.scrollController.dispose();
     super.dispose();
   }
+
 }

@@ -302,7 +302,7 @@ $RoomCopyWith<$Res> get data {
 /// @nodoc
 mixin _$Room {
 
- int get id;@JsonKey(name: 'room_number') String get roomNumber; String get title; String get description;@JsonKey(name: 'price_per_month') int get pricePerMonth;@JsonKey(name: 'room_size') String get roomSize; int get floor; int get capacity;@JsonKey(name: 'status_id') int get statusId;@JsonKey(name: 'status_name') String get statusName; String get thumbnail; List<Facility> get facilities; List<RoomImage> get images;@JsonKey(name: 'general_facilities') List<dynamic>? get generalFacilities;
+ String get id;@JsonKey(name: 'room_number') String get roomNumber; String get title; String get description;@JsonKey(name: 'price_per_month') int get pricePerMonth;@JsonKey(name: 'room_size') String get roomSize; int get floor; int get capacity;@JsonKey(name: 'status_id') int get statusId;@JsonKey(name: 'status_name') String get statusName; String get thumbnail; List<Facility> get facilities; List<RoomImage> get images;@JsonKey(name: 'general_facilities') List<dynamic>? get generalFacilities;
 /// Create a copy of Room
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -335,7 +335,7 @@ abstract mixin class $RoomCopyWith<$Res>  {
   factory $RoomCopyWith(Room value, $Res Function(Room) _then) = _$RoomCopyWithImpl;
 @useResult
 $Res call({
- int id,@JsonKey(name: 'room_number') String roomNumber, String title, String description,@JsonKey(name: 'price_per_month') int pricePerMonth,@JsonKey(name: 'room_size') String roomSize, int floor, int capacity,@JsonKey(name: 'status_id') int statusId,@JsonKey(name: 'status_name') String statusName, String thumbnail, List<Facility> facilities, List<RoomImage> images,@JsonKey(name: 'general_facilities') List<dynamic>? generalFacilities
+ String id,@JsonKey(name: 'room_number') String roomNumber, String title, String description,@JsonKey(name: 'price_per_month') int pricePerMonth,@JsonKey(name: 'room_size') String roomSize, int floor, int capacity,@JsonKey(name: 'status_id') int statusId,@JsonKey(name: 'status_name') String statusName, String thumbnail, List<Facility> facilities, List<RoomImage> images,@JsonKey(name: 'general_facilities') List<dynamic>? generalFacilities
 });
 
 
@@ -355,7 +355,7 @@ class _$RoomCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? roomNumber = null,Object? title = null,Object? description = null,Object? pricePerMonth = null,Object? roomSize = null,Object? floor = null,Object? capacity = null,Object? statusId = null,Object? statusName = null,Object? thumbnail = null,Object? facilities = null,Object? images = null,Object? generalFacilities = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,roomNumber: null == roomNumber ? _self.roomNumber : roomNumber // ignore: cast_nullable_to_non_nullable
+as String,roomNumber: null == roomNumber ? _self.roomNumber : roomNumber // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,pricePerMonth: null == pricePerMonth ? _self.pricePerMonth : pricePerMonth // ignore: cast_nullable_to_non_nullable
@@ -453,7 +453,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'room_number')  String roomNumber,  String title,  String description, @JsonKey(name: 'price_per_month')  int pricePerMonth, @JsonKey(name: 'room_size')  String roomSize,  int floor,  int capacity, @JsonKey(name: 'status_id')  int statusId, @JsonKey(name: 'status_name')  String statusName,  String thumbnail,  List<Facility> facilities,  List<RoomImage> images, @JsonKey(name: 'general_facilities')  List<dynamic>? generalFacilities)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'room_number')  String roomNumber,  String title,  String description, @JsonKey(name: 'price_per_month')  int pricePerMonth, @JsonKey(name: 'room_size')  String roomSize,  int floor,  int capacity, @JsonKey(name: 'status_id')  int statusId, @JsonKey(name: 'status_name')  String statusName,  String thumbnail,  List<Facility> facilities,  List<RoomImage> images, @JsonKey(name: 'general_facilities')  List<dynamic>? generalFacilities)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Room() when $default != null:
 return $default(_that.id,_that.roomNumber,_that.title,_that.description,_that.pricePerMonth,_that.roomSize,_that.floor,_that.capacity,_that.statusId,_that.statusName,_that.thumbnail,_that.facilities,_that.images,_that.generalFacilities);case _:
@@ -474,7 +474,7 @@ return $default(_that.id,_that.roomNumber,_that.title,_that.description,_that.pr
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'room_number')  String roomNumber,  String title,  String description, @JsonKey(name: 'price_per_month')  int pricePerMonth, @JsonKey(name: 'room_size')  String roomSize,  int floor,  int capacity, @JsonKey(name: 'status_id')  int statusId, @JsonKey(name: 'status_name')  String statusName,  String thumbnail,  List<Facility> facilities,  List<RoomImage> images, @JsonKey(name: 'general_facilities')  List<dynamic>? generalFacilities)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'room_number')  String roomNumber,  String title,  String description, @JsonKey(name: 'price_per_month')  int pricePerMonth, @JsonKey(name: 'room_size')  String roomSize,  int floor,  int capacity, @JsonKey(name: 'status_id')  int statusId, @JsonKey(name: 'status_name')  String statusName,  String thumbnail,  List<Facility> facilities,  List<RoomImage> images, @JsonKey(name: 'general_facilities')  List<dynamic>? generalFacilities)  $default,) {final _that = this;
 switch (_that) {
 case _Room():
 return $default(_that.id,_that.roomNumber,_that.title,_that.description,_that.pricePerMonth,_that.roomSize,_that.floor,_that.capacity,_that.statusId,_that.statusName,_that.thumbnail,_that.facilities,_that.images,_that.generalFacilities);case _:
@@ -494,7 +494,7 @@ return $default(_that.id,_that.roomNumber,_that.title,_that.description,_that.pr
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id, @JsonKey(name: 'room_number')  String roomNumber,  String title,  String description, @JsonKey(name: 'price_per_month')  int pricePerMonth, @JsonKey(name: 'room_size')  String roomSize,  int floor,  int capacity, @JsonKey(name: 'status_id')  int statusId, @JsonKey(name: 'status_name')  String statusName,  String thumbnail,  List<Facility> facilities,  List<RoomImage> images, @JsonKey(name: 'general_facilities')  List<dynamic>? generalFacilities)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'room_number')  String roomNumber,  String title,  String description, @JsonKey(name: 'price_per_month')  int pricePerMonth, @JsonKey(name: 'room_size')  String roomSize,  int floor,  int capacity, @JsonKey(name: 'status_id')  int statusId, @JsonKey(name: 'status_name')  String statusName,  String thumbnail,  List<Facility> facilities,  List<RoomImage> images, @JsonKey(name: 'general_facilities')  List<dynamic>? generalFacilities)?  $default,) {final _that = this;
 switch (_that) {
 case _Room() when $default != null:
 return $default(_that.id,_that.roomNumber,_that.title,_that.description,_that.pricePerMonth,_that.roomSize,_that.floor,_that.capacity,_that.statusId,_that.statusName,_that.thumbnail,_that.facilities,_that.images,_that.generalFacilities);case _:
@@ -512,7 +512,7 @@ class _Room implements Room {
   const _Room({required this.id, @JsonKey(name: 'room_number') required this.roomNumber, required this.title, required this.description, @JsonKey(name: 'price_per_month') required this.pricePerMonth, @JsonKey(name: 'room_size') required this.roomSize, required this.floor, required this.capacity, @JsonKey(name: 'status_id') required this.statusId, @JsonKey(name: 'status_name') required this.statusName, required this.thumbnail, required final  List<Facility> facilities, required final  List<RoomImage> images, @JsonKey(name: 'general_facilities') final  List<dynamic>? generalFacilities}): _facilities = facilities,_images = images,_generalFacilities = generalFacilities;
   factory _Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);
 
-@override final  int id;
+@override final  String id;
 @override@JsonKey(name: 'room_number') final  String roomNumber;
 @override final  String title;
 @override final  String description;
@@ -580,7 +580,7 @@ abstract mixin class _$RoomCopyWith<$Res> implements $RoomCopyWith<$Res> {
   factory _$RoomCopyWith(_Room value, $Res Function(_Room) _then) = __$RoomCopyWithImpl;
 @override @useResult
 $Res call({
- int id,@JsonKey(name: 'room_number') String roomNumber, String title, String description,@JsonKey(name: 'price_per_month') int pricePerMonth,@JsonKey(name: 'room_size') String roomSize, int floor, int capacity,@JsonKey(name: 'status_id') int statusId,@JsonKey(name: 'status_name') String statusName, String thumbnail, List<Facility> facilities, List<RoomImage> images,@JsonKey(name: 'general_facilities') List<dynamic>? generalFacilities
+ String id,@JsonKey(name: 'room_number') String roomNumber, String title, String description,@JsonKey(name: 'price_per_month') int pricePerMonth,@JsonKey(name: 'room_size') String roomSize, int floor, int capacity,@JsonKey(name: 'status_id') int statusId,@JsonKey(name: 'status_name') String statusName, String thumbnail, List<Facility> facilities, List<RoomImage> images,@JsonKey(name: 'general_facilities') List<dynamic>? generalFacilities
 });
 
 
@@ -600,7 +600,7 @@ class __$RoomCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? roomNumber = null,Object? title = null,Object? description = null,Object? pricePerMonth = null,Object? roomSize = null,Object? floor = null,Object? capacity = null,Object? statusId = null,Object? statusName = null,Object? thumbnail = null,Object? facilities = null,Object? images = null,Object? generalFacilities = freezed,}) {
   return _then(_Room(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,roomNumber: null == roomNumber ? _self.roomNumber : roomNumber // ignore: cast_nullable_to_non_nullable
+as String,roomNumber: null == roomNumber ? _self.roomNumber : roomNumber // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,pricePerMonth: null == pricePerMonth ? _self.pricePerMonth : pricePerMonth // ignore: cast_nullable_to_non_nullable

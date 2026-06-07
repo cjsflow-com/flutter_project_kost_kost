@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rimbun_cicio_kost/app/data/model/payment/payment_method.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
 import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
+import 'package:rimbun_cicio_kost/core/presenter/payment/payment_provider.dart';
+import 'package:rimbun_cicio_kost/core/state/data_state.dart';
 
 class PaymentMethodPageInteractive extends StatefulWidget {
   const PaymentMethodPageInteractive({super.key});
@@ -15,28 +19,84 @@ class _PaymentMethodPageInteractiveState
   static const Color primaryGreen = Color(0xFF0F5B2B);
   static const Color backgroundColor = Color(0xFFF4FAF4);
 
-  // Pilihan metode pembayaran
-  String selectedMethod = 'bank_BCA';
+  int? selectedMethodCode;
   double totalPayment = 7800000;
 
-  // Simulasi biaya tambahan per metode (misal ada fee)
-  final Map<String, double> methodFee = {
-    'bank_BCA': 0,
-    'bank_BRI': 0,
-    'bank_Mandiri': 0,
-    'ovo': 0,
-    'gopay': 0,
-    'dana': 0,
-    'shopeepay': 0,
-    'cash': 0,
-  };
+  @override
+  void initState() {
+    super.initState();
 
-  void selectMethod(String method) {
-    setState(() {
-      selectedMethod = method;
-      // update total payment
-      totalPayment = 7800000 + (methodFee[method] ?? 0);
+    Future.microtask(() {
+      context.read<PaymentProvider>().getPaymentMethod();
     });
+  }
+
+  void selectMethod(int? code) {
+    setState(() {
+      selectedMethodCode = code;
+    });
+  }
+
+  Widget buildPaymentGrid({
+    required List<PaymentMethod> items,
+    required int crossAxisCount,
+    required String emptyText,
+  }) {
+    if (items.isEmpty) {
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.grey.shade300),
+        ),
+        child: Text(
+          emptyText,
+          style: TextStyle(
+            color: Colors.grey.shade600,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      );
+    }
+
+    return GridView.count(
+      crossAxisCount: crossAxisCount,
+      shrinkWrap: true,
+      mainAxisSpacing: 10,
+      crossAxisSpacing: 10,
+      childAspectRatio: 2.5,
+      physics: const NeverScrollableScrollPhysics(),
+      children: items.map((item) {
+        final isSelected = selectedMethodCode == item.id;
+
+        return GestureDetector(
+          onTap: () => selectMethod(item.id),
+          child: Container(
+            decoration: BoxDecoration(
+              color: isSelected ? primaryGreen : Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: isSelected ? primaryGreen : Colors.grey.shade400,
+              ),
+            ),
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Text(
+              item.name,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: isSelected ? Colors.white : Colors.black87,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
   }
 
   @override
@@ -49,14 +109,18 @@ class _PaymentMethodPageInteractiveState
       body: SafeArea(
         child: Column(
           children: [
-            // Header
             Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: isTablet ? 48 : 16, vertical: 12),
+                horizontal: isTablet ? 48 : 16,
+                vertical: 12,
+              ),
               child: Row(
                 children: [
                   InkWell(
-                    onTap: () => Navigator.pop(context),
+                    onTap: () => DialogHelper.goNamed(
+                      context: context,
+                      nameRoutes: RouteNames.home_page,
+                    ),
                     borderRadius: BorderRadius.circular(999),
                     child: Container(
                       width: 36,
@@ -65,158 +129,188 @@ class _PaymentMethodPageInteractiveState
                         color: Colors.grey.shade200,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.arrow_back, color: Colors.black87),
+                      child: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.black87,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 12),
-                  const Text(
-                    'Pilih Metode Pembayaran',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+                  const Expanded(
+                    child: Text(
+                      'Pilih Metode Pembayaran',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
 
             Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(
-                    horizontal: isTablet ? 48 : 16, vertical: 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Total Pembayaran
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Total Pembayaran',
-                            style: TextStyle(fontWeight: FontWeight.w700),
-                          ),
-                          const SizedBox(height: 6,),
-                          Text(
-                            'Rp ${totalPayment.toStringAsFixed(0)}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w900, fontSize: 22, color: primaryGreen),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 16),
+              child: Consumer<PaymentProvider>(
+                builder: (context, provider, _) {
+                  final state = provider.state;
 
-                    // Transfer Bank
-                    const Text('Transfer Bank',
-                        style: TextStyle(fontWeight: FontWeight.w700)),
-                    const SizedBox(height: 8),
-                    GridView.count(
-                      crossAxisCount: 3,
-                      shrinkWrap: true,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      childAspectRatio: 2.5,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: ['BCA', 'BRI', 'Mandiri'].map((bank) {
-                        final method = 'bank_$bank';
-                        final isSelected = selectedMethod == method;
-                        return GestureDetector(
-                          onTap: () => selectMethod(method),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: isSelected ? primaryGreen : Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                  color: isSelected
-                                      ? primaryGreen
-                                      : Colors.grey.shade400),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              bank,
-                              style: TextStyle(
-                                color: isSelected ? Colors.white : Colors.black87,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    // E-Wallet
-                    const Text('E-Wallet', style: TextStyle(fontWeight: FontWeight.w700)),
-                    const SizedBox(height: 8),
-                    GridView.count(
-                      crossAxisCount: 4,
-                      shrinkWrap: true,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      childAspectRatio: 2.2,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: ['OVO', 'Gopay', 'Dana', 'ShopeePay'].map((wallet) {
-                        final method = wallet.toLowerCase();
-                        final isSelected = selectedMethod == method;
-                        return GestureDetector(
-                          onTap: () => selectMethod(method),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: isSelected ? primaryGreen : Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                  color: isSelected
-                                      ? primaryGreen
-                                      : Colors.grey.shade400),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              wallet,
-                              style: TextStyle(
-                                color: isSelected ? Colors.white : Colors.black87,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    // Bayar di Tempat
-                    Row(
-                      children: [
-                        Radio<bool>(
-                          value: true,
-                          groupValue: selectedMethod == 'cash',
-                          onChanged: (_) => selectMethod('cash'),
+                  switch (state) {
+                    case DataStateLoading():
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: primaryGreen,
                         ),
-                        const Text('Bayar di Tempat / Cash'),
-                      ],
-                    ),
-                  ],
-                ),
+                      );
+
+                    case DataStateFailed(:final message):
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Text(
+                            message,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      );
+
+                    case DataStateSuccess(:final data):
+                      final paymentMethods = data.data;
+
+                      final bankTransferMethods = paymentMethods
+                          .where((item) => item.type == 'bank_transfer')
+                          .toList();
+
+                      final eWalletMethods = paymentMethods
+                          .where((item) => item.type == 'e_wallet')
+                          .toList();
+
+                      final cashMethods = paymentMethods
+                          .where((item) => item.type == 'cash')
+                          .toList();
+
+                      return SingleChildScrollView(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isTablet ? 48 : 16,
+                          vertical: 12,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'Total Pembayaran',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    'Rp ${totalPayment.toStringAsFixed(0)}',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 22,
+                                      color: primaryGreen,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            const SizedBox(height: 16),
+
+                            const Text(
+                              'Transfer Bank',
+                              style: TextStyle(fontWeight: FontWeight.w700),
+                            ),
+                            const SizedBox(height: 8),
+                            buildPaymentGrid(
+                              items: bankTransferMethods,
+                              crossAxisCount: 3,
+                              emptyText: 'Metode Transfer Bank belum tersedia',
+                            ),
+
+                            const SizedBox(height: 16),
+
+                            const Text(
+                              'E-Wallet',
+                              style: TextStyle(fontWeight: FontWeight.w700),
+                            ),
+                            const SizedBox(height: 8),
+                            buildPaymentGrid(
+                              items: eWalletMethods,
+                              crossAxisCount: 4,
+                              emptyText: 'Metode E-Wallet belum tersedia',
+                            ),
+
+                            const SizedBox(height: 16),
+
+                            if (cashMethods.isNotEmpty) ...[
+                              const Text(
+                                'Bayar di Tempat',
+                                style: TextStyle(fontWeight: FontWeight.w700),
+                              ),
+                              const SizedBox(height: 8),
+                              Column(
+                                children: cashMethods.map((item) {
+                                  return RadioListTile<int>(
+                                    value: item.id,
+                                    groupValue: selectedMethodCode,
+                                    onChanged: (value) {
+                                      if (value != null) {
+                                        selectMethod(value);
+                                      }
+                                    },
+                                    title: Text(item.name),
+                                    activeColor: primaryGreen,
+                                    contentPadding: EdgeInsets.zero,
+                                  );
+                                }).toList(),
+                              ),
+                            ],
+                          ],
+                        ),
+                      );
+
+                    default:
+                      return const SizedBox();
+                  }
+                },
               ),
             ),
 
-            // Tombol Lanjut Pembayaran
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: isTablet ? 48 : 16, vertical: 12),
+              padding: EdgeInsets.symmetric(
+                horizontal: isTablet ? 48 : 16,
+                vertical: 12,
+              ),
               child: SizedBox(
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {
-                    DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.payment_detail);
+                  onPressed: selectedMethodCode == null
+                      ? null
+                      : () {
+                    DialogHelper.pushNamed(
+                      context: context,
+                      nameRoutes: RouteNames.payment_detail,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primaryGreen,
+                    disabledBackgroundColor: Colors.grey.shade400,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -224,7 +318,10 @@ class _PaymentMethodPageInteractiveState
                   ),
                   child: const Text(
                     'Lanjut Pembayaran',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                 ),
               ),

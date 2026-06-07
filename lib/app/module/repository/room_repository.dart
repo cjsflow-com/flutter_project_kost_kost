@@ -8,5 +8,5 @@ abstract class RoomRepository {
     required int perPage,
 });
 
-  Future<DataState<RoomDetailResponse>> getRoomById({required int id});
+  Future<DataState<RoomDetailResponse>> getRoomById({required String id});
 }

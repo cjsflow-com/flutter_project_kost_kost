@@ -3,7 +3,10 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:rimbun_cicio_kost/core/constant/router.dart';
 import 'package:rimbun_cicio_kost/core/presenter/auth/auth_provider.dart';
+import 'package:rimbun_cicio_kost/core/presenter/detail/detail_provider.dart';
 import 'package:rimbun_cicio_kost/core/presenter/home_page/home_provider.dart';
+import 'package:rimbun_cicio_kost/core/presenter/payment/payment_provider.dart';
+import 'package:rimbun_cicio_kost/core/presenter/reservation/reservation_provider.dart';
 import 'di/injection.dart' as di;
 
 void main() async {
@@ -21,6 +24,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => di.locator<AuthProvider>()),
         ChangeNotifierProvider(create: (_) => di.locator<HomeProvider>()),
+        ChangeNotifierProvider(create: (_) => di.locator<DetailProvider>()),
+        ChangeNotifierProvider(create: (_) => di.locator<ReservationProvider>()),
+        ChangeNotifierProvider(create: (_) => di.locator<PaymentProvider>())
       ],
       child: MaterialApp.router(
         theme: ThemeData(

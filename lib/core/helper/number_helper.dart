@@ -12,4 +12,11 @@ class NumberHelper{
     String formattedDate = DateFormat('dd MMMM yyyy', 'id_ID').format(dateTime);
     return formattedDate;
   }
+
+  static String convertDateTimeToBackendString(DateTime dateTime) {
+    // format yyyy-MM-dd
+    return '${dateTime.year.toString().padLeft(4,'0')}-'
+        '${dateTime.month.toString().padLeft(2,'0')}-'
+        '${dateTime.day.toString().padLeft(2,'0')}';
+  }
 }

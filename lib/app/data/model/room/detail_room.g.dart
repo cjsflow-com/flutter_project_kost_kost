@@ -21,7 +21,7 @@ Map<String, dynamic> _$RoomDetailResponseToJson(_RoomDetailResponse instance) =>
     };
 
 _Room _$RoomFromJson(Map<String, dynamic> json) => _Room(
-  id: (json['id'] as num).toInt(),
+  id: json['id'] as String,
   roomNumber: json['room_number'] as String,
   title: json['title'] as String,
   description: json['description'] as String,

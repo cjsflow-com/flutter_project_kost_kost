@@ -17,7 +17,7 @@ abstract class RoomDetailResponse with _$RoomDetailResponse{
 @freezed
 abstract class Room with _$Room {
   const factory Room({
-    required int id,
+    required String id,
     @JsonKey(name: 'room_number') required String roomNumber,
     required String title,
     required String description,

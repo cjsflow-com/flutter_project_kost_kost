@@ -1,53 +1,90 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:rimbun_cicio_kost/app/data/model/room/detail_room.dart';
 import 'package:rimbun_cicio_kost/core/constant/constant.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
 import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
+import 'package:rimbun_cicio_kost/core/helper/number_helper.dart';
 import 'package:rimbun_cicio_kost/core/helper/shared_prefrences_helper.dart';
 import 'package:rimbun_cicio_kost/core/presenter/auth/auth_provider.dart';
 import 'package:rimbun_cicio_kost/core/presenter/component/widgets/facility_box.dart';
+import 'package:rimbun_cicio_kost/core/presenter/component/widgets/rgb_progress_indicator.dart';
+import 'package:rimbun_cicio_kost/core/presenter/detail/detail_provider.dart';
+import 'package:rimbun_cicio_kost/core/state/data_state.dart';
 
-class DetailKostPage extends StatelessWidget {
-  const DetailKostPage({
-    super.key,
-    this.roomName = 'Kamar A01',
-    this.price = 'Rp 1.200.000/bulan',
-    this.imageUrl =
-    'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=900',
-  });
+class DetailKostPage extends StatefulWidget {
+  final String id;
 
-  final String roomName;
-  final String price;
-  final String imageUrl;
+  const DetailKostPage({super.key, required this.id});
 
   static const Color primaryGreen = Color(0xFF0F5B2B);
   static const Color backgroundColor = Color(0xFFF4FAF4);
 
   @override
+  State<DetailKostPage> createState() => _DetailKostPageState();
+}
+
+class _DetailKostPageState extends State<DetailKostPage> {
+  int _currentImageIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<DetailProvider>().fetchDetailRoom(widget.id);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  _buildImageHeader(context),
-                  _buildContent(),
-                ],
-              ),
+      backgroundColor: DetailKostPage.backgroundColor,
+      body: Consumer<DetailProvider>(
+        builder: (context, provider, _) {
+          final state = provider.detailRoom;
+          return switch (state) {
+            DataStateInitial() ||
+            DataStateLoading() => Center(child: RGBProgressIndicator()),
+            DataStateFailed(:final message) => Center(
+              child: Text(message, textAlign: TextAlign.center),
             ),
-            _buildBottomButton(context),
-          ],
-        ),
+            DataStateSuccess() => _onSuccess(state.data.data),
+          };
+        },
       ),
     );
   }
 
-  Widget _buildImageHeader(BuildContext context) {
+  Widget _onSuccess(Room room) {
+    final imageUrls =
+        (room.images ?? [])
+            .map((img) => "${room.thumbnail}/${img.image}")
+            .toList();
+
+    // Fallback kalau kosong
+    final displayImages =
+        imageUrls.isNotEmpty ? imageUrls : ["https://via.placeholder.com/400"];
+    return SafeArea(
+      bottom: false,
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                _buildImageHeader(context, displayImages),
+                _buildContent(room),
+              ],
+            ),
+          ),
+          _buildBottomButton(context, room),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildImageHeader(BuildContext context, List<String> images) {
     return Stack(
       children: [
         ClipRRect(
@@ -55,26 +92,35 @@ class DetailKostPage extends StatelessWidget {
             bottomLeft: Radius.circular(22),
             bottomRight: Radius.circular(22),
           ),
-          child: Image.network(
-            imageUrl,
-            height: 235,
+          child: SizedBox(
+            height: 235, // wajib beri fixed height
             width: double.infinity,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return Container(
-                height: 235,
-                width: double.infinity,
-                color: const Color(0xFFE7F1E7),
-                child: const Icon(
-                  Icons.bed,
-                  size: 80,
-                  color: primaryGreen,
-                ),
-              );
-            },
+            child: PageView.builder(
+              itemCount: images.length,
+              onPageChanged: (index) {
+                setState(() {
+                  _currentImageIndex = index;
+                });
+              },
+              itemBuilder: (context, index) {
+                return Image.network(
+                  images[index],
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      color: const Color(0xFFE7F1E7),
+                      child: const Icon(
+                        Icons.bed,
+                        size: 80,
+                        color: DetailKostPage.primaryGreen,
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ),
-
         Positioned(
           top: 14,
           left: 14,
@@ -85,41 +131,45 @@ class DetailKostPage extends StatelessWidget {
             },
           ),
         ),
-
         Positioned(
           top: 14,
           right: 14,
-          child: _CircleIconButton(
-            icon: Icons.favorite_border,
-            onTap: () {},
-          ),
+          child: _CircleIconButton(icon: Icons.favorite_border, onTap: () {}),
         ),
-
         Positioned(
           bottom: 14,
           left: 0,
           right: 0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              _Dot(isActive: false),
-              _Dot(isActive: false),
-              _Dot(isActive: true),
-              _Dot(isActive: false),
-              _Dot(isActive: false),
-            ],
+            children: List.generate(
+              images.length,
+              (index) => AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                width: _currentImageIndex == index ? 10 : 8,
+                height: _currentImageIndex == index ? 10 : 8,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color:
+                      _currentImageIndex == index
+                          ? Colors.white
+                          : Colors.white54,
+                ),
+              ),
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildContent(Room room) {
     return Container(
       transform: Matrix4.translationValues(0, -8, 0),
       padding: const EdgeInsets.fromLTRB(18, 20, 18, 20),
       decoration: const BoxDecoration(
-        color: backgroundColor,
+        color: DetailKostPage.backgroundColor,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(22),
           topRight: Radius.circular(22),
@@ -128,23 +178,23 @@ class DetailKostPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildTitleRow(),
+          _buildTitleRow(room.title, room.statusName),
 
           const SizedBox(height: 6),
 
           Text(
-            price,
+            "Rp${NumberHelper.formatIdr(room.pricePerMonth)}/bulan",
             style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w900,
-              color: primaryGreen,
+              color: DetailKostPage.primaryGreen,
             ),
           ),
 
           const SizedBox(height: 12),
 
-          const Text(
-            'Kamar nyaman dan bersih di lantai 1 dengan\npencahayaan alami dan sirkulasi udara baik.',
+          Text(
+            room.description,
             style: TextStyle(
               fontSize: 12,
               height: 1.45,
@@ -168,30 +218,11 @@ class DetailKostPage extends StatelessWidget {
 
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FacilityBox(
-                  icon: Icons.king_bed_outlined,
-                  label: 'Kasur',
-                ),
-                FacilityBox(
-                  icon: Icons.door_front_door_outlined,
-                  label: 'Lemari',
-                ),
-                FacilityBox(
-                  icon: Icons.tv_outlined,
-                  label: 'AC',
-                ),
-                FacilityBox(
-                  icon: Icons.wifi,
-                  label: 'WiFi',
-                ),
-                FacilityBox(
-                  icon: Icons.shower_outlined,
-                  label: 'Kamar Mandi\nDalam',
-                ),
-              ],
+            child: Row(
+              children:
+                  room.facilities
+                      .map((f) => FacilityBox(icon: Icons.wifi, label: f.name))
+                      .toList(),
             ),
           ),
 
@@ -221,14 +252,8 @@ class DetailKostPage extends StatelessWidget {
                   icon: Icons.local_laundry_service_outlined,
                   label: 'Dapur\nBersama',
                 ),
-                FacilityBox(
-                  icon: Icons.videocam_outlined,
-                  label: 'CCTV',
-                ),
-                FacilityBox(
-                  icon: Icons.mosque_outlined,
-                  label: 'Mushola',
-                ),
+                FacilityBox(icon: Icons.videocam_outlined, label: 'CCTV'),
+                FacilityBox(icon: Icons.mosque_outlined, label: 'Mushola'),
               ],
             ),
           ),
@@ -239,7 +264,7 @@ class DetailKostPage extends StatelessWidget {
     );
   }
 
-  Widget _buildTitleRow() {
+  Widget _buildTitleRow(String roomName, String roomStatus) {
     return Row(
       children: [
         Expanded(
@@ -253,20 +278,17 @@ class DetailKostPage extends StatelessWidget {
           ),
         ),
         Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 5,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
           decoration: BoxDecoration(
             color: const Color(0xFFE8F5E9),
             borderRadius: BorderRadius.circular(999),
           ),
-          child: const Text(
-            'Tersedia',
+          child: Text(
+            roomStatus,
             style: TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.w800,
-              color: primaryGreen,
+              color: DetailKostPage.primaryGreen,
             ),
           ),
         ),
@@ -274,46 +296,43 @@ class DetailKostPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomButton(BuildContext context) {
-    return Consumer<AuthProvider>(
-      builder: (context, authProvider, child){
-        return Container(
-          padding: const EdgeInsets.fromLTRB(18, 12, 18, 24),
-          decoration: const BoxDecoration(
-            color: backgroundColor,
-          ),
-          child: SizedBox(
-            width: double.infinity,
-            height: 50,
-            child: ElevatedButton(
-              onPressed: () async {
-                final token = await SharedPreferencesHelper.getString(PREF_AUTH);
-                if (token != null){
-                  DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.form_reservation_page);
-                }else {
-                  DialogHelper.pushNamed(
-                      context: context, nameRoutes: RouteNames.login);
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: primaryGreen,
-                foregroundColor: Colors.white,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: const Text(
-                'Reservasi Sekarang',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
+  Widget _buildBottomButton(BuildContext context, Room rooms) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(18, 12, 18, 24),
+      decoration: const BoxDecoration(color: DetailKostPage.backgroundColor),
+      child: SizedBox(
+        width: double.infinity,
+        height: 50,
+        child: ElevatedButton(
+          onPressed: () {
+            final dataSend = {
+              'title': rooms.title,
+              'status': rooms.statusName,
+              'price': rooms.pricePerMonth,
+              'images':
+                  rooms.images.map((img) => {'image': img.image}).toList(),
+              'thumbnail': rooms.thumbnail,
+              'roomId': int.parse(rooms.id)
+            };
+            context.pushNamed(
+              RouteNames.form_reservation_page,
+              extra: dataSend,
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: DetailKostPage.primaryGreen,
+            foregroundColor: Colors.white,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
             ),
           ),
-        );
-      },
+          child: const Text(
+            'Reservasi Sekarang',
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -322,10 +341,7 @@ class _CircleIconButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  const _CircleIconButton({
-    required this.icon,
-    required this.onTap,
-  });
+  const _CircleIconButton({required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -338,11 +354,7 @@ class _CircleIconButton extends StatelessWidget {
         child: SizedBox(
           width: 38,
           height: 38,
-          child: Icon(
-            icon,
-            size: 21,
-            color: const Color(0xFF333333),
-          ),
+          child: Icon(icon, size: 21, color: const Color(0xFF333333)),
         ),
       ),
     );
@@ -352,9 +364,7 @@ class _CircleIconButton extends StatelessWidget {
 class _Dot extends StatelessWidget {
   final bool isActive;
 
-  const _Dot({
-    required this.isActive,
-  });
+  const _Dot({required this.isActive});
 
   @override
   Widget build(BuildContext context) {

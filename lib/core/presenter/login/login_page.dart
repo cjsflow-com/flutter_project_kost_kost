@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
         provider.emailController.clear();
         provider.passwordController.clear();
         DialogHelper.showSnackBar(context: context, text: data.message);
-        context.goNamed(RouteNames.form_reservation_page);
+        DialogHelper.goNamed(context: context, nameRoutes: RouteNames.home_page);
         break;
       case DataStateFailed(:var message):
         DialogHelper.showSnackBar(context: context, text: message);
@@ -36,7 +36,6 @@ class _LoginPageState extends State<LoginPage> {
       default:
         break;
     }
-    DialogHelper.goNamed(context: context, nameRoutes: RouteNames.home_page);
   }
 
   @override

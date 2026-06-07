@@ -9,11 +9,15 @@ const FORM_RESERVATION = "/form_reservation";
 const PAYMENT = "/payment_page";
 const DETAIL_PAYMENT_PAGE = "/detail_payment_page";
 
-const BASE_URL = "http://10.9.0.16:5000/api";
-
+// const BASE_URL = "http://10.9.0.16:5000/api";
+const BASE_URL = "http://192.168.1.16:5000/api";
 // ENDPOINT
 const _PREFIX_AUTH = "/auth";
 const GET_ROOMS = "/rooms";
+const RESERVATION = "/reservations";
+const ADD_RESERVATION = "${RESERVATION}/create";
+const PAYMENT_METHODS = "/payment-methods";
+const PAYMENTS = "/payments";
 
 
 const LOGIN = "${_PREFIX_AUTH}/login";

@@ -24,9 +24,12 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const MainNavigationPage(),
     ),
     GoRoute(
-      path: DETAIL_PAGE,
+      path: "$DETAIL_PAGE/:id",
       name: RouteNames.detail_page,
-      builder: (context, state) => const DetailKostPage(),
+      builder: (context, state){
+        final id = state.pathParameters['id']!;
+        return DetailKostPage(id: id);
+      },
     ),
     GoRoute(
       path: LOGIN_PAGE,
@@ -41,7 +44,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: FORM_RESERVATION,
       name: RouteNames.form_reservation_page,
-      builder: (context, state) => const ReservationFormPage()
+      builder: (context, state) => ReservationFormPage(roomData: state.extra as Map<String, dynamic>)
     ),
     GoRoute(
       path: PAYMENT,

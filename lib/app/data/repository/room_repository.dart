@@ -32,7 +32,7 @@ class RoomRepositoryImplements extends RoomRepository {
   }
 
   @override
-  Future<DataState<RoomDetailResponse>> getRoomById({required int id}) async {
+  Future<DataState<RoomDetailResponse>> getRoomById({required String id}) async {
     try{
       final response = await _apiService.getRoomById(id: id);
       final jsonBody = jsonDecode(response.body);

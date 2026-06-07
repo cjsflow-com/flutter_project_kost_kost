@@ -85,4 +85,11 @@ class HomeProvider extends ChangeNotifier {
     });
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    scrollController.dispose();
+    super.dispose();
+  }
+
 }

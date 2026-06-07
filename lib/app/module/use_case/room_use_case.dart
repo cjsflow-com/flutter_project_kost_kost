@@ -9,5 +9,5 @@ class RoomUseCase {
   RoomUseCase(this._roomRepository);
 
   Future<DataState<RoomResponse>> getRooms({required int page, required perPage}) => _roomRepository.getRooms(page: page, perPage: perPage);
-  Future<DataState<RoomDetailResponse>> getRoomById({required int id}) => _roomRepository.getRoomById(id: id);
+  Future<DataState<RoomDetailResponse>> getRoomById({required String id}) => _roomRepository.getRoomById(id: id);
 }
