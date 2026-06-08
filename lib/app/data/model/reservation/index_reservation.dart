@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'index_reservation.freezed.dart';
@@ -42,12 +44,12 @@ abstract class IndexReservation  with _$IndexReservation {
     required String roomPrice,
 
     @JsonKey(name: 'admin_fee')
-    required String adminFee,
+    required int adminFee,
 
-    required String deposit,
+    required int deposit,
 
     @JsonKey(name: 'total_price')
-    required String totalPrice,
+    required int totalPrice,
 
     required String status,
 

@@ -43,6 +43,8 @@ class ReservationRepositoryImplements extends ReservationRepository {
       final success = jsonBody['success'];
       final message = jsonBody['message'];
 
+      // print(response.body);
+
       if(response.statusCode == 200 && success == true){
         final indexReservation = IndexReservationResponse.fromJson(jsonBody);
         return DataState.success(indexReservation);

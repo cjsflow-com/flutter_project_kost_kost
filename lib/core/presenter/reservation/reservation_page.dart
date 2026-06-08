@@ -60,7 +60,6 @@ class _ReservationPageState extends State<ReservationPage> {
         itemCount: reservation.data?.length,
         itemBuilder: (context, index) {
           final item = reservation.data?[index];
-          final convertTotalPrice = double.parse(item!.totalPrice);
           return Card(
             margin: const EdgeInsets.only(bottom: 16),
             shape: RoundedRectangleBorder(
@@ -74,7 +73,7 @@ class _ReservationPageState extends State<ReservationPage> {
                 children: [
                   // ID Reservasi
                   Text(
-                    'Kode Reservasi: ${item.reservationCode}',
+                    'Kode Reservasi: ${item?.reservationCode}',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey.shade600,
@@ -85,7 +84,7 @@ class _ReservationPageState extends State<ReservationPage> {
 
                   // Total Pembayaran
                   Text(
-                    'Total Pembayaran: ${NumberHelper.formatIdrFromDouble(convertTotalPrice)}',
+                    'Total Pembayaran: ${NumberHelper.formatIdr(item!.totalPrice)}',
                     style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 4),
@@ -107,17 +106,7 @@ class _ReservationPageState extends State<ReservationPage> {
                       Expanded(
                         child: OutlinedButton(
                           onPressed: () {
-                            final convertToDouble = double.parse(
-                              item.totalPrice,
-                            );
-                            final dataToSend = {
-                              'id': item.id,
-                              'totalPrice': convertToDouble,
-                            };
-                            context.goNamed(
-                              RouteNames.payment_detail,
-                              extra: dataToSend,
-                            );
+
                           },
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.red,
@@ -131,6 +120,14 @@ class _ReservationPageState extends State<ReservationPage> {
                         child: ElevatedButton(
                           onPressed: () {
                             // aksi bayar
+                            final dataToSend = {
+                              'id': item.id,
+                              'totalPrice': item.totalPrice,
+                            };
+                            context.goNamed(
+                              RouteNames.payment,
+                              extra: dataToSend,
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,

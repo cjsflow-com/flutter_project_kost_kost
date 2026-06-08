@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rimbun_cicio_kost/app/data/model/payment/payment_method.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
 import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
+import 'package:rimbun_cicio_kost/core/helper/number_helper.dart';
 import 'package:rimbun_cicio_kost/core/presenter/component/widgets/rgb_progress_indicator.dart';
 import 'package:rimbun_cicio_kost/core/presenter/payment/payment_provider.dart';
 import 'package:rimbun_cicio_kost/core/state/data_state.dart';
@@ -22,13 +23,12 @@ class PaymentMethodPageInteractive extends StatefulWidget {
 class _PaymentMethodPageInteractiveState
     extends State<PaymentMethodPageInteractive> {
 
-  late Map<String, dynamic> valuePayment;
 
   static const Color primaryGreen = Color(0xFF0F5B2B);
   static const Color backgroundColor = Color(0xFFF4FAF4);
 
   int? selectedMethodCode;
-  double totalPayment = 7800000;
+  // double totalPayment = 7800000;
 
   @override
   void initState() {
@@ -112,8 +112,8 @@ class _PaymentMethodPageInteractiveState
     final size = MediaQuery.sizeOf(context);
     final isTablet = size.width >= 600;
 
-    final int totalPrice = valuePayment['totalPrice'];
-    final idReservation = valuePayment['id'];
+    final totalPrice = widget.valuePayment['totalPrice'];
+    final idReservation = widget.valuePayment['id'];
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -232,7 +232,7 @@ class _PaymentMethodPageInteractiveState
                                     ),
                                     const SizedBox(height: 6),
                                     Text(
-                                      'Rp ${totalPrice.toStringAsFixed(0)}',
+                                      NumberHelper.formatIdr(totalPrice),
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w900,
                                         fontSize: 22,
@@ -338,7 +338,6 @@ class _PaymentMethodPageInteractiveState
           ? null
           : () async {
         await provider.createPayment(idReservation, idPaymentMethod, totalPrice);
-
         switch(provider.statePayment){
           case DataStateSuccess(:final data):
             DialogHelper.goNamed(context: context, nameRoutes: RouteNames.payment_detail);
