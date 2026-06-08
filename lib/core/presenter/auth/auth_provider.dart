@@ -107,7 +107,7 @@ class AuthProvider extends ChangeNotifier{
     _state = const DataState.loading();
     notifyListeners();
 
-    final result = await _authUseCase.register(name, email, password, phone, gender);
+    final result = await _authUseCase.register(name, email, password, phone, gender, address);
     _state = result;
     notifyListeners();
   }

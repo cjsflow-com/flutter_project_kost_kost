@@ -24,6 +24,7 @@ abstract class Customer with _$Customer{
     required String email,
     required String phone,
     required int gender,
+    String? address,
     @JsonKey(name: 'created_at') String? created_at,
     @JsonKey(name: 'updated_at') String? updatedAt,
 }) = _Customer;

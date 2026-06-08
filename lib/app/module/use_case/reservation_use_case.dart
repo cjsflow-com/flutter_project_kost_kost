@@ -1,3 +1,4 @@
+import 'package:rimbun_cicio_kost/app/data/model/reservation/index_reservation.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/reservation.dart';
 import 'package:rimbun_cicio_kost/app/module/repository/reservation_repository.dart';
 import 'package:rimbun_cicio_kost/core/state/data_state.dart';
@@ -22,4 +23,6 @@ class ReservationUseCase {
     adminFee,
     token,
   );
+
+  Future<DataState<IndexReservationResponse>> indexReservation(String token) => _reservationRepository.indexReservation(token);
 }

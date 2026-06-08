@@ -24,6 +24,7 @@ class ApiService {
     String password,
     String phone,
     int gender,
+    String address,
   ) {
     final url = Uri.parse('$BASE_URL$REGISTER');
     return _client.post(
@@ -35,6 +36,7 @@ class ApiService {
         'password': password,
         'phone': phone,
         'gender': gender,
+        'address': address,
       }),
     );
   }
@@ -99,5 +101,10 @@ class ApiService {
       'payment_method_id': paymentMethodId,
       'amount': amount
     }));
+  }
+
+  Future<http.Response> indexReservation(String token){
+    final uri = Uri.parse("$BASE_URL$RESERVATION");
+    return http.get(uri,headers: {"Authorization": "Bearer $token"});
   }
 }

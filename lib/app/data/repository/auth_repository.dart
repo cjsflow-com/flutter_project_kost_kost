@@ -37,9 +37,9 @@ class AuthRepositoryImplements extends AuthRepository{
   }
 
   @override
-  Future<DataState<Auth?>> register(String name, String email, String password, String phone, int gender) async {
+  Future<DataState<Auth?>> register(String name, String email, String password, String phone, int gender, String address) async {
     try{
-      final response = await _apiService.register(name, email, password, phone, gender);
+      final response = await _apiService.register(name, email, password, phone, gender, address);
       final jsonBody = jsonDecode(response.body);
       final success = jsonBody['success'];
       final message = jsonBody['message'];

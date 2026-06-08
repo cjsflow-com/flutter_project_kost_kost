@@ -9,5 +9,5 @@ class AuthUseCase{
 
   Future<DataState<Auth?>> login(String email, String password) => _authRepository.login(email, password);
 
-  Future<DataState<Auth?>> register(String name, String email, String password, String phone, int gender) => _authRepository.register(name, email, password, phone, gender);
+  Future<DataState<Auth?>> register(String name, String email, String password, String phone, int gender, String address) => _authRepository.register(name, email, password, phone, gender, address);
 }

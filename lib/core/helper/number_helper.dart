@@ -19,4 +19,8 @@ class NumberHelper{
         '${dateTime.month.toString().padLeft(2,'0')}-'
         '${dateTime.day.toString().padLeft(2,'0')}';
   }
+
+  static String formatIdrFromDouble(double param){
+    return 'Rp.${NumberFormat('#,###','id').format(param)}';
+  }
 }

@@ -26,6 +26,7 @@ _Customer _$CustomerFromJson(Map<String, dynamic> json) => _Customer(
   email: json['email'] as String,
   phone: json['phone'] as String,
   gender: (json['gender'] as num).toInt(),
+  address: json['address'] as String?,
   created_at: json['created_at'] as String?,
   updatedAt: json['updated_at'] as String?,
 );
@@ -36,6 +37,7 @@ Map<String, dynamic> _$CustomerToJson(_Customer instance) => <String, dynamic>{
   'email': instance.email,
   'phone': instance.phone,
   'gender': instance.gender,
+  'address': instance.address,
   'created_at': instance.created_at,
   'updated_at': instance.updatedAt,
 };

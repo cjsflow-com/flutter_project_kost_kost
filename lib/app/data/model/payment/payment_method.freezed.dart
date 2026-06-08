@@ -290,7 +290,7 @@ as List<PaymentMethod>,
 /// @nodoc
 mixin _$PaymentMethod {
 
- int get id; String get name; String get type; String get provider;@JsonKey(name: 'account_number') String get accountNumber;@JsonKey(name: 'account_name') String get accountName;@JsonKey(name: 'is_active') int get isActive;@JsonKey(name: 'type_name') String get typeName;
+ int get id; String get name; String get type; String? get provider;@JsonKey(name: 'account_number') String? get accountNumber;@JsonKey(name: 'account_name') String? get accountName;@JsonKey(name: 'is_active') int get isActive;@JsonKey(name: 'type_name') String get typeName;
 /// Create a copy of PaymentMethod
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -323,7 +323,7 @@ abstract mixin class $PaymentMethodCopyWith<$Res>  {
   factory $PaymentMethodCopyWith(PaymentMethod value, $Res Function(PaymentMethod) _then) = _$PaymentMethodCopyWithImpl;
 @useResult
 $Res call({
- int id, String name, String type, String provider,@JsonKey(name: 'account_number') String accountNumber,@JsonKey(name: 'account_name') String accountName,@JsonKey(name: 'is_active') int isActive,@JsonKey(name: 'type_name') String typeName
+ int id, String name, String type, String? provider,@JsonKey(name: 'account_number') String? accountNumber,@JsonKey(name: 'account_name') String? accountName,@JsonKey(name: 'is_active') int isActive,@JsonKey(name: 'type_name') String typeName
 });
 
 
@@ -340,15 +340,15 @@ class _$PaymentMethodCopyWithImpl<$Res>
 
 /// Create a copy of PaymentMethod
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? type = null,Object? provider = null,Object? accountNumber = null,Object? accountName = null,Object? isActive = null,Object? typeName = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? type = null,Object? provider = freezed,Object? accountNumber = freezed,Object? accountName = freezed,Object? isActive = null,Object? typeName = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as String,provider: null == provider ? _self.provider : provider // ignore: cast_nullable_to_non_nullable
-as String,accountNumber: null == accountNumber ? _self.accountNumber : accountNumber // ignore: cast_nullable_to_non_nullable
-as String,accountName: null == accountName ? _self.accountName : accountName // ignore: cast_nullable_to_non_nullable
-as String,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
+as String,provider: freezed == provider ? _self.provider : provider // ignore: cast_nullable_to_non_nullable
+as String?,accountNumber: freezed == accountNumber ? _self.accountNumber : accountNumber // ignore: cast_nullable_to_non_nullable
+as String?,accountName: freezed == accountName ? _self.accountName : accountName // ignore: cast_nullable_to_non_nullable
+as String?,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
 as int,typeName: null == typeName ? _self.typeName : typeName // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -435,7 +435,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String type,  String provider, @JsonKey(name: 'account_number')  String accountNumber, @JsonKey(name: 'account_name')  String accountName, @JsonKey(name: 'is_active')  int isActive, @JsonKey(name: 'type_name')  String typeName)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String type,  String? provider, @JsonKey(name: 'account_number')  String? accountNumber, @JsonKey(name: 'account_name')  String? accountName, @JsonKey(name: 'is_active')  int isActive, @JsonKey(name: 'type_name')  String typeName)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PaymentMethod() when $default != null:
 return $default(_that.id,_that.name,_that.type,_that.provider,_that.accountNumber,_that.accountName,_that.isActive,_that.typeName);case _:
@@ -456,7 +456,7 @@ return $default(_that.id,_that.name,_that.type,_that.provider,_that.accountNumbe
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String type,  String provider, @JsonKey(name: 'account_number')  String accountNumber, @JsonKey(name: 'account_name')  String accountName, @JsonKey(name: 'is_active')  int isActive, @JsonKey(name: 'type_name')  String typeName)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String type,  String? provider, @JsonKey(name: 'account_number')  String? accountNumber, @JsonKey(name: 'account_name')  String? accountName, @JsonKey(name: 'is_active')  int isActive, @JsonKey(name: 'type_name')  String typeName)  $default,) {final _that = this;
 switch (_that) {
 case _PaymentMethod():
 return $default(_that.id,_that.name,_that.type,_that.provider,_that.accountNumber,_that.accountName,_that.isActive,_that.typeName);case _:
@@ -476,7 +476,7 @@ return $default(_that.id,_that.name,_that.type,_that.provider,_that.accountNumbe
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String type,  String provider, @JsonKey(name: 'account_number')  String accountNumber, @JsonKey(name: 'account_name')  String accountName, @JsonKey(name: 'is_active')  int isActive, @JsonKey(name: 'type_name')  String typeName)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String type,  String? provider, @JsonKey(name: 'account_number')  String? accountNumber, @JsonKey(name: 'account_name')  String? accountName, @JsonKey(name: 'is_active')  int isActive, @JsonKey(name: 'type_name')  String typeName)?  $default,) {final _that = this;
 switch (_that) {
 case _PaymentMethod() when $default != null:
 return $default(_that.id,_that.name,_that.type,_that.provider,_that.accountNumber,_that.accountName,_that.isActive,_that.typeName);case _:
@@ -491,15 +491,15 @@ return $default(_that.id,_that.name,_that.type,_that.provider,_that.accountNumbe
 @JsonSerializable()
 
 class _PaymentMethod implements PaymentMethod {
-  const _PaymentMethod({required this.id, required this.name, required this.type, required this.provider, @JsonKey(name: 'account_number') required this.accountNumber, @JsonKey(name: 'account_name') required this.accountName, @JsonKey(name: 'is_active') required this.isActive, @JsonKey(name: 'type_name') required this.typeName});
+  const _PaymentMethod({required this.id, required this.name, required this.type, this.provider, @JsonKey(name: 'account_number') this.accountNumber, @JsonKey(name: 'account_name') this.accountName, @JsonKey(name: 'is_active') required this.isActive, @JsonKey(name: 'type_name') required this.typeName});
   factory _PaymentMethod.fromJson(Map<String, dynamic> json) => _$PaymentMethodFromJson(json);
 
 @override final  int id;
 @override final  String name;
 @override final  String type;
-@override final  String provider;
-@override@JsonKey(name: 'account_number') final  String accountNumber;
-@override@JsonKey(name: 'account_name') final  String accountName;
+@override final  String? provider;
+@override@JsonKey(name: 'account_number') final  String? accountNumber;
+@override@JsonKey(name: 'account_name') final  String? accountName;
 @override@JsonKey(name: 'is_active') final  int isActive;
 @override@JsonKey(name: 'type_name') final  String typeName;
 
@@ -536,7 +536,7 @@ abstract mixin class _$PaymentMethodCopyWith<$Res> implements $PaymentMethodCopy
   factory _$PaymentMethodCopyWith(_PaymentMethod value, $Res Function(_PaymentMethod) _then) = __$PaymentMethodCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String name, String type, String provider,@JsonKey(name: 'account_number') String accountNumber,@JsonKey(name: 'account_name') String accountName,@JsonKey(name: 'is_active') int isActive,@JsonKey(name: 'type_name') String typeName
+ int id, String name, String type, String? provider,@JsonKey(name: 'account_number') String? accountNumber,@JsonKey(name: 'account_name') String? accountName,@JsonKey(name: 'is_active') int isActive,@JsonKey(name: 'type_name') String typeName
 });
 
 
@@ -553,15 +553,15 @@ class __$PaymentMethodCopyWithImpl<$Res>
 
 /// Create a copy of PaymentMethod
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? type = null,Object? provider = null,Object? accountNumber = null,Object? accountName = null,Object? isActive = null,Object? typeName = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? type = null,Object? provider = freezed,Object? accountNumber = freezed,Object? accountName = freezed,Object? isActive = null,Object? typeName = null,}) {
   return _then(_PaymentMethod(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as String,provider: null == provider ? _self.provider : provider // ignore: cast_nullable_to_non_nullable
-as String,accountNumber: null == accountNumber ? _self.accountNumber : accountNumber // ignore: cast_nullable_to_non_nullable
-as String,accountName: null == accountName ? _self.accountName : accountName // ignore: cast_nullable_to_non_nullable
-as String,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
+as String,provider: freezed == provider ? _self.provider : provider // ignore: cast_nullable_to_non_nullable
+as String?,accountNumber: freezed == accountNumber ? _self.accountNumber : accountNumber // ignore: cast_nullable_to_non_nullable
+as String?,accountName: freezed == accountName ? _self.accountName : accountName // ignore: cast_nullable_to_non_nullable
+as String?,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
 as int,typeName: null == typeName ? _self.typeName : typeName // ignore: cast_nullable_to_non_nullable
 as String,
   ));

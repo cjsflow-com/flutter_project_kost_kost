@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:rimbun_cicio_kost/core/constant/constant.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
 import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
+import 'package:rimbun_cicio_kost/core/helper/shared_prefrences_helper.dart';
 import 'package:rimbun_cicio_kost/core/presenter/auth/auth_provider.dart';
 import 'package:rimbun_cicio_kost/core/presenter/component/widgets/rgb_progress_indicator.dart';
 import 'package:rimbun_cicio_kost/core/state/data_state.dart';
@@ -27,6 +29,11 @@ class _LoginPageState extends State<LoginPage> {
       case DataStateSuccess(:var data?):
         provider.emailController.clear();
         provider.passwordController.clear();
+        await SharedPreferencesHelper.setSting(PREF_NAME, data.customer.name);
+        await SharedPreferencesHelper.setSting(PREF_EMAIL, data.customer.email);
+        await SharedPreferencesHelper.setSting(PREF_PHONE, data.customer.phone);
+        await SharedPreferencesHelper.setInt(PREF_GENDER, data.customer.gender);
+        await SharedPreferencesHelper.setSting(PREF_ADDRESS, data.customer.address!);
         DialogHelper.showSnackBar(context: context, text: data.message);
         DialogHelper.goNamed(context: context, nameRoutes: RouteNames.home_page);
         break;

@@ -30,9 +30,9 @@ _PaymentMethod _$PaymentMethodFromJson(Map<String, dynamic> json) =>
       id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       type: json['type'] as String,
-      provider: json['provider'] as String,
-      accountNumber: json['account_number'] as String,
-      accountName: json['account_name'] as String,
+      provider: json['provider'] as String?,
+      accountNumber: json['account_number'] as String?,
+      accountName: json['account_name'] as String?,
       isActive: (json['is_active'] as num).toInt(),
       typeName: json['type_name'] as String,
     );

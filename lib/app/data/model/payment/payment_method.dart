@@ -21,13 +21,13 @@ abstract class PaymentMethod with _$PaymentMethod{
     required int id,
     required String name,
     required String type,
-    required String provider,
+    String? provider,
 
     @JsonKey(name: 'account_number')
-    required String accountNumber,
+    String? accountNumber,
 
     @JsonKey(name: 'account_name')
-    required String accountName,
+    String? accountName,
 
     @JsonKey(name: 'is_active')
     required int isActive,

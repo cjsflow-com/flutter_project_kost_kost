@@ -1,8 +1,11 @@
+
 import 'dart:convert';
 
+import 'package:rimbun_cicio_kost/app/data/model/reservation/index_reservation.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/reservation.dart';
 import 'package:rimbun_cicio_kost/app/data/services/api_service.dart';
 import 'package:rimbun_cicio_kost/app/module/repository/reservation_repository.dart';
+import 'package:rimbun_cicio_kost/core/constant/constant.dart';
 import 'package:rimbun_cicio_kost/core/state/data_state.dart';
 
 class ReservationRepositoryImplements extends ReservationRepository {
@@ -28,6 +31,27 @@ class ReservationRepositoryImplements extends ReservationRepository {
       }
     }catch (e){
       print("Terrjadi kesalahan => ${e.toString()}");
+      return DataState.failed('Terjadi kesalahan: ${e.toString()}');
+    }
+  }
+
+  @override
+  Future<DataState<IndexReservationResponse>> indexReservation(String token) async {
+    try{
+      final response = await _apiService.indexReservation(token);
+      final jsonBody = jsonDecode(response.body);
+      final success = jsonBody['success'];
+      final message = jsonBody['message'];
+
+      if(response.statusCode == 200 && success == true){
+        final indexReservation = IndexReservationResponse.fromJson(jsonBody);
+        return DataState.success(indexReservation);
+      }else{
+        print("Terjadi kesalaha => $message");
+        return DataState.failed(message);
+      }
+    }catch (e){
+      print("Terjadi kesalahan => ${e.toString()}");
       return DataState.failed('Terjadi kesalahan: ${e.toString()}');
     }
   }

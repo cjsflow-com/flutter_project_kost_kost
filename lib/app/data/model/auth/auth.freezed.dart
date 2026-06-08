@@ -305,7 +305,7 @@ $CustomerCopyWith<$Res> get customer {
 /// @nodoc
 mixin _$Customer {
 
- int get id; String get name; String get email; String get phone; int get gender;@JsonKey(name: 'created_at') String? get created_at;@JsonKey(name: 'updated_at') String? get updatedAt;
+ int get id; String get name; String get email; String get phone; int get gender; String? get address;@JsonKey(name: 'created_at') String? get created_at;@JsonKey(name: 'updated_at') String? get updatedAt;
 /// Create a copy of Customer
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -318,16 +318,16 @@ $CustomerCopyWith<Customer> get copyWith => _$CustomerCopyWithImpl<Customer>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Customer&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Customer&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.address, address) || other.address == address)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,email,phone,gender,created_at,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,name,email,phone,gender,address,created_at,updatedAt);
 
 @override
 String toString() {
-  return 'Customer(id: $id, name: $name, email: $email, phone: $phone, gender: $gender, created_at: $created_at, updatedAt: $updatedAt)';
+  return 'Customer(id: $id, name: $name, email: $email, phone: $phone, gender: $gender, address: $address, created_at: $created_at, updatedAt: $updatedAt)';
 }
 
 
@@ -338,7 +338,7 @@ abstract mixin class $CustomerCopyWith<$Res>  {
   factory $CustomerCopyWith(Customer value, $Res Function(Customer) _then) = _$CustomerCopyWithImpl;
 @useResult
 $Res call({
- int id, String name, String email, String phone, int gender,@JsonKey(name: 'created_at') String? created_at,@JsonKey(name: 'updated_at') String? updatedAt
+ int id, String name, String email, String phone, int gender, String? address,@JsonKey(name: 'created_at') String? created_at,@JsonKey(name: 'updated_at') String? updatedAt
 });
 
 
@@ -355,14 +355,15 @@ class _$CustomerCopyWithImpl<$Res>
 
 /// Create a copy of Customer
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? email = null,Object? phone = null,Object? gender = null,Object? created_at = freezed,Object? updatedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? email = null,Object? phone = null,Object? gender = null,Object? address = freezed,Object? created_at = freezed,Object? updatedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
-as int,created_at: freezed == created_at ? _self.created_at : created_at // ignore: cast_nullable_to_non_nullable
+as int,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
+as String?,created_at: freezed == created_at ? _self.created_at : created_at // ignore: cast_nullable_to_non_nullable
 as String?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -449,10 +450,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String email,  String phone,  int gender, @JsonKey(name: 'created_at')  String? created_at, @JsonKey(name: 'updated_at')  String? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String email,  String phone,  int gender,  String? address, @JsonKey(name: 'created_at')  String? created_at, @JsonKey(name: 'updated_at')  String? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Customer() when $default != null:
-return $default(_that.id,_that.name,_that.email,_that.phone,_that.gender,_that.created_at,_that.updatedAt);case _:
+return $default(_that.id,_that.name,_that.email,_that.phone,_that.gender,_that.address,_that.created_at,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -470,10 +471,10 @@ return $default(_that.id,_that.name,_that.email,_that.phone,_that.gender,_that.c
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String email,  String phone,  int gender, @JsonKey(name: 'created_at')  String? created_at, @JsonKey(name: 'updated_at')  String? updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String email,  String phone,  int gender,  String? address, @JsonKey(name: 'created_at')  String? created_at, @JsonKey(name: 'updated_at')  String? updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Customer():
-return $default(_that.id,_that.name,_that.email,_that.phone,_that.gender,_that.created_at,_that.updatedAt);case _:
+return $default(_that.id,_that.name,_that.email,_that.phone,_that.gender,_that.address,_that.created_at,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -490,10 +491,10 @@ return $default(_that.id,_that.name,_that.email,_that.phone,_that.gender,_that.c
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String email,  String phone,  int gender, @JsonKey(name: 'created_at')  String? created_at, @JsonKey(name: 'updated_at')  String? updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String email,  String phone,  int gender,  String? address, @JsonKey(name: 'created_at')  String? created_at, @JsonKey(name: 'updated_at')  String? updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Customer() when $default != null:
-return $default(_that.id,_that.name,_that.email,_that.phone,_that.gender,_that.created_at,_that.updatedAt);case _:
+return $default(_that.id,_that.name,_that.email,_that.phone,_that.gender,_that.address,_that.created_at,_that.updatedAt);case _:
   return null;
 
 }
@@ -505,7 +506,7 @@ return $default(_that.id,_that.name,_that.email,_that.phone,_that.gender,_that.c
 @JsonSerializable()
 
 class _Customer implements Customer {
-  const _Customer({required this.id, required this.name, required this.email, required this.phone, required this.gender, @JsonKey(name: 'created_at') this.created_at, @JsonKey(name: 'updated_at') this.updatedAt});
+  const _Customer({required this.id, required this.name, required this.email, required this.phone, required this.gender, this.address, @JsonKey(name: 'created_at') this.created_at, @JsonKey(name: 'updated_at') this.updatedAt});
   factory _Customer.fromJson(Map<String, dynamic> json) => _$CustomerFromJson(json);
 
 @override final  int id;
@@ -513,6 +514,7 @@ class _Customer implements Customer {
 @override final  String email;
 @override final  String phone;
 @override final  int gender;
+@override final  String? address;
 @override@JsonKey(name: 'created_at') final  String? created_at;
 @override@JsonKey(name: 'updated_at') final  String? updatedAt;
 
@@ -529,16 +531,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Customer&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Customer&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.address, address) || other.address == address)&&(identical(other.created_at, created_at) || other.created_at == created_at)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,email,phone,gender,created_at,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,name,email,phone,gender,address,created_at,updatedAt);
 
 @override
 String toString() {
-  return 'Customer(id: $id, name: $name, email: $email, phone: $phone, gender: $gender, created_at: $created_at, updatedAt: $updatedAt)';
+  return 'Customer(id: $id, name: $name, email: $email, phone: $phone, gender: $gender, address: $address, created_at: $created_at, updatedAt: $updatedAt)';
 }
 
 
@@ -549,7 +551,7 @@ abstract mixin class _$CustomerCopyWith<$Res> implements $CustomerCopyWith<$Res>
   factory _$CustomerCopyWith(_Customer value, $Res Function(_Customer) _then) = __$CustomerCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String name, String email, String phone, int gender,@JsonKey(name: 'created_at') String? created_at,@JsonKey(name: 'updated_at') String? updatedAt
+ int id, String name, String email, String phone, int gender, String? address,@JsonKey(name: 'created_at') String? created_at,@JsonKey(name: 'updated_at') String? updatedAt
 });
 
 
@@ -566,14 +568,15 @@ class __$CustomerCopyWithImpl<$Res>
 
 /// Create a copy of Customer
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? email = null,Object? phone = null,Object? gender = null,Object? created_at = freezed,Object? updatedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? email = null,Object? phone = null,Object? gender = null,Object? address = freezed,Object? created_at = freezed,Object? updatedAt = freezed,}) {
   return _then(_Customer(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
-as int,created_at: freezed == created_at ? _self.created_at : created_at // ignore: cast_nullable_to_non_nullable
+as int,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
+as String?,created_at: freezed == created_at ? _self.created_at : created_at // ignore: cast_nullable_to_non_nullable
 as String?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
