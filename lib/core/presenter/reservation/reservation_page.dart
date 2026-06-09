@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:rimbun_cicio_kost/app/data/model/reservation/cancel_status_response.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/index_reservation.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
 import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
@@ -56,98 +57,204 @@ class _ReservationPageState extends State<ReservationPage> {
   Widget _onSuccess(IndexReservationResponse reservation) {
     return RefreshIndicator(
       onRefresh: () => _reservationProvider.indexReservation(),
-      child: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: reservation.data?.length,
-        itemBuilder: (context, index) {
-          final item = reservation.data?[index];
-          return Card(
-            margin: const EdgeInsets.only(bottom: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            elevation: 3,
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // ID Reservasi
-                  Text(
-                    'Kode Reservasi: ${item?.reservationCode}',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey.shade600,
-                      fontWeight: FontWeight.w600,
+      child:
+          reservation.data!.isEmpty
+              ? ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(16),
+                children: const [
+                  SizedBox(height: 250),
+                  Center(
+                    child: Text(
+                      'Belum ada data reservasi sama sekali',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 4),
-
-                  // Total Pembayaran
-                  Text(
-                    'Total Pembayaran: ${NumberHelper.formatIdr(item!.totalPrice)}',
-                    style: const TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 4),
-
-                  // Tanggal masuk dan durasi
-                  Text(
-                    'Tanggal Masuk: ${item.startDate}',
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                  Text(
-                    'Durasi: ${item.durationMonth} bulan',
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                  const SizedBox(height: 12),
-
-                  // Tombol Batal & Bayar
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: () {
-
-                          },
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: Colors.red,
-                            side: const BorderSide(color: Colors.red),
-                          ),
-                          child: const Text('Batal'),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // aksi bayar
-                            final dataToSend = {
-                              'id': item.id,
-                              'totalPrice': item.totalPrice,
-                            };
-                            if(item.status == 'waiting_payment'){
-                              DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.payment_detail);
-                            }else{
-                              context.goNamed(
-                                RouteNames.payment,
-                                extra: dataToSend,
-                              );
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
-                          ),
-                          child: Text(
-                            item.status == 'waiting_payment' ? 'Detail Pembayaran' : 'Bayar',
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
+              )
+              : ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: reservation.data?.length,
+                itemBuilder: (context, index) {
+                  final item = reservation.data?[index];
+                  return Card(
+                    margin: const EdgeInsets.only(bottom: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // ID Reservasi
+                          Text(
+                            'Kode Reservasi: ${item?.reservationCode}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey.shade600,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+
+                          // Total Pembayaran
+                          Text(
+                            'Total Pembayaran: ${NumberHelper.formatIdr(item!.totalPrice)}',
+                            style: const TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          const SizedBox(height: 4),
+
+                          // Tanggal masuk dan durasi
+                          Text(
+                            'Tanggal Masuk: ${item.startDate}',
+                            style: const TextStyle(color: Colors.grey),
+                          ),
+                          Text(
+                            'Durasi: ${item.durationMonth} bulan',
+                            style: const TextStyle(color: Colors.grey),
+                          ),
+                          const SizedBox(height: 12),
+
+                          // Tombol Batal & Bayar
+                          Row(
+                            children: [
+                              Consumer<ReservationProvider>(
+                                builder: (context, provider, child) {
+                                  final cancelState =
+                                      provider.statusCancelResponse;
+                                  return buildCancelButton(
+                                    context: context,
+                                    cancelState: cancelState,
+                                    reservationId: item.id,
+                                  );
+                                },
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    // aksi bayar
+                                    final dataToSend = {
+                                      'id': item.id,
+                                      'totalPrice': item.totalPrice,
+                                    };
+                                    if (item.status == 'waiting_payment') {
+                                      DialogHelper.pushNamed(
+                                        context: context,
+                                        nameRoutes: RouteNames.payment_detail,
+                                      );
+                                    } else {
+                                      context.goNamed(
+                                        RouteNames.payment,
+                                        extra: dataToSend,
+                                      );
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.green,
+                                  ),
+                                  child: Text(
+                                    item.status == 'waiting_payment'
+                                        ? 'Detail Pembayaran'
+                                        : 'Bayar',
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
-            ),
-          );
+    );
+  }
+
+  Widget buildCancelButton({
+    required BuildContext context,
+    required DataState<CancelStatusResponse> cancelState,
+    required int reservationId,
+  }) {
+    return Expanded(
+      child: OutlinedButton(
+        onPressed: switch (cancelState) {
+          DataStateLoading() => null,
+          _ => () async {
+            final confirm = await showDialog<bool>(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('Batalkan Reservasi?'),
+                  content: const Text(
+                    'Apakah kamu yakin ingin membatalkan reservasi ini?',
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: const Text('Tidak'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: const Text(
+                        'Ya, Batalkan',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+
+            if (confirm != true) return;
+
+            await context.read<ReservationProvider>().cancelReservation(
+              reservationId,
+            );
+
+            if (!context.mounted) return;
+
+            final result =
+                context.read<ReservationProvider>().statusCancelResponse;
+
+            switch (result) {
+              case DataStateSuccess(:final data):
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(data.message),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+                break;
+
+              case DataStateFailed(:final message):
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(message), backgroundColor: Colors.red),
+                );
+                break;
+
+              default:
+                break;
+            }
+          },
+        },
+        style: OutlinedButton.styleFrom(
+          foregroundColor: Colors.red,
+          side: const BorderSide(color: Colors.red),
+        ),
+        child: switch (cancelState) {
+          DataStateLoading() => const SizedBox(
+            width: 18,
+            height: 18,
+            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.red),
+          ),
+          _ => const Text('Batal'),
         },
       ),
     );

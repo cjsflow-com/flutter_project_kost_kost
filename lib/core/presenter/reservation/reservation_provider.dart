@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rimbun_cicio_kost/app/data/model/reservation/cancel_status_response.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/index_reservation.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/reservation.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/status_history.dart';
@@ -20,6 +21,9 @@ class ReservationProvider extends ChangeNotifier {
 
   DataState<StatusHistoryResponse> _statusHistoryState = const DataState.initial();
   DataState<StatusHistoryResponse> get statusHistoryState => _statusHistoryState;
+
+  DataState<CancelStatusResponse> _statusCancelResponse = const DataState.initial();
+  DataState<CancelStatusResponse> get statusCancelResponse => _statusCancelResponse;
 
   // final ScrollController _scrollController = ScrollController();
   // ScrollController get scrollController => _scrollController;
@@ -51,6 +55,25 @@ class ReservationProvider extends ChangeNotifier {
 
     notifyListeners();
 
+  }
+
+  Future<void> cancelReservation(int reservationId) async {
+    _statusCancelResponse = const DataState.loading();
+    notifyListeners();
+
+    final result = await _reservationUseCase.cancelReservation(reservationId);
+
+    switch(result){
+      case DataStateFailed(:final message):
+        _statusCancelResponse = DataState.failed(message);
+        break;
+      case DataStateSuccess(:final data):
+        _statusCancelResponse = DataState.success(data);
+        break;
+      default:
+        _statusCancelResponse = DataState.initial();
+    }
+    notifyListeners();
   }
 
   Future<void> indexReservation() async {

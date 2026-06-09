@@ -112,4 +112,10 @@ class ApiService {
     final uri = Uri.parse("$BASE_URL$RESERVATION/$reservationId/status-history");
     return http.get(uri, headers: {"Authorization": "Bearer $token"});
   }
+  
+  Future<http.Response> cancelReservation(int reservationId, String token){
+    final uri = Uri.parse("$BASE_URL$RESERVATION/$reservationId/cancel");
+    final headers = {"Content-Type": CONTENT_TYPE, "Authorization": "Bearer $token"};
+    return http.post(uri,headers: headers);
+  }
 }

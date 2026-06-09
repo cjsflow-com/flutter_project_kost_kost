@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
+import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
 
 class PaymentStatusPageFull extends StatefulWidget {
   const PaymentStatusPageFull({super.key});
@@ -32,7 +34,7 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
               child: Row(
                 children: [
                   InkWell(
-                    onTap: () => Navigator.pop(context),
+                    onTap: () => DialogHelper.goNamed(context: context, nameRoutes: RouteNames.home_page),
                     borderRadius: BorderRadius.circular(999),
                     child: Container(
                       width: 36,

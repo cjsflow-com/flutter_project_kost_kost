@@ -1,11 +1,14 @@
 
 import 'dart:convert';
 
+import 'package:rimbun_cicio_kost/app/data/model/reservation/cancel_status_response.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/index_reservation.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/reservation.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/status_history.dart';
 import 'package:rimbun_cicio_kost/app/data/services/api_service.dart';
 import 'package:rimbun_cicio_kost/app/module/repository/reservation_repository.dart';
+import 'package:rimbun_cicio_kost/core/constant/constant.dart';
+import 'package:rimbun_cicio_kost/core/helper/shared_prefrences_helper.dart';
 import 'package:rimbun_cicio_kost/core/state/data_state.dart';
 
 class ReservationRepositoryImplements extends ReservationRepository {
@@ -68,10 +71,34 @@ class ReservationRepositoryImplements extends ReservationRepository {
       final message = jsonBody['message'];
       final success = jsonBody['success'];
 
+      print(jsonBody);
+
       if(response.statusCode == 200 && success == true){
         return DataState.success(jsonBody);
       }else{
         print('Terjadi kesalahan => ${message}');
+        return DataState.failed(message);
+      }
+    }catch (e){
+      print('Terjadi kesalahan => ${e.toString()}');
+      return DataState.failed(e.toString());
+    }
+  }
+
+  @override
+  Future<DataState<CancelStatusResponse>> cancelReservation(int reservationId) async {
+    try{
+      final token = await SharedPreferencesHelper.getString(PREF_AUTH);
+      final response = await _apiService.cancelReservation(reservationId, token);
+      final jsonBody = jsonDecode(response.body);
+      final message = jsonBody['message'];
+      final success = jsonBody['success'];
+
+      if(response.statusCode == 200 && success == true){
+        final result = CancelStatusResponse.fromJson(jsonBody);
+        return DataState.success(result);
+      }else{
+        print('Terjadi kesalahan => $message');
         return DataState.failed(message);
       }
     }catch (e){
