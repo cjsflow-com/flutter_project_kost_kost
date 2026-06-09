@@ -41,7 +41,7 @@ abstract class IndexReservation  with _$IndexReservation {
     required int durationMonth,
 
     @JsonKey(name: 'room_price')
-    required String roomPrice,
+    required int roomPrice,
 
     @JsonKey(name: 'admin_fee')
     required int adminFee,

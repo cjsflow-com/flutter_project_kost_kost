@@ -292,7 +292,7 @@ as List<IndexReservation>?,
 /// @nodoc
 mixin _$IndexReservation {
 
- int get id;@JsonKey(name: 'user_id') int? get userId;@JsonKey(name: 'room_id') int get roomId;@JsonKey(name: 'reservation_code') String get reservationCode;@JsonKey(name: 'customer_ktp_card') String? get customerKtpCard;@JsonKey(name: 'start_date') String get startDate;@JsonKey(name: 'duration_month') int get durationMonth;@JsonKey(name: 'room_price') String get roomPrice;@JsonKey(name: 'admin_fee') int get adminFee; int get deposit;@JsonKey(name: 'total_price') int get totalPrice; String get status;// @JsonKey(name: 'payment_due_at')
+ int get id;@JsonKey(name: 'user_id') int? get userId;@JsonKey(name: 'room_id') int get roomId;@JsonKey(name: 'reservation_code') String get reservationCode;@JsonKey(name: 'customer_ktp_card') String? get customerKtpCard;@JsonKey(name: 'start_date') String get startDate;@JsonKey(name: 'duration_month') int get durationMonth;@JsonKey(name: 'room_price') int get roomPrice;@JsonKey(name: 'admin_fee') int get adminFee; int get deposit;@JsonKey(name: 'total_price') int get totalPrice; String get status;// @JsonKey(name: 'payment_due_at')
 // String? paymentDueAt,
 //
 // @JsonKey(name: 'approved_at')
@@ -349,7 +349,7 @@ abstract mixin class $IndexReservationCopyWith<$Res>  {
   factory $IndexReservationCopyWith(IndexReservation value, $Res Function(IndexReservation) _then) = _$IndexReservationCopyWithImpl;
 @useResult
 $Res call({
- int id,@JsonKey(name: 'user_id') int? userId,@JsonKey(name: 'room_id') int roomId,@JsonKey(name: 'reservation_code') String reservationCode,@JsonKey(name: 'customer_ktp_card') String? customerKtpCard,@JsonKey(name: 'start_date') String startDate,@JsonKey(name: 'duration_month') int durationMonth,@JsonKey(name: 'room_price') String roomPrice,@JsonKey(name: 'admin_fee') int adminFee, int deposit,@JsonKey(name: 'total_price') int totalPrice, String status,@JsonKey(name: 'status_label') String statusLabel
+ int id,@JsonKey(name: 'user_id') int? userId,@JsonKey(name: 'room_id') int roomId,@JsonKey(name: 'reservation_code') String reservationCode,@JsonKey(name: 'customer_ktp_card') String? customerKtpCard,@JsonKey(name: 'start_date') String startDate,@JsonKey(name: 'duration_month') int durationMonth,@JsonKey(name: 'room_price') int roomPrice,@JsonKey(name: 'admin_fee') int adminFee, int deposit,@JsonKey(name: 'total_price') int totalPrice, String status,@JsonKey(name: 'status_label') String statusLabel
 });
 
 
@@ -376,7 +376,7 @@ as String,customerKtpCard: freezed == customerKtpCard ? _self.customerKtpCard : 
 as String?,startDate: null == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
 as String,durationMonth: null == durationMonth ? _self.durationMonth : durationMonth // ignore: cast_nullable_to_non_nullable
 as int,roomPrice: null == roomPrice ? _self.roomPrice : roomPrice // ignore: cast_nullable_to_non_nullable
-as String,adminFee: null == adminFee ? _self.adminFee : adminFee // ignore: cast_nullable_to_non_nullable
+as int,adminFee: null == adminFee ? _self.adminFee : adminFee // ignore: cast_nullable_to_non_nullable
 as int,deposit: null == deposit ? _self.deposit : deposit // ignore: cast_nullable_to_non_nullable
 as int,totalPrice: null == totalPrice ? _self.totalPrice : totalPrice // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
@@ -466,7 +466,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'user_id')  int? userId, @JsonKey(name: 'room_id')  int roomId, @JsonKey(name: 'reservation_code')  String reservationCode, @JsonKey(name: 'customer_ktp_card')  String? customerKtpCard, @JsonKey(name: 'start_date')  String startDate, @JsonKey(name: 'duration_month')  int durationMonth, @JsonKey(name: 'room_price')  String roomPrice, @JsonKey(name: 'admin_fee')  int adminFee,  int deposit, @JsonKey(name: 'total_price')  int totalPrice,  String status, @JsonKey(name: 'status_label')  String statusLabel)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'user_id')  int? userId, @JsonKey(name: 'room_id')  int roomId, @JsonKey(name: 'reservation_code')  String reservationCode, @JsonKey(name: 'customer_ktp_card')  String? customerKtpCard, @JsonKey(name: 'start_date')  String startDate, @JsonKey(name: 'duration_month')  int durationMonth, @JsonKey(name: 'room_price')  int roomPrice, @JsonKey(name: 'admin_fee')  int adminFee,  int deposit, @JsonKey(name: 'total_price')  int totalPrice,  String status, @JsonKey(name: 'status_label')  String statusLabel)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _IndexReservation() when $default != null:
 return $default(_that.id,_that.userId,_that.roomId,_that.reservationCode,_that.customerKtpCard,_that.startDate,_that.durationMonth,_that.roomPrice,_that.adminFee,_that.deposit,_that.totalPrice,_that.status,_that.statusLabel);case _:
@@ -487,7 +487,7 @@ return $default(_that.id,_that.userId,_that.roomId,_that.reservationCode,_that.c
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'user_id')  int? userId, @JsonKey(name: 'room_id')  int roomId, @JsonKey(name: 'reservation_code')  String reservationCode, @JsonKey(name: 'customer_ktp_card')  String? customerKtpCard, @JsonKey(name: 'start_date')  String startDate, @JsonKey(name: 'duration_month')  int durationMonth, @JsonKey(name: 'room_price')  String roomPrice, @JsonKey(name: 'admin_fee')  int adminFee,  int deposit, @JsonKey(name: 'total_price')  int totalPrice,  String status, @JsonKey(name: 'status_label')  String statusLabel)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'user_id')  int? userId, @JsonKey(name: 'room_id')  int roomId, @JsonKey(name: 'reservation_code')  String reservationCode, @JsonKey(name: 'customer_ktp_card')  String? customerKtpCard, @JsonKey(name: 'start_date')  String startDate, @JsonKey(name: 'duration_month')  int durationMonth, @JsonKey(name: 'room_price')  int roomPrice, @JsonKey(name: 'admin_fee')  int adminFee,  int deposit, @JsonKey(name: 'total_price')  int totalPrice,  String status, @JsonKey(name: 'status_label')  String statusLabel)  $default,) {final _that = this;
 switch (_that) {
 case _IndexReservation():
 return $default(_that.id,_that.userId,_that.roomId,_that.reservationCode,_that.customerKtpCard,_that.startDate,_that.durationMonth,_that.roomPrice,_that.adminFee,_that.deposit,_that.totalPrice,_that.status,_that.statusLabel);case _:
@@ -507,7 +507,7 @@ return $default(_that.id,_that.userId,_that.roomId,_that.reservationCode,_that.c
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id, @JsonKey(name: 'user_id')  int? userId, @JsonKey(name: 'room_id')  int roomId, @JsonKey(name: 'reservation_code')  String reservationCode, @JsonKey(name: 'customer_ktp_card')  String? customerKtpCard, @JsonKey(name: 'start_date')  String startDate, @JsonKey(name: 'duration_month')  int durationMonth, @JsonKey(name: 'room_price')  String roomPrice, @JsonKey(name: 'admin_fee')  int adminFee,  int deposit, @JsonKey(name: 'total_price')  int totalPrice,  String status, @JsonKey(name: 'status_label')  String statusLabel)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id, @JsonKey(name: 'user_id')  int? userId, @JsonKey(name: 'room_id')  int roomId, @JsonKey(name: 'reservation_code')  String reservationCode, @JsonKey(name: 'customer_ktp_card')  String? customerKtpCard, @JsonKey(name: 'start_date')  String startDate, @JsonKey(name: 'duration_month')  int durationMonth, @JsonKey(name: 'room_price')  int roomPrice, @JsonKey(name: 'admin_fee')  int adminFee,  int deposit, @JsonKey(name: 'total_price')  int totalPrice,  String status, @JsonKey(name: 'status_label')  String statusLabel)?  $default,) {final _that = this;
 switch (_that) {
 case _IndexReservation() when $default != null:
 return $default(_that.id,_that.userId,_that.roomId,_that.reservationCode,_that.customerKtpCard,_that.startDate,_that.durationMonth,_that.roomPrice,_that.adminFee,_that.deposit,_that.totalPrice,_that.status,_that.statusLabel);case _:
@@ -532,7 +532,7 @@ class _IndexReservation implements IndexReservation {
 @override@JsonKey(name: 'customer_ktp_card') final  String? customerKtpCard;
 @override@JsonKey(name: 'start_date') final  String startDate;
 @override@JsonKey(name: 'duration_month') final  int durationMonth;
-@override@JsonKey(name: 'room_price') final  String roomPrice;
+@override@JsonKey(name: 'room_price') final  int roomPrice;
 @override@JsonKey(name: 'admin_fee') final  int adminFee;
 @override final  int deposit;
 @override@JsonKey(name: 'total_price') final  int totalPrice;
@@ -596,7 +596,7 @@ abstract mixin class _$IndexReservationCopyWith<$Res> implements $IndexReservati
   factory _$IndexReservationCopyWith(_IndexReservation value, $Res Function(_IndexReservation) _then) = __$IndexReservationCopyWithImpl;
 @override @useResult
 $Res call({
- int id,@JsonKey(name: 'user_id') int? userId,@JsonKey(name: 'room_id') int roomId,@JsonKey(name: 'reservation_code') String reservationCode,@JsonKey(name: 'customer_ktp_card') String? customerKtpCard,@JsonKey(name: 'start_date') String startDate,@JsonKey(name: 'duration_month') int durationMonth,@JsonKey(name: 'room_price') String roomPrice,@JsonKey(name: 'admin_fee') int adminFee, int deposit,@JsonKey(name: 'total_price') int totalPrice, String status,@JsonKey(name: 'status_label') String statusLabel
+ int id,@JsonKey(name: 'user_id') int? userId,@JsonKey(name: 'room_id') int roomId,@JsonKey(name: 'reservation_code') String reservationCode,@JsonKey(name: 'customer_ktp_card') String? customerKtpCard,@JsonKey(name: 'start_date') String startDate,@JsonKey(name: 'duration_month') int durationMonth,@JsonKey(name: 'room_price') int roomPrice,@JsonKey(name: 'admin_fee') int adminFee, int deposit,@JsonKey(name: 'total_price') int totalPrice, String status,@JsonKey(name: 'status_label') String statusLabel
 });
 
 
@@ -623,7 +623,7 @@ as String,customerKtpCard: freezed == customerKtpCard ? _self.customerKtpCard : 
 as String?,startDate: null == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
 as String,durationMonth: null == durationMonth ? _self.durationMonth : durationMonth // ignore: cast_nullable_to_non_nullable
 as int,roomPrice: null == roomPrice ? _self.roomPrice : roomPrice // ignore: cast_nullable_to_non_nullable
-as String,adminFee: null == adminFee ? _self.adminFee : adminFee // ignore: cast_nullable_to_non_nullable
+as int,adminFee: null == adminFee ? _self.adminFee : adminFee // ignore: cast_nullable_to_non_nullable
 as int,deposit: null == deposit ? _self.deposit : deposit // ignore: cast_nullable_to_non_nullable
 as int,totalPrice: null == totalPrice ? _self.totalPrice : totalPrice // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable

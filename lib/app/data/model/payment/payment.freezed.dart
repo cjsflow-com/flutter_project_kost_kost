@@ -583,7 +583,7 @@ $PaymentCopyWith<$Res> get payment {
 /// @nodoc
 mixin _$Payment {
 
- int get id;@JsonKey(name: 'reservation_id') int get reservationId;@JsonKey(name: 'payment_method_id') String get paymentMethodId; String get amount; String get status;@JsonKey(name: 'payment_code') String get paymentCode;@JsonKey(name: 'status_label') String get statusLabel;@JsonKey(name: 'created_at') String get createdAt;@JsonKey(name: 'updated_at') String get updatedAt;
+ int get id;@JsonKey(name: 'reservation_id') int get reservationId;@JsonKey(name: 'payment_method_id') int get paymentMethodId; int get amount; String get status;@JsonKey(name: 'payment_code') String get paymentCode;@JsonKey(name: 'status_label') String get statusLabel;@JsonKey(name: 'created_at') String get createdAt;@JsonKey(name: 'updated_at') String get updatedAt;
 /// Create a copy of Payment
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -616,7 +616,7 @@ abstract mixin class $PaymentCopyWith<$Res>  {
   factory $PaymentCopyWith(Payment value, $Res Function(Payment) _then) = _$PaymentCopyWithImpl;
 @useResult
 $Res call({
- int id,@JsonKey(name: 'reservation_id') int reservationId,@JsonKey(name: 'payment_method_id') String paymentMethodId, String amount, String status,@JsonKey(name: 'payment_code') String paymentCode,@JsonKey(name: 'status_label') String statusLabel,@JsonKey(name: 'created_at') String createdAt,@JsonKey(name: 'updated_at') String updatedAt
+ int id,@JsonKey(name: 'reservation_id') int reservationId,@JsonKey(name: 'payment_method_id') int paymentMethodId, int amount, String status,@JsonKey(name: 'payment_code') String paymentCode,@JsonKey(name: 'status_label') String statusLabel,@JsonKey(name: 'created_at') String createdAt,@JsonKey(name: 'updated_at') String updatedAt
 });
 
 
@@ -638,8 +638,8 @@ class _$PaymentCopyWithImpl<$Res>
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,reservationId: null == reservationId ? _self.reservationId : reservationId // ignore: cast_nullable_to_non_nullable
 as int,paymentMethodId: null == paymentMethodId ? _self.paymentMethodId : paymentMethodId // ignore: cast_nullable_to_non_nullable
-as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as int,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
+as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,paymentCode: null == paymentCode ? _self.paymentCode : paymentCode // ignore: cast_nullable_to_non_nullable
 as String,statusLabel: null == statusLabel ? _self.statusLabel : statusLabel // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -729,7 +729,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'reservation_id')  int reservationId, @JsonKey(name: 'payment_method_id')  String paymentMethodId,  String amount,  String status, @JsonKey(name: 'payment_code')  String paymentCode, @JsonKey(name: 'status_label')  String statusLabel, @JsonKey(name: 'created_at')  String createdAt, @JsonKey(name: 'updated_at')  String updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'reservation_id')  int reservationId, @JsonKey(name: 'payment_method_id')  int paymentMethodId,  int amount,  String status, @JsonKey(name: 'payment_code')  String paymentCode, @JsonKey(name: 'status_label')  String statusLabel, @JsonKey(name: 'created_at')  String createdAt, @JsonKey(name: 'updated_at')  String updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Payment() when $default != null:
 return $default(_that.id,_that.reservationId,_that.paymentMethodId,_that.amount,_that.status,_that.paymentCode,_that.statusLabel,_that.createdAt,_that.updatedAt);case _:
@@ -750,7 +750,7 @@ return $default(_that.id,_that.reservationId,_that.paymentMethodId,_that.amount,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'reservation_id')  int reservationId, @JsonKey(name: 'payment_method_id')  String paymentMethodId,  String amount,  String status, @JsonKey(name: 'payment_code')  String paymentCode, @JsonKey(name: 'status_label')  String statusLabel, @JsonKey(name: 'created_at')  String createdAt, @JsonKey(name: 'updated_at')  String updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'reservation_id')  int reservationId, @JsonKey(name: 'payment_method_id')  int paymentMethodId,  int amount,  String status, @JsonKey(name: 'payment_code')  String paymentCode, @JsonKey(name: 'status_label')  String statusLabel, @JsonKey(name: 'created_at')  String createdAt, @JsonKey(name: 'updated_at')  String updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Payment():
 return $default(_that.id,_that.reservationId,_that.paymentMethodId,_that.amount,_that.status,_that.paymentCode,_that.statusLabel,_that.createdAt,_that.updatedAt);case _:
@@ -770,7 +770,7 @@ return $default(_that.id,_that.reservationId,_that.paymentMethodId,_that.amount,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id, @JsonKey(name: 'reservation_id')  int reservationId, @JsonKey(name: 'payment_method_id')  String paymentMethodId,  String amount,  String status, @JsonKey(name: 'payment_code')  String paymentCode, @JsonKey(name: 'status_label')  String statusLabel, @JsonKey(name: 'created_at')  String createdAt, @JsonKey(name: 'updated_at')  String updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id, @JsonKey(name: 'reservation_id')  int reservationId, @JsonKey(name: 'payment_method_id')  int paymentMethodId,  int amount,  String status, @JsonKey(name: 'payment_code')  String paymentCode, @JsonKey(name: 'status_label')  String statusLabel, @JsonKey(name: 'created_at')  String createdAt, @JsonKey(name: 'updated_at')  String updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Payment() when $default != null:
 return $default(_that.id,_that.reservationId,_that.paymentMethodId,_that.amount,_that.status,_that.paymentCode,_that.statusLabel,_that.createdAt,_that.updatedAt);case _:
@@ -790,8 +790,8 @@ class _Payment implements Payment {
 
 @override final  int id;
 @override@JsonKey(name: 'reservation_id') final  int reservationId;
-@override@JsonKey(name: 'payment_method_id') final  String paymentMethodId;
-@override final  String amount;
+@override@JsonKey(name: 'payment_method_id') final  int paymentMethodId;
+@override final  int amount;
 @override final  String status;
 @override@JsonKey(name: 'payment_code') final  String paymentCode;
 @override@JsonKey(name: 'status_label') final  String statusLabel;
@@ -831,7 +831,7 @@ abstract mixin class _$PaymentCopyWith<$Res> implements $PaymentCopyWith<$Res> {
   factory _$PaymentCopyWith(_Payment value, $Res Function(_Payment) _then) = __$PaymentCopyWithImpl;
 @override @useResult
 $Res call({
- int id,@JsonKey(name: 'reservation_id') int reservationId,@JsonKey(name: 'payment_method_id') String paymentMethodId, String amount, String status,@JsonKey(name: 'payment_code') String paymentCode,@JsonKey(name: 'status_label') String statusLabel,@JsonKey(name: 'created_at') String createdAt,@JsonKey(name: 'updated_at') String updatedAt
+ int id,@JsonKey(name: 'reservation_id') int reservationId,@JsonKey(name: 'payment_method_id') int paymentMethodId, int amount, String status,@JsonKey(name: 'payment_code') String paymentCode,@JsonKey(name: 'status_label') String statusLabel,@JsonKey(name: 'created_at') String createdAt,@JsonKey(name: 'updated_at') String updatedAt
 });
 
 
@@ -853,8 +853,8 @@ class __$PaymentCopyWithImpl<$Res>
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,reservationId: null == reservationId ? _self.reservationId : reservationId // ignore: cast_nullable_to_non_nullable
 as int,paymentMethodId: null == paymentMethodId ? _self.paymentMethodId : paymentMethodId // ignore: cast_nullable_to_non_nullable
-as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as int,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
+as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,paymentCode: null == paymentCode ? _self.paymentCode : paymentCode // ignore: cast_nullable_to_non_nullable
 as String,statusLabel: null == statusLabel ? _self.statusLabel : statusLabel // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable

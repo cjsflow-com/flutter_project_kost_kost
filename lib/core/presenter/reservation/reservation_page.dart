@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/index_reservation.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
+import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
 import 'package:rimbun_cicio_kost/core/helper/number_helper.dart';
 import 'package:rimbun_cicio_kost/core/presenter/component/widgets/rgb_progress_indicator.dart';
 import 'package:rimbun_cicio_kost/core/presenter/reservation/reservation_provider.dart';
@@ -124,15 +125,21 @@ class _ReservationPageState extends State<ReservationPage> {
                               'id': item.id,
                               'totalPrice': item.totalPrice,
                             };
-                            context.goNamed(
-                              RouteNames.payment,
-                              extra: dataToSend,
-                            );
+                            if(item.status == 'waiting_payment'){
+                              DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.payment_detail);
+                            }else{
+                              context.goNamed(
+                                RouteNames.payment,
+                                extra: dataToSend,
+                              );
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
                           ),
-                          child: const Text('Bayar'),
+                          child: Text(
+                            item.status == 'waiting_payment' ? 'Detail Pembayaran' : 'Bayar',
+                          ),
                         ),
                       ),
                     ],

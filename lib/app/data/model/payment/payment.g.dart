@@ -33,8 +33,8 @@ Map<String, dynamic> _$CreatePaymentDataToJson(_CreatePaymentData instance) =>
 _Payment _$PaymentFromJson(Map<String, dynamic> json) => _Payment(
   id: (json['id'] as num).toInt(),
   reservationId: (json['reservation_id'] as num).toInt(),
-  paymentMethodId: json['payment_method_id'] as String,
-  amount: json['amount'] as String,
+  paymentMethodId: (json['payment_method_id'] as num).toInt(),
+  amount: (json['amount'] as num).toInt(),
   status: json['status'] as String,
   paymentCode: json['payment_code'] as String,
   statusLabel: json['status_label'] as String,

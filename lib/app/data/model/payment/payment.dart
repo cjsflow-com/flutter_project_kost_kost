@@ -34,9 +34,9 @@ abstract class Payment with _$Payment {
     required int reservationId,
 
     @JsonKey(name: 'payment_method_id')
-    required String paymentMethodId,
+    required int paymentMethodId,
 
-    required String amount,
+    required int amount,
 
     required String status,
 

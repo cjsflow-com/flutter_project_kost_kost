@@ -34,7 +34,7 @@ _IndexReservation _$IndexReservationFromJson(Map<String, dynamic> json) =>
       customerKtpCard: json['customer_ktp_card'] as String?,
       startDate: json['start_date'] as String,
       durationMonth: (json['duration_month'] as num).toInt(),
-      roomPrice: json['room_price'] as String,
+      roomPrice: (json['room_price'] as num).toInt(),
       adminFee: (json['admin_fee'] as num).toInt(),
       deposit: (json['deposit'] as num).toInt(),
       totalPrice: (json['total_price'] as num).toInt(),

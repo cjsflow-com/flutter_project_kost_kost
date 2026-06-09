@@ -9,11 +9,9 @@ import 'package:rimbun_cicio_kost/core/presenter/payment/payment_provider.dart';
 import 'package:rimbun_cicio_kost/core/state/data_state.dart';
 
 class PaymentMethodPageInteractive extends StatefulWidget {
-
   final Map<String, dynamic> valuePayment;
 
   const PaymentMethodPageInteractive({super.key, required this.valuePayment});
-
 
   @override
   State<PaymentMethodPageInteractive> createState() =>
@@ -22,8 +20,6 @@ class PaymentMethodPageInteractive extends StatefulWidget {
 
 class _PaymentMethodPageInteractiveState
     extends State<PaymentMethodPageInteractive> {
-
-
   static const Color primaryGreen = Color(0xFF0F5B2B);
   static const Color backgroundColor = Color(0xFFF4FAF4);
 
@@ -76,34 +72,35 @@ class _PaymentMethodPageInteractiveState
       crossAxisSpacing: 10,
       childAspectRatio: 2.5,
       physics: const NeverScrollableScrollPhysics(),
-      children: items.map((item) {
-        final isSelected = selectedMethodCode == item.id;
+      children:
+          items.map((item) {
+            final isSelected = selectedMethodCode == item.id;
 
-        return GestureDetector(
-          onTap: () => selectMethod(item.id),
-          child: Container(
-            decoration: BoxDecoration(
-              color: isSelected ? primaryGreen : Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: isSelected ? primaryGreen : Colors.grey.shade400,
+            return GestureDetector(
+              onTap: () => selectMethod(item.id),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: isSelected ? primaryGreen : Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: isSelected ? primaryGreen : Colors.grey.shade400,
+                  ),
+                ),
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Text(
+                  item.name,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: isSelected ? Colors.white : Colors.black87,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
-            ),
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Text(
-              item.name,
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: isSelected ? Colors.white : Colors.black87,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-        );
-      }).toList(),
+            );
+          }).toList(),
     );
   }
 
@@ -131,10 +128,11 @@ class _PaymentMethodPageInteractiveState
                 child: Row(
                   children: [
                     InkWell(
-                      onTap: () => DialogHelper.goNamed(
-                        context: context,
-                        nameRoutes: RouteNames.home_page,
-                      ),
+                      onTap:
+                          () => DialogHelper.goNamed(
+                            context: context,
+                            nameRoutes: RouteNames.home_page,
+                          ),
                       borderRadius: BorderRadius.circular(999),
                       child: Container(
                         width: 36,
@@ -163,146 +161,147 @@ class _PaymentMethodPageInteractiveState
                 ),
               ),
 
-              Expanded(
-                child: Consumer<PaymentProvider>(
-                  builder: (context, provider, _) {
-                    final state = provider.state;
+              Consumer<PaymentProvider>(
+                builder: (context, provider, _) {
+                  final state = provider.state;
 
-                    switch (state) {
-                      case DataStateLoading():
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            color: primaryGreen,
-                          ),
-                        );
+                  switch (state) {
+                    case DataStateLoading():
+                      return const Center(
+                        child: CircularProgressIndicator(color: primaryGreen),
+                      );
 
-                      case DataStateFailed(:final message):
-                        return Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Text(
-                              message,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: Colors.red,
-                              ),
+                    case DataStateFailed(:final message):
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Text(
+                            message,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.red,
                             ),
                           ),
-                        );
+                        ),
+                      );
 
-                      case DataStateSuccess(:final data):
-                        final paymentMethods = data.data;
+                    case DataStateSuccess(:final data):
+                      final paymentMethods = data.data;
 
-                        final bankTransferMethods = paymentMethods
-                            .where((item) => item.type == 'bank_transfer')
-                            .toList();
+                      final bankTransferMethods =
+                          paymentMethods
+                              .where((item) => item.type == 'bank_transfer')
+                              .toList();
 
-                        final eWalletMethods = paymentMethods
-                            .where((item) => item.type == 'e_wallet')
-                            .toList();
+                      final eWalletMethods =
+                          paymentMethods
+                              .where((item) => item.type == 'e_wallet')
+                              .toList();
 
-                        final cashMethods = paymentMethods
-                            .where((item) => item.type == 'cash')
-                            .toList();
+                      final cashMethods =
+                          paymentMethods
+                              .where((item) => item.type == 'cash')
+                              .toList();
 
-                        return SingleChildScrollView(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: isTablet ? 48 : 16,
-                            vertical: 12,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      'Total Pembayaran',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 6),
-                                    Text(
-                                      NumberHelper.formatIdr(totalPrice),
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 22,
-                                        color: primaryGreen,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                      return SingleChildScrollView(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isTablet ? 48 : 16,
+                          vertical: 12,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
                               ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'Total Pembayaran',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    NumberHelper.formatIdr(totalPrice),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 22,
+                                      color: primaryGreen,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
 
-                              const SizedBox(height: 16),
+                            const SizedBox(height: 16),
 
+                            const Text(
+                              'Transfer Bank',
+                              style: TextStyle(fontWeight: FontWeight.w700),
+                            ),
+                            const SizedBox(height: 8),
+                            buildPaymentGrid(
+                              items: bankTransferMethods,
+                              crossAxisCount: 3,
+                              emptyText:
+                                  'Metode Transfer Bank belum tersedia',
+                            ),
+
+                            const SizedBox(height: 16),
+
+                            const Text(
+                              'E-Wallet',
+                              style: TextStyle(fontWeight: FontWeight.w700),
+                            ),
+                            const SizedBox(height: 8),
+                            buildPaymentGrid(
+                              items: eWalletMethods,
+                              crossAxisCount: 4,
+                              emptyText: 'Metode E-Wallet belum tersedia',
+                            ),
+
+                            const SizedBox(height: 16),
+
+                            if (cashMethods.isNotEmpty) ...[
                               const Text(
-                                'Transfer Bank',
+                                'Bayar di Tempat',
                                 style: TextStyle(fontWeight: FontWeight.w700),
                               ),
                               const SizedBox(height: 8),
-                              buildPaymentGrid(
-                                items: bankTransferMethods,
-                                crossAxisCount: 3,
-                                emptyText: 'Metode Transfer Bank belum tersedia',
+                              Column(
+                                children:
+                                    cashMethods.map((item) {
+                                      return RadioListTile<int>(
+                                        value: item.id,
+                                        groupValue: selectedMethodCode,
+                                        onChanged: (value) {
+                                          if (value != null) {
+                                            selectMethod(value);
+                                          }
+                                        },
+                                        title: Text(item.name),
+                                        activeColor: primaryGreen,
+                                        contentPadding: EdgeInsets.zero,
+                                      );
+                                    }).toList(),
                               ),
-
-                              const SizedBox(height: 16),
-
-                              const Text(
-                                'E-Wallet',
-                                style: TextStyle(fontWeight: FontWeight.w700),
-                              ),
-                              const SizedBox(height: 8),
-                              buildPaymentGrid(
-                                items: eWalletMethods,
-                                crossAxisCount: 4,
-                                emptyText: 'Metode E-Wallet belum tersedia',
-                              ),
-
-                              const SizedBox(height: 16),
-
-                              if (cashMethods.isNotEmpty) ...[
-                                const Text(
-                                  'Bayar di Tempat',
-                                  style: TextStyle(fontWeight: FontWeight.w700),
-                                ),
-                                const SizedBox(height: 8),
-                                Column(
-                                  children: cashMethods.map((item) {
-                                    return RadioListTile<int>(
-                                      value: item.id,
-                                      groupValue: selectedMethodCode,
-                                      onChanged: (value) {
-                                        if (value != null) {
-                                          selectMethod(value);
-                                        }
-                                      },
-                                      title: Text(item.name),
-                                      activeColor: primaryGreen,
-                                      contentPadding: EdgeInsets.zero,
-                                    );
-                                  }).toList(),
-                                ),
-                              ],
                             ],
-                          ),
-                        );
+                          ],
+                        ),
+                      );
 
-                      default:
-                        return const SizedBox();
-                    }
-                  },
-                ),
+                    default:
+                      return const SizedBox();
+                  }
+                },
               ),
 
               Padding(
@@ -313,15 +312,22 @@ class _PaymentMethodPageInteractiveState
                 child: SizedBox(
                   width: double.infinity,
                   height: 50,
-                  child: Consumer<PaymentProvider>(builder: (context,provider,_){
-                    final state = provider.statePayment;
-                    return switch(state){
-                       DataStateLoading() => const Center(
-                         child: RGBProgressIndicator(),
-                       ),
-                    _ => _onSuccess(provider, totalPrice, idReservation, selectedMethodCode!)
-                    };
-                  })
+                  child: Consumer<PaymentProvider>(
+                    builder: (context, provider, _) {
+                      final state = provider.statePayment;
+                      return switch (state) {
+                        DataStateLoading() => const Center(
+                          child: RGBProgressIndicator(),
+                        ),
+                        _ => _onSuccess(
+                          provider,
+                          totalPrice,
+                          idReservation,
+                          selectedMethodCode,
+                        ),
+                      };
+                    },
+                  ),
                 ),
               ),
             ],
@@ -331,16 +337,36 @@ class _PaymentMethodPageInteractiveState
     );
   }
 
+  Widget _onSuccess(
+    PaymentProvider provider,
+    int totalPrice,
+    int idReservation,
+    int? idPaymentMethod,
+  ) {
+    if (idPaymentMethod == null) {
+      return ElevatedButton(
+        onPressed: null,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: primaryGreen,
+          disabledBackgroundColor: Colors.grey.shade400,
+        ),
+        child: const Text('Pilih Metode'),
+      );
+    }
 
-  Widget _onSuccess(PaymentProvider provider, int totalPrice, int idReservation, int idPaymentMethod){
     return ElevatedButton(
-      onPressed: selectedMethodCode == null
-          ? null
-          : () async {
-        await provider.createPayment(idReservation, idPaymentMethod, totalPrice);
-        switch(provider.statePayment){
+      onPressed: () async {
+        await provider.createPayment(
+          idReservation,
+          idPaymentMethod,
+          totalPrice,
+        );
+        switch (provider.statePayment) {
           case DataStateSuccess(:final data):
-            DialogHelper.goNamed(context: context, nameRoutes: RouteNames.payment_detail);
+            DialogHelper.goNamed(
+              context: context,
+              nameRoutes: RouteNames.payment_detail,
+            );
             DialogHelper.showSnackBar(context: context, text: data.message);
             break;
           case DataStateFailed(:final message):
@@ -354,16 +380,11 @@ class _PaymentMethodPageInteractiveState
         backgroundColor: primaryGreen,
         disabledBackgroundColor: Colors.grey.shade400,
         foregroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
       child: const Text(
-        'Bayar',
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w800,
-        ),
+        'Lanjut Pembayaran',
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
       ),
     );
   }

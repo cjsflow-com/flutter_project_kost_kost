@@ -107,4 +107,9 @@ class ApiService {
     final uri = Uri.parse("$BASE_URL$RESERVATION");
     return http.get(uri,headers: {"Authorization": "Bearer $token"});
   }
+  
+  Future<http.Response> statusHistory(int reservationId, String token){
+    final uri = Uri.parse("$BASE_URL$RESERVATION/$reservationId/status-history");
+    return http.get(uri, headers: {"Authorization": "Bearer $token"});
+  }
 }

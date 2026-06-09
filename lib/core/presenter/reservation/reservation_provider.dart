@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/index_reservation.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/reservation.dart';
+import 'package:rimbun_cicio_kost/app/data/model/reservation/status_history.dart';
 import 'package:rimbun_cicio_kost/app/module/use_case/reservation_use_case.dart';
 import 'package:rimbun_cicio_kost/core/constant/constant.dart';
 import 'package:rimbun_cicio_kost/core/helper/shared_prefrences_helper.dart';
@@ -17,8 +18,40 @@ class ReservationProvider extends ChangeNotifier {
   DataState<IndexReservationResponse> _reservationIndexState = const DataState.initial();
   DataState<IndexReservationResponse> get reservationIndexState => _reservationIndexState;
 
+  DataState<StatusHistoryResponse> _statusHistoryState = const DataState.initial();
+  DataState<StatusHistoryResponse> get statusHistoryState => _statusHistoryState;
+
   // final ScrollController _scrollController = ScrollController();
   // ScrollController get scrollController => _scrollController;
+
+  Future<void> getStatusHistory(int reservationId) async {
+    _statusHistoryState = const DataState.loading();
+
+    final token = await SharedPreferencesHelper.getString(PREF_AUTH);
+    notifyListeners();
+
+    if(token == null){
+      _statusHistoryState = const DataState.failed('Authorization failed');
+      notifyListeners();
+      return;
+    }
+
+    final result = await _reservationUseCase.getStatusHistory(reservationId, token);
+
+    switch(result){
+      case DataStateSuccess(:final data):
+        _statusHistoryState = DataState.success(data);
+        break;
+      case DataStateFailed(:final message):
+        _statusHistoryState = DataState.failed(message);
+        break;
+      default:
+        _statusHistoryState = DataState.initial();
+    }
+
+    notifyListeners();
+
+  }
 
   Future<void> indexReservation() async {
     _reservationIndexState = const DataState.loading();

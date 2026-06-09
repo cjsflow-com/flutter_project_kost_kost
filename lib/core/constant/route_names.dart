@@ -9,4 +9,5 @@ class RouteNames{
   static const payment = 'payment';
   static const payment_detail = 'payment_detail';
   static const profile_page = 'profile';
+  static const reservation_page = 'reservation';
 }

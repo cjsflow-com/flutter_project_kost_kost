@@ -9,6 +9,7 @@ import 'package:rimbun_cicio_kost/core/presenter/payment/payment_page.dart';
 import 'package:rimbun_cicio_kost/core/presenter/profile/profile_page.dart';
 import 'package:rimbun_cicio_kost/core/presenter/register/register_page.dart';
 import 'package:rimbun_cicio_kost/core/presenter/reservation/form_reservation_page.dart';
+import 'package:rimbun_cicio_kost/core/presenter/reservation/reservation_page.dart';
 import '../presenter/welcome/welcome.dart';
 
 final GoRouter router = GoRouter(
@@ -24,6 +25,7 @@ final GoRouter router = GoRouter(
       name: RouteNames.home_page,
       builder: (context, state) => const MainNavigationPage(),
     ),
+    GoRoute(path: RESERVATION_PAGE, name: RouteNames.reservation_page, builder: (context, state) => const ReservationPage()),
     GoRoute(
       path: "$DETAIL_PAGE/:id",
       name: RouteNames.detail_page,

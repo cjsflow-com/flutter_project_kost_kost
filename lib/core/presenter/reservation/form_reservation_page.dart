@@ -338,12 +338,14 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
 
                           switch (provider.state) {
                             case DataStateSuccess(data: final response):
-                              final dataReservation = response.reservation;
+                              final dataReservation = response.data?.reservation;
 
-                              context.goNamed(
-                                RouteNames.payment,
-                                extra: {'id': dataReservation?.id, 'totalPrice': dataReservation?.totalPrice},
-                              );
+                              final dataToSend = {
+                                'id': dataReservation?.id,
+                                'totalPrice': dataReservation?.totalPrice,
+                              };
+
+                              context.goNamed(RouteNames.payment, extra: dataToSend);
 
                               DialogHelper.showSnackBar(
                                 context: context,

@@ -7,6 +7,7 @@ const DETAIL_PAGE = "/detail_page";
 const REGITER_PAGE = "/register_page";
 const FORM_RESERVATION = "/form_reservation";
 const PAYMENT = "/payment_page";
+const RESERVATION_PAGE = "/reservation";
 const DETAIL_PAYMENT_PAGE = "/detail_payment_page";
 const PROFILE_PAGE = "/profile";
 
@@ -19,6 +20,7 @@ const RESERVATION = "/reservations";
 const ADD_RESERVATION = "${RESERVATION}/create";
 const PAYMENT_METHODS = "/payment-methods";
 const PAYMENTS = "/payments";
+
 
 
 const LOGIN = "${_PREFIX_AUTH}/login";
