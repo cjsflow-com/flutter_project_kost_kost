@@ -55,10 +55,12 @@ class _ReservationPageState extends State<ReservationPage> {
   }
 
   Widget _onSuccess(IndexReservationResponse reservation) {
+    final data = reservation.data ?? [];
+
     return RefreshIndicator(
       onRefresh: () => _reservationProvider.indexReservation(),
       child:
-          reservation.data!.isEmpty
+          data.isEmpty
               ? ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(16),
@@ -78,9 +80,10 @@ class _ReservationPageState extends State<ReservationPage> {
               )
               : ListView.builder(
                 padding: const EdgeInsets.all(16),
-                itemCount: reservation.data?.length,
+                itemCount: data.length,
                 itemBuilder: (context, index) {
-                  final item = reservation.data?[index];
+                  final item = data[index];
+
                   return Card(
                     margin: const EdgeInsets.only(bottom: 16),
                     shape: RoundedRectangleBorder(
@@ -92,90 +95,54 @@ class _ReservationPageState extends State<ReservationPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // ID Reservasi
                           Text(
-                            'Kode Reservasi: ${item?.reservationCode}',
+                            'Kode Reservasi: ${item.reservationCode}',
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey.shade600,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
+
                           const SizedBox(height: 4),
 
-                          // Total Pembayaran
                           Text(
-                            'Total Pembayaran: ${NumberHelper.formatIdr(item!.totalPrice)}',
+                            'Total Pembayaran: ${NumberHelper.formatIdr(item.totalPrice)}',
                             style: const TextStyle(fontWeight: FontWeight.w600),
                           ),
+
                           const SizedBox(height: 4),
 
-                          // Tanggal masuk dan durasi
                           Text(
                             'Tanggal Masuk: ${item.startDate}',
                             style: const TextStyle(color: Colors.grey),
                           ),
+
                           Text(
                             'Durasi: ${item.durationMonth} bulan',
                             style: const TextStyle(color: Colors.grey),
                           ),
+
                           const SizedBox(height: 12),
 
-                  Text('Lakukan Pembayaran Sebelum: ${NumberHelper.convertTimeStamp(item.paymentDueAt!)}'),
+                          if (item.paymentDueAt != null) ...[
+                            Text(
+                              'Lakukan Pembayaran Sebelum: ${NumberHelper.convertTimeStamp(item.paymentDueAt!)}',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.red,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                          ],
 
-                  const SizedBox(height: 8,),
-
-                  // Tombol Batal & Bayar
-                    Row(
-                      children: [
-                        Consumer<ReservationProvider>(
-                          builder: (context, provider, child) {
-                            final cancelState =
-                                provider.statusCancelResponse;
-                            return buildCancelButton(
-                              context: context,
-                              cancelState: cancelState,
-                              reservationId: item.id,
-                            );
-                          },
-                        ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // aksi bayar
-                            final dataToSend = {
-                              'id': item.id,
-                              'totalPrice': item.totalPrice,
-                            };
-                            if(item.status == 'waiting_payment'){
-                              context.pushNamed(RouteNames.payment_detail, extra: item.id);
-                              // DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.payment_detail);
-                            }else{
-                              context.goNamed(
-                                RouteNames.payment,
-                                extra: dataToSend,
-                              );
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
-                          ),
-                          child: Text(
-                            item.status == 'waiting_payment' ? 'Detail Pembayaran' : 'Bayar',
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-                          // Tombol Batal & Bayar
                           Row(
                             children: [
                               Consumer<ReservationProvider>(
                                 builder: (context, provider, child) {
                                   final cancelState =
                                       provider.statusCancelResponse;
+
                                   return buildCancelButton(
                                     context: context,
                                     cancelState: cancelState,
@@ -183,19 +150,21 @@ class _ReservationPageState extends State<ReservationPage> {
                                   );
                                 },
                               ),
+
                               const SizedBox(width: 12),
+
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    // aksi bayar
                                     final dataToSend = {
                                       'id': item.id,
                                       'totalPrice': item.totalPrice,
                                     };
+
                                     if (item.status == 'waiting_payment') {
-                                      DialogHelper.pushNamed(
-                                        context: context,
-                                        nameRoutes: RouteNames.payment_detail,
+                                      context.pushNamed(
+                                        RouteNames.payment_detail,
+                                        extra: item.id,
                                       );
                                     } else {
                                       context.goNamed(
