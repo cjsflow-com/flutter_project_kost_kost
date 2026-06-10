@@ -70,7 +70,7 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
                   ),
                   const SizedBox(width: 12),
                   const Text(
-                    'Status & Pembayaran',
+                    'Detail Pemesanan',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
                   ),
                 ],
