@@ -39,6 +39,7 @@ _IndexReservation _$IndexReservationFromJson(Map<String, dynamic> json) =>
       deposit: (json['deposit'] as num).toInt(),
       totalPrice: (json['total_price'] as num).toInt(),
       status: json['status'] as String,
+      paymentDueAt: json['payment_due_at'] as String?,
       statusLabel: json['status_label'] as String,
     );
 
@@ -56,5 +57,6 @@ Map<String, dynamic> _$IndexReservationToJson(_IndexReservation instance) =>
       'deposit': instance.deposit,
       'total_price': instance.totalPrice,
       'status': instance.status,
+      'payment_due_at': instance.paymentDueAt,
       'status_label': instance.statusLabel,
     };

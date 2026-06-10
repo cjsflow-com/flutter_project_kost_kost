@@ -121,6 +121,54 @@ class _ReservationPageState extends State<ReservationPage> {
                           ),
                           const SizedBox(height: 12),
 
+                  Text('Lakukan Pembayaran Sebelum: ${NumberHelper.convertTimeStamp(item.paymentDueAt!)}'),
+
+                  const SizedBox(height: 8,),
+
+                  // Tombol Batal & Bayar
+                    Row(
+                      children: [
+                        Consumer<ReservationProvider>(
+                          builder: (context, provider, child) {
+                            final cancelState =
+                                provider.statusCancelResponse;
+                            return buildCancelButton(
+                              context: context,
+                              cancelState: cancelState,
+                              reservationId: item.id,
+                            );
+                          },
+                        ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // aksi bayar
+                            final dataToSend = {
+                              'id': item.id,
+                              'totalPrice': item.totalPrice,
+                            };
+                            if(item.status == 'waiting_payment'){
+                              context.pushNamed(RouteNames.payment_detail, extra: item.id);
+                              // DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.payment_detail);
+                            }else{
+                              context.goNamed(
+                                RouteNames.payment,
+                                extra: dataToSend,
+                              );
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                          ),
+                          child: Text(
+                            item.status == 'waiting_payment' ? 'Detail Pembayaran' : 'Bayar',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
                           // Tombol Batal & Bayar
                           Row(
                             children: [

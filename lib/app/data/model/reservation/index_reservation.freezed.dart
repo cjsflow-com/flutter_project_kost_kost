@@ -292,9 +292,7 @@ as List<IndexReservation>?,
 /// @nodoc
 mixin _$IndexReservation {
 
- int get id;@JsonKey(name: 'user_id') int? get userId;@JsonKey(name: 'room_id') int get roomId;@JsonKey(name: 'reservation_code') String get reservationCode;@JsonKey(name: 'customer_ktp_card') String? get customerKtpCard;@JsonKey(name: 'start_date') String get startDate;@JsonKey(name: 'duration_month') int get durationMonth;@JsonKey(name: 'room_price') int get roomPrice;@JsonKey(name: 'admin_fee') int get adminFee; int get deposit;@JsonKey(name: 'total_price') int get totalPrice; String get status;// @JsonKey(name: 'payment_due_at')
-// String? paymentDueAt,
-//
+ int get id;@JsonKey(name: 'user_id') int? get userId;@JsonKey(name: 'room_id') int get roomId;@JsonKey(name: 'reservation_code') String get reservationCode;@JsonKey(name: 'customer_ktp_card') String? get customerKtpCard;@JsonKey(name: 'start_date') String get startDate;@JsonKey(name: 'duration_month') int get durationMonth;@JsonKey(name: 'room_price') int get roomPrice;@JsonKey(name: 'admin_fee') int get adminFee; int get deposit;@JsonKey(name: 'total_price') int get totalPrice; String get status;@JsonKey(name: 'payment_due_at') String? get paymentDueAt;//
 // @JsonKey(name: 'approved_at')
 // String? approvedAt,
 //
@@ -329,16 +327,16 @@ $IndexReservationCopyWith<IndexReservation> get copyWith => _$IndexReservationCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is IndexReservation&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.reservationCode, reservationCode) || other.reservationCode == reservationCode)&&(identical(other.customerKtpCard, customerKtpCard) || other.customerKtpCard == customerKtpCard)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.durationMonth, durationMonth) || other.durationMonth == durationMonth)&&(identical(other.roomPrice, roomPrice) || other.roomPrice == roomPrice)&&(identical(other.adminFee, adminFee) || other.adminFee == adminFee)&&(identical(other.deposit, deposit) || other.deposit == deposit)&&(identical(other.totalPrice, totalPrice) || other.totalPrice == totalPrice)&&(identical(other.status, status) || other.status == status)&&(identical(other.statusLabel, statusLabel) || other.statusLabel == statusLabel));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IndexReservation&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.reservationCode, reservationCode) || other.reservationCode == reservationCode)&&(identical(other.customerKtpCard, customerKtpCard) || other.customerKtpCard == customerKtpCard)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.durationMonth, durationMonth) || other.durationMonth == durationMonth)&&(identical(other.roomPrice, roomPrice) || other.roomPrice == roomPrice)&&(identical(other.adminFee, adminFee) || other.adminFee == adminFee)&&(identical(other.deposit, deposit) || other.deposit == deposit)&&(identical(other.totalPrice, totalPrice) || other.totalPrice == totalPrice)&&(identical(other.status, status) || other.status == status)&&(identical(other.paymentDueAt, paymentDueAt) || other.paymentDueAt == paymentDueAt)&&(identical(other.statusLabel, statusLabel) || other.statusLabel == statusLabel));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,roomId,reservationCode,customerKtpCard,startDate,durationMonth,roomPrice,adminFee,deposit,totalPrice,status,statusLabel);
+int get hashCode => Object.hash(runtimeType,id,userId,roomId,reservationCode,customerKtpCard,startDate,durationMonth,roomPrice,adminFee,deposit,totalPrice,status,paymentDueAt,statusLabel);
 
 @override
 String toString() {
-  return 'IndexReservation(id: $id, userId: $userId, roomId: $roomId, reservationCode: $reservationCode, customerKtpCard: $customerKtpCard, startDate: $startDate, durationMonth: $durationMonth, roomPrice: $roomPrice, adminFee: $adminFee, deposit: $deposit, totalPrice: $totalPrice, status: $status, statusLabel: $statusLabel)';
+  return 'IndexReservation(id: $id, userId: $userId, roomId: $roomId, reservationCode: $reservationCode, customerKtpCard: $customerKtpCard, startDate: $startDate, durationMonth: $durationMonth, roomPrice: $roomPrice, adminFee: $adminFee, deposit: $deposit, totalPrice: $totalPrice, status: $status, paymentDueAt: $paymentDueAt, statusLabel: $statusLabel)';
 }
 
 
@@ -349,7 +347,7 @@ abstract mixin class $IndexReservationCopyWith<$Res>  {
   factory $IndexReservationCopyWith(IndexReservation value, $Res Function(IndexReservation) _then) = _$IndexReservationCopyWithImpl;
 @useResult
 $Res call({
- int id,@JsonKey(name: 'user_id') int? userId,@JsonKey(name: 'room_id') int roomId,@JsonKey(name: 'reservation_code') String reservationCode,@JsonKey(name: 'customer_ktp_card') String? customerKtpCard,@JsonKey(name: 'start_date') String startDate,@JsonKey(name: 'duration_month') int durationMonth,@JsonKey(name: 'room_price') int roomPrice,@JsonKey(name: 'admin_fee') int adminFee, int deposit,@JsonKey(name: 'total_price') int totalPrice, String status,@JsonKey(name: 'status_label') String statusLabel
+ int id,@JsonKey(name: 'user_id') int? userId,@JsonKey(name: 'room_id') int roomId,@JsonKey(name: 'reservation_code') String reservationCode,@JsonKey(name: 'customer_ktp_card') String? customerKtpCard,@JsonKey(name: 'start_date') String startDate,@JsonKey(name: 'duration_month') int durationMonth,@JsonKey(name: 'room_price') int roomPrice,@JsonKey(name: 'admin_fee') int adminFee, int deposit,@JsonKey(name: 'total_price') int totalPrice, String status,@JsonKey(name: 'payment_due_at') String? paymentDueAt,@JsonKey(name: 'status_label') String statusLabel
 });
 
 
@@ -366,7 +364,7 @@ class _$IndexReservationCopyWithImpl<$Res>
 
 /// Create a copy of IndexReservation
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? userId = freezed,Object? roomId = null,Object? reservationCode = null,Object? customerKtpCard = freezed,Object? startDate = null,Object? durationMonth = null,Object? roomPrice = null,Object? adminFee = null,Object? deposit = null,Object? totalPrice = null,Object? status = null,Object? statusLabel = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? userId = freezed,Object? roomId = null,Object? reservationCode = null,Object? customerKtpCard = freezed,Object? startDate = null,Object? durationMonth = null,Object? roomPrice = null,Object? adminFee = null,Object? deposit = null,Object? totalPrice = null,Object? status = null,Object? paymentDueAt = freezed,Object? statusLabel = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,userId: freezed == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
@@ -380,7 +378,8 @@ as int,adminFee: null == adminFee ? _self.adminFee : adminFee // ignore: cast_nu
 as int,deposit: null == deposit ? _self.deposit : deposit // ignore: cast_nullable_to_non_nullable
 as int,totalPrice: null == totalPrice ? _self.totalPrice : totalPrice // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String,statusLabel: null == statusLabel ? _self.statusLabel : statusLabel // ignore: cast_nullable_to_non_nullable
+as String,paymentDueAt: freezed == paymentDueAt ? _self.paymentDueAt : paymentDueAt // ignore: cast_nullable_to_non_nullable
+as String?,statusLabel: null == statusLabel ? _self.statusLabel : statusLabel // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -466,10 +465,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'user_id')  int? userId, @JsonKey(name: 'room_id')  int roomId, @JsonKey(name: 'reservation_code')  String reservationCode, @JsonKey(name: 'customer_ktp_card')  String? customerKtpCard, @JsonKey(name: 'start_date')  String startDate, @JsonKey(name: 'duration_month')  int durationMonth, @JsonKey(name: 'room_price')  int roomPrice, @JsonKey(name: 'admin_fee')  int adminFee,  int deposit, @JsonKey(name: 'total_price')  int totalPrice,  String status, @JsonKey(name: 'status_label')  String statusLabel)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'user_id')  int? userId, @JsonKey(name: 'room_id')  int roomId, @JsonKey(name: 'reservation_code')  String reservationCode, @JsonKey(name: 'customer_ktp_card')  String? customerKtpCard, @JsonKey(name: 'start_date')  String startDate, @JsonKey(name: 'duration_month')  int durationMonth, @JsonKey(name: 'room_price')  int roomPrice, @JsonKey(name: 'admin_fee')  int adminFee,  int deposit, @JsonKey(name: 'total_price')  int totalPrice,  String status, @JsonKey(name: 'payment_due_at')  String? paymentDueAt, @JsonKey(name: 'status_label')  String statusLabel)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _IndexReservation() when $default != null:
-return $default(_that.id,_that.userId,_that.roomId,_that.reservationCode,_that.customerKtpCard,_that.startDate,_that.durationMonth,_that.roomPrice,_that.adminFee,_that.deposit,_that.totalPrice,_that.status,_that.statusLabel);case _:
+return $default(_that.id,_that.userId,_that.roomId,_that.reservationCode,_that.customerKtpCard,_that.startDate,_that.durationMonth,_that.roomPrice,_that.adminFee,_that.deposit,_that.totalPrice,_that.status,_that.paymentDueAt,_that.statusLabel);case _:
   return orElse();
 
 }
@@ -487,10 +486,10 @@ return $default(_that.id,_that.userId,_that.roomId,_that.reservationCode,_that.c
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'user_id')  int? userId, @JsonKey(name: 'room_id')  int roomId, @JsonKey(name: 'reservation_code')  String reservationCode, @JsonKey(name: 'customer_ktp_card')  String? customerKtpCard, @JsonKey(name: 'start_date')  String startDate, @JsonKey(name: 'duration_month')  int durationMonth, @JsonKey(name: 'room_price')  int roomPrice, @JsonKey(name: 'admin_fee')  int adminFee,  int deposit, @JsonKey(name: 'total_price')  int totalPrice,  String status, @JsonKey(name: 'status_label')  String statusLabel)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'user_id')  int? userId, @JsonKey(name: 'room_id')  int roomId, @JsonKey(name: 'reservation_code')  String reservationCode, @JsonKey(name: 'customer_ktp_card')  String? customerKtpCard, @JsonKey(name: 'start_date')  String startDate, @JsonKey(name: 'duration_month')  int durationMonth, @JsonKey(name: 'room_price')  int roomPrice, @JsonKey(name: 'admin_fee')  int adminFee,  int deposit, @JsonKey(name: 'total_price')  int totalPrice,  String status, @JsonKey(name: 'payment_due_at')  String? paymentDueAt, @JsonKey(name: 'status_label')  String statusLabel)  $default,) {final _that = this;
 switch (_that) {
 case _IndexReservation():
-return $default(_that.id,_that.userId,_that.roomId,_that.reservationCode,_that.customerKtpCard,_that.startDate,_that.durationMonth,_that.roomPrice,_that.adminFee,_that.deposit,_that.totalPrice,_that.status,_that.statusLabel);case _:
+return $default(_that.id,_that.userId,_that.roomId,_that.reservationCode,_that.customerKtpCard,_that.startDate,_that.durationMonth,_that.roomPrice,_that.adminFee,_that.deposit,_that.totalPrice,_that.status,_that.paymentDueAt,_that.statusLabel);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -507,10 +506,10 @@ return $default(_that.id,_that.userId,_that.roomId,_that.reservationCode,_that.c
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id, @JsonKey(name: 'user_id')  int? userId, @JsonKey(name: 'room_id')  int roomId, @JsonKey(name: 'reservation_code')  String reservationCode, @JsonKey(name: 'customer_ktp_card')  String? customerKtpCard, @JsonKey(name: 'start_date')  String startDate, @JsonKey(name: 'duration_month')  int durationMonth, @JsonKey(name: 'room_price')  int roomPrice, @JsonKey(name: 'admin_fee')  int adminFee,  int deposit, @JsonKey(name: 'total_price')  int totalPrice,  String status, @JsonKey(name: 'status_label')  String statusLabel)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id, @JsonKey(name: 'user_id')  int? userId, @JsonKey(name: 'room_id')  int roomId, @JsonKey(name: 'reservation_code')  String reservationCode, @JsonKey(name: 'customer_ktp_card')  String? customerKtpCard, @JsonKey(name: 'start_date')  String startDate, @JsonKey(name: 'duration_month')  int durationMonth, @JsonKey(name: 'room_price')  int roomPrice, @JsonKey(name: 'admin_fee')  int adminFee,  int deposit, @JsonKey(name: 'total_price')  int totalPrice,  String status, @JsonKey(name: 'payment_due_at')  String? paymentDueAt, @JsonKey(name: 'status_label')  String statusLabel)?  $default,) {final _that = this;
 switch (_that) {
 case _IndexReservation() when $default != null:
-return $default(_that.id,_that.userId,_that.roomId,_that.reservationCode,_that.customerKtpCard,_that.startDate,_that.durationMonth,_that.roomPrice,_that.adminFee,_that.deposit,_that.totalPrice,_that.status,_that.statusLabel);case _:
+return $default(_that.id,_that.userId,_that.roomId,_that.reservationCode,_that.customerKtpCard,_that.startDate,_that.durationMonth,_that.roomPrice,_that.adminFee,_that.deposit,_that.totalPrice,_that.status,_that.paymentDueAt,_that.statusLabel);case _:
   return null;
 
 }
@@ -522,7 +521,7 @@ return $default(_that.id,_that.userId,_that.roomId,_that.reservationCode,_that.c
 @JsonSerializable()
 
 class _IndexReservation implements IndexReservation {
-  const _IndexReservation({required this.id, @JsonKey(name: 'user_id') this.userId, @JsonKey(name: 'room_id') required this.roomId, @JsonKey(name: 'reservation_code') required this.reservationCode, @JsonKey(name: 'customer_ktp_card') this.customerKtpCard, @JsonKey(name: 'start_date') required this.startDate, @JsonKey(name: 'duration_month') required this.durationMonth, @JsonKey(name: 'room_price') required this.roomPrice, @JsonKey(name: 'admin_fee') required this.adminFee, required this.deposit, @JsonKey(name: 'total_price') required this.totalPrice, required this.status, @JsonKey(name: 'status_label') required this.statusLabel});
+  const _IndexReservation({required this.id, @JsonKey(name: 'user_id') this.userId, @JsonKey(name: 'room_id') required this.roomId, @JsonKey(name: 'reservation_code') required this.reservationCode, @JsonKey(name: 'customer_ktp_card') this.customerKtpCard, @JsonKey(name: 'start_date') required this.startDate, @JsonKey(name: 'duration_month') required this.durationMonth, @JsonKey(name: 'room_price') required this.roomPrice, @JsonKey(name: 'admin_fee') required this.adminFee, required this.deposit, @JsonKey(name: 'total_price') required this.totalPrice, required this.status, @JsonKey(name: 'payment_due_at') this.paymentDueAt, @JsonKey(name: 'status_label') required this.statusLabel});
   factory _IndexReservation.fromJson(Map<String, dynamic> json) => _$IndexReservationFromJson(json);
 
 @override final  int id;
@@ -537,8 +536,7 @@ class _IndexReservation implements IndexReservation {
 @override final  int deposit;
 @override@JsonKey(name: 'total_price') final  int totalPrice;
 @override final  String status;
-// @JsonKey(name: 'payment_due_at')
-// String? paymentDueAt,
+@override@JsonKey(name: 'payment_due_at') final  String? paymentDueAt;
 //
 // @JsonKey(name: 'approved_at')
 // String? approvedAt,
@@ -576,16 +574,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IndexReservation&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.reservationCode, reservationCode) || other.reservationCode == reservationCode)&&(identical(other.customerKtpCard, customerKtpCard) || other.customerKtpCard == customerKtpCard)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.durationMonth, durationMonth) || other.durationMonth == durationMonth)&&(identical(other.roomPrice, roomPrice) || other.roomPrice == roomPrice)&&(identical(other.adminFee, adminFee) || other.adminFee == adminFee)&&(identical(other.deposit, deposit) || other.deposit == deposit)&&(identical(other.totalPrice, totalPrice) || other.totalPrice == totalPrice)&&(identical(other.status, status) || other.status == status)&&(identical(other.statusLabel, statusLabel) || other.statusLabel == statusLabel));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IndexReservation&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.roomId, roomId) || other.roomId == roomId)&&(identical(other.reservationCode, reservationCode) || other.reservationCode == reservationCode)&&(identical(other.customerKtpCard, customerKtpCard) || other.customerKtpCard == customerKtpCard)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.durationMonth, durationMonth) || other.durationMonth == durationMonth)&&(identical(other.roomPrice, roomPrice) || other.roomPrice == roomPrice)&&(identical(other.adminFee, adminFee) || other.adminFee == adminFee)&&(identical(other.deposit, deposit) || other.deposit == deposit)&&(identical(other.totalPrice, totalPrice) || other.totalPrice == totalPrice)&&(identical(other.status, status) || other.status == status)&&(identical(other.paymentDueAt, paymentDueAt) || other.paymentDueAt == paymentDueAt)&&(identical(other.statusLabel, statusLabel) || other.statusLabel == statusLabel));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,roomId,reservationCode,customerKtpCard,startDate,durationMonth,roomPrice,adminFee,deposit,totalPrice,status,statusLabel);
+int get hashCode => Object.hash(runtimeType,id,userId,roomId,reservationCode,customerKtpCard,startDate,durationMonth,roomPrice,adminFee,deposit,totalPrice,status,paymentDueAt,statusLabel);
 
 @override
 String toString() {
-  return 'IndexReservation(id: $id, userId: $userId, roomId: $roomId, reservationCode: $reservationCode, customerKtpCard: $customerKtpCard, startDate: $startDate, durationMonth: $durationMonth, roomPrice: $roomPrice, adminFee: $adminFee, deposit: $deposit, totalPrice: $totalPrice, status: $status, statusLabel: $statusLabel)';
+  return 'IndexReservation(id: $id, userId: $userId, roomId: $roomId, reservationCode: $reservationCode, customerKtpCard: $customerKtpCard, startDate: $startDate, durationMonth: $durationMonth, roomPrice: $roomPrice, adminFee: $adminFee, deposit: $deposit, totalPrice: $totalPrice, status: $status, paymentDueAt: $paymentDueAt, statusLabel: $statusLabel)';
 }
 
 
@@ -596,7 +594,7 @@ abstract mixin class _$IndexReservationCopyWith<$Res> implements $IndexReservati
   factory _$IndexReservationCopyWith(_IndexReservation value, $Res Function(_IndexReservation) _then) = __$IndexReservationCopyWithImpl;
 @override @useResult
 $Res call({
- int id,@JsonKey(name: 'user_id') int? userId,@JsonKey(name: 'room_id') int roomId,@JsonKey(name: 'reservation_code') String reservationCode,@JsonKey(name: 'customer_ktp_card') String? customerKtpCard,@JsonKey(name: 'start_date') String startDate,@JsonKey(name: 'duration_month') int durationMonth,@JsonKey(name: 'room_price') int roomPrice,@JsonKey(name: 'admin_fee') int adminFee, int deposit,@JsonKey(name: 'total_price') int totalPrice, String status,@JsonKey(name: 'status_label') String statusLabel
+ int id,@JsonKey(name: 'user_id') int? userId,@JsonKey(name: 'room_id') int roomId,@JsonKey(name: 'reservation_code') String reservationCode,@JsonKey(name: 'customer_ktp_card') String? customerKtpCard,@JsonKey(name: 'start_date') String startDate,@JsonKey(name: 'duration_month') int durationMonth,@JsonKey(name: 'room_price') int roomPrice,@JsonKey(name: 'admin_fee') int adminFee, int deposit,@JsonKey(name: 'total_price') int totalPrice, String status,@JsonKey(name: 'payment_due_at') String? paymentDueAt,@JsonKey(name: 'status_label') String statusLabel
 });
 
 
@@ -613,7 +611,7 @@ class __$IndexReservationCopyWithImpl<$Res>
 
 /// Create a copy of IndexReservation
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? userId = freezed,Object? roomId = null,Object? reservationCode = null,Object? customerKtpCard = freezed,Object? startDate = null,Object? durationMonth = null,Object? roomPrice = null,Object? adminFee = null,Object? deposit = null,Object? totalPrice = null,Object? status = null,Object? statusLabel = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? userId = freezed,Object? roomId = null,Object? reservationCode = null,Object? customerKtpCard = freezed,Object? startDate = null,Object? durationMonth = null,Object? roomPrice = null,Object? adminFee = null,Object? deposit = null,Object? totalPrice = null,Object? status = null,Object? paymentDueAt = freezed,Object? statusLabel = null,}) {
   return _then(_IndexReservation(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,userId: freezed == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
@@ -627,7 +625,8 @@ as int,adminFee: null == adminFee ? _self.adminFee : adminFee // ignore: cast_nu
 as int,deposit: null == deposit ? _self.deposit : deposit // ignore: cast_nullable_to_non_nullable
 as int,totalPrice: null == totalPrice ? _self.totalPrice : totalPrice // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String,statusLabel: null == statusLabel ? _self.statusLabel : statusLabel // ignore: cast_nullable_to_non_nullable
+as String,paymentDueAt: freezed == paymentDueAt ? _self.paymentDueAt : paymentDueAt // ignore: cast_nullable_to_non_nullable
+as String?,statusLabel: null == statusLabel ? _self.statusLabel : statusLabel // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

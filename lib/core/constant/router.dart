@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:go_router/go_router.dart';
 import 'package:rimbun_cicio_kost/core/constant/constant.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
@@ -25,7 +27,11 @@ final GoRouter router = GoRouter(
       name: RouteNames.home_page,
       builder: (context, state) => const MainNavigationPage(),
     ),
-    GoRoute(path: RESERVATION_PAGE, name: RouteNames.reservation_page, builder: (context, state) => const ReservationPage()),
+    GoRoute(
+      path: RESERVATION_PAGE,
+      name: RouteNames.reservation_page,
+      builder: (context, state) => const ReservationPage(),
+    ),
     GoRoute(
       path: "$DETAIL_PAGE/:id",
       name: RouteNames.detail_page,
@@ -60,14 +66,17 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: PAYMENT,
       name: RouteNames.payment,
-      builder: (context, state) => PaymentMethodPageInteractive(
-        valuePayment: state.extra as Map<String, dynamic>,
-      ),
+      builder:
+          (context, state) => PaymentMethodPageInteractive(
+            valuePayment: state.extra as Map<String, dynamic>,
+          ),
     ),
     GoRoute(
       path: DETAIL_PAYMENT_PAGE,
       name: RouteNames.payment_detail,
-      builder: (context, state) => const PaymentStatusPageFull(),
+      builder: (context, state) => PaymentStatusPageFull(
+        reservationId: state.extra as int,
+      ),
     ),
   ],
 );

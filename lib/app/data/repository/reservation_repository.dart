@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:rimbun_cicio_kost/app/data/model/reservation/cancel_status_response.dart';
+import 'package:rimbun_cicio_kost/app/data/model/reservation/detail_reservation.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/index_reservation.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/reservation.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/status_history.dart';
@@ -104,6 +105,29 @@ class ReservationRepositoryImplements extends ReservationRepository {
     }catch (e){
       print('Terjadi kesalahan => ${e.toString()}');
       return DataState.failed(e.toString());
+    }
+  }
+
+  @override
+  Future<DataState<ReservationDetailResponse>> showReservation(int reservationId, String token) async {
+    try{
+      final response = await _apiService.showDetailReservation(reservationId, token);
+      final jsonBody = jsonDecode(response.body);
+      final message = jsonBody['message'];
+      final success = jsonBody['success'];
+
+      print(jsonBody);
+
+      if(response.statusCode == 200 && success == true){
+        final result = ReservationDetailResponse.fromJson(jsonBody);
+        return DataState.success(result);
+      }else{
+        print('Terjadi kesalahan => $message');
+        return DataState.failed(message);
+      }
+    }catch (e){
+      print('Terjadi kesalahan => ${e.toString()}');
+      return DataState.failed('Terjadi kesalahan => ${e.toString()}');
     }
   }
 

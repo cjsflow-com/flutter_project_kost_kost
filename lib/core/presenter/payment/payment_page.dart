@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rimbun_cicio_kost/app/data/model/payment/payment_method.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
@@ -363,10 +364,8 @@ class _PaymentMethodPageInteractiveState
         );
         switch (provider.statePayment) {
           case DataStateSuccess(:final data):
-            DialogHelper.goNamed(
-              context: context,
-              nameRoutes: RouteNames.payment_detail,
-            );
+            final id = widget.valuePayment['id'];
+            context.goNamed(RouteNames.payment_detail,extra: id);
             DialogHelper.showSnackBar(context: context, text: data.message);
             break;
           case DataStateFailed(:final message):

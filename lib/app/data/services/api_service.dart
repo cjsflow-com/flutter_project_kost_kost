@@ -118,4 +118,9 @@ class ApiService {
     final headers = {"Content-Type": CONTENT_TYPE, "Authorization": "Bearer $token"};
     return http.post(uri,headers: headers);
   }
+
+  Future<http.Response> showDetailReservation(int reservationId, String token){
+    final uri = Uri.parse("$BASE_URL$RESERVATION/$reservationId/show");
+    return http.get(uri, headers: {"Authorization": "Bearer $token"});
+  }
 }

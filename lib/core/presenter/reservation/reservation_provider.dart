@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/cancel_status_response.dart';
+import 'package:rimbun_cicio_kost/app/data/model/reservation/detail_reservation.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/index_reservation.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/reservation.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/status_history.dart';
@@ -24,6 +25,9 @@ class ReservationProvider extends ChangeNotifier {
 
   DataState<CancelStatusResponse> _statusCancelResponse = const DataState.initial();
   DataState<CancelStatusResponse> get statusCancelResponse => _statusCancelResponse;
+
+  DataState<ReservationDetailResponse> _detailReservationState = const DataState.initial();
+  DataState<ReservationDetailResponse> get detailResponseState => _detailReservationState;
 
   // final ScrollController _scrollController = ScrollController();
   // ScrollController get scrollController => _scrollController;
@@ -130,6 +134,29 @@ class ReservationProvider extends ChangeNotifier {
         break;
       default:
         _state = const DataState.initial();
+    }
+    notifyListeners();
+  }
+
+  Future<void> detailReservation(int reservationId) async {
+    _detailReservationState = const DataState.loading();
+    notifyListeners();
+    final token = await SharedPreferencesHelper.getString(PREF_AUTH);
+    if (token == null){
+      _detailReservationState = const DataState.failed('Authorization failed');
+      notifyListeners();
+      return;
+    }
+    final result = await _reservationUseCase.showDetailReservation(reservationId, token);
+    switch(result){
+      case DataStateSuccess(:final data):
+        _detailReservationState = DataState.success(data);
+        break;
+      case DataStateFailed(:final message):
+        _detailReservationState = DataState.failed(message);
+        break;
+      default:
+        _detailReservationState = const DataState.initial();
     }
     notifyListeners();
   }

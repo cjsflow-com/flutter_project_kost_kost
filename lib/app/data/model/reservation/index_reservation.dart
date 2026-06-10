@@ -53,8 +53,8 @@ abstract class IndexReservation  with _$IndexReservation {
 
     required String status,
 
-    // @JsonKey(name: 'payment_due_at')
-    // String? paymentDueAt,
+    @JsonKey(name: 'payment_due_at')
+    String? paymentDueAt,
     //
     // @JsonKey(name: 'approved_at')
     // String? approvedAt,
