@@ -186,7 +186,7 @@ class _FavoritePageState extends State<FavoritePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Simpan Kamar',
+                  'Simpan Kos',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w900,
