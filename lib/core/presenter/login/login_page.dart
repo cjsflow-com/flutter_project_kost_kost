@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
         await SharedPreferencesHelper.setSting(PREF_EMAIL, data.customer.email);
         await SharedPreferencesHelper.setSting(PREF_PHONE, data.customer.phone);
         await SharedPreferencesHelper.setInt(PREF_GENDER, data.customer.gender);
-        await SharedPreferencesHelper.setSting(PREF_ADDRESS, data.customer.address!);
+        await SharedPreferencesHelper.setSting(PREF_ADDRESS, data.customer.address?? '');
         DialogHelper.showSnackBar(context: context, text: data.message);
         DialogHelper.goNamed(context: context, nameRoutes: RouteNames.home_page);
         break;

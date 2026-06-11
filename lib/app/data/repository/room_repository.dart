@@ -13,9 +13,9 @@ class RoomRepositoryImplements extends RoomRepository {
   RoomRepositoryImplements(this._apiService);
 
   @override
-  Future<DataState<RoomResponse>> getRooms({required int page, required int perPage}) async {
+  Future<DataState<RoomResponse>> getRooms({required int page, required int perPage, String search = '', String sortBy = "created_at", String sortDir = "desc"}) async {
     try{
-      final response = await _apiService.getRooms(page: page,per_page: perPage);
+      final response = await _apiService.getRooms(page: page,per_page: perPage,search: search,sortBy: sortBy,sortDir: sortDir);
       final jsonBody = jsonDecode(response.body);
       final success = jsonBody['success'];
       final message = jsonBody['message'];

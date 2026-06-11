@@ -6,6 +6,7 @@ import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
 import 'package:rimbun_cicio_kost/core/presenter/component/main_navigation.dart';
 import 'package:rimbun_cicio_kost/core/presenter/detail/detail_page.dart';
 import 'package:rimbun_cicio_kost/core/presenter/detail/detail_payment_page.dart';
+import 'package:rimbun_cicio_kost/core/presenter/favorite/favorite_page.dart';
 import 'package:rimbun_cicio_kost/core/presenter/login/login_page.dart';
 import 'package:rimbun_cicio_kost/core/presenter/payment/payment_page.dart';
 import 'package:rimbun_cicio_kost/core/presenter/profile/profile_page.dart';
@@ -78,5 +79,10 @@ final GoRouter router = GoRouter(
         reservationId: state.extra as int,
       ),
     ),
+    GoRoute(
+      path: FAVORITE_PAGE,
+      name: RouteNames.favorite_page,
+      builder:  (context, state) => FavoritePage()
+    )
   ],
 );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rimbun_cicio_kost/core/presenter/component/widgets/bottom_nav_bar.dart';
+import 'package:rimbun_cicio_kost/core/presenter/favorite/favorite_page.dart';
 
 import '../home_page/home_page.dart';
 import '../profile/profile_page.dart';
@@ -19,6 +20,7 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
     HomePage(),
     ReservationPage(),
     ProfilePage(),
+    FavoritePage(),
   ];
 
   @override

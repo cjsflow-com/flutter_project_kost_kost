@@ -41,10 +41,13 @@ class ApiService {
     );
   }
 
-  Future<http.Response> getRooms({int page = 1, int per_page = 10}) async {
+  Future<http.Response> getRooms({int page = 1, String search = '', String sortBy = 'created_at', String sortDir = 'desc', int per_page = 10}) async {
     final url = Uri.parse('$BASE_URL$GET_ROOMS').replace(
       queryParameters: {
         'page': page.toString(),
+        'sort_by': sortBy,
+        'sort_dir': sortDir,
+        if (search.trim().isNotEmpty) 'search':search.trim(),
         'per_page': per_page.toString(),
       },
     );

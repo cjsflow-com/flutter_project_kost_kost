@@ -11,6 +11,7 @@ import 'package:rimbun_cicio_kost/core/presenter/auth/auth_provider.dart';
 import 'package:rimbun_cicio_kost/core/presenter/component/widgets/facility_box.dart';
 import 'package:rimbun_cicio_kost/core/presenter/component/widgets/rgb_progress_indicator.dart';
 import 'package:rimbun_cicio_kost/core/presenter/detail/detail_provider.dart';
+import 'package:rimbun_cicio_kost/core/presenter/favorite/favorite_provider.dart';
 import 'package:rimbun_cicio_kost/core/state/data_state.dart';
 
 class DetailKostPage extends StatefulWidget {
@@ -33,6 +34,7 @@ class _DetailKostPageState extends State<DetailKostPage> {
     super.initState();
     Future.microtask(() {
       context.read<DetailProvider>().fetchDetailRoom(widget.id);
+      context.read<FavoriteProvider>().getFavorite();
     });
   }
 
@@ -73,7 +75,7 @@ class _DetailKostPageState extends State<DetailKostPage> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                _buildImageHeader(context, displayImages),
+                _buildImageHeader(context, displayImages, room.id),
                 _buildContent(room),
               ],
             ),
@@ -84,7 +86,11 @@ class _DetailKostPageState extends State<DetailKostPage> {
     );
   }
 
-  Widget _buildImageHeader(BuildContext context, List<String> images) {
+  Widget _buildImageHeader(
+    BuildContext context,
+    List<String> images,
+    String id,
+  ) {
     return Stack(
       children: [
         ClipRRect(
@@ -127,14 +133,45 @@ class _DetailKostPageState extends State<DetailKostPage> {
           child: _CircleIconButton(
             icon: Icons.arrow_back,
             onTap: () {
-              Navigator.pop(context);
+              DialogHelper.goNamed(
+                context: context,
+                nameRoutes: RouteNames.home_page,
+              );
             },
+            iconColor: Color(0xFF333333),
           ),
         ),
         Positioned(
           top: 14,
           right: 14,
-          child: _CircleIconButton(icon: Icons.favorite_border, onTap: () {}),
+          child: Consumer<FavoriteProvider>(
+            builder: (context, favoriteProvider, child) {
+              final isFavorite = favoriteProvider.isFavorite(id);
+              return _CircleIconButton(
+                icon: isFavorite ? Icons.favorite : Icons.favorite_border,
+                iconColor: isFavorite ? Colors.red : const Color(0xFF333333),
+                onTap: () async {
+                  await context.read<FavoriteProvider>().toggleFavorite(id);
+
+                  if (!context.mounted) return;
+
+                  final newStatus = context.read<FavoriteProvider>().isFavorite(
+                    id,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        newStatus
+                            ? 'Kamar ditambahkan ke favorit'
+                            : 'Kamar dihapus dari favorit',
+                      ),
+                      backgroundColor: newStatus ? Colors.green : Colors.red,
+                    ),
+                  );
+                },
+              );
+            },
+          ),
         ),
         Positioned(
           bottom: 14,
@@ -312,7 +349,7 @@ class _DetailKostPageState extends State<DetailKostPage> {
               'images':
                   rooms.images.map((img) => {'image': img.image}).toList(),
               'thumbnail': rooms.thumbnail,
-              'roomId': int.parse(rooms.id)
+              'roomId': int.parse(rooms.id),
             };
             context.pushNamed(
               RouteNames.form_reservation_page,
@@ -340,8 +377,13 @@ class _DetailKostPageState extends State<DetailKostPage> {
 class _CircleIconButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
+  final Color iconColor;
 
-  const _CircleIconButton({required this.icon, required this.onTap});
+  const _CircleIconButton({
+    required this.icon,
+    required this.onTap,
+    required this.iconColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -354,7 +396,7 @@ class _CircleIconButton extends StatelessWidget {
         child: SizedBox(
           width: 38,
           height: 38,
-          child: Icon(icon, size: 21, color: const Color(0xFF333333)),
+          child: Icon(icon, size: 21, color: iconColor),
         ),
       ),
     );

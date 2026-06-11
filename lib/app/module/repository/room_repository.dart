@@ -6,6 +6,9 @@ abstract class RoomRepository {
   Future<DataState<RoomResponse>> getRooms({
     required int page,
     required int perPage,
+    String search = '',
+    String sortBy = 'created_at',
+    String sortDir = 'desc'
 });
 
   Future<DataState<RoomDetailResponse>> getRoomById({required String id});

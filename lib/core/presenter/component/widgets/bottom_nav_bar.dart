@@ -56,6 +56,10 @@ class CustomBottomNavBar extends StatelessWidget {
             icon: Icon(Icons.person_outline_rounded),
             label: 'Profil',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_outline_rounded),
+            label: 'Simpan Kos'
+          )
         ],
       ),
     );
