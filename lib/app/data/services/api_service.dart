@@ -126,4 +126,17 @@ class ApiService {
     final uri = Uri.parse("$BASE_URL$RESERVATION/$reservationId/show");
     return http.get(uri, headers: {"Authorization": "Bearer $token"});
   }
+
+  Future<http.Response> uploadProofment(int reservationId, String fileName, String token)
+  {
+    final uri = Uri.parse("$BASE_URL$PAYMENTS/$reservationId/upload-proof");
+    var request = http.MultipartRequest('POST', uri);
+    final Map<String, String> headers = {
+      "Content-Type": "multipart/form-data",
+      "Authorization": "Bearer $token",
+    };
+    
+    request.files.add()
+    
+  }
 }

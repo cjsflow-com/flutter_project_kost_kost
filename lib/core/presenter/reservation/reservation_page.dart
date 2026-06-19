@@ -161,23 +161,31 @@ class _ReservationPageState extends State<ReservationPage> {
                                       'totalPrice': item.totalPrice,
                                     };
 
-                                    if (item.status == 'waiting_payment') {
+                                    if (item.payment != null){
                                       context.pushNamed(
-                                        RouteNames.payment_detail,
-                                        extra: item.id,
+                                        RouteNames.payment_detail,extra: item.id,
                                       );
-                                    } else {
-                                      context.goNamed(
-                                        RouteNames.payment,
-                                        extra: dataToSend,
-                                      );
+                                    }else{
+                                      context.goNamed(RouteNames.payment, extra: dataToSend);
                                     }
+
+                                    // if (item.status == 'waiting_payment') {
+                                    //   context.pushNamed(
+                                    //     RouteNames.payment_detail,
+                                    //     extra: item.id,
+                                    //   );
+                                    // } else {
+                                    //   context.goNamed(
+                                    //     RouteNames.payment,
+                                    //     extra: dataToSend,
+                                    //   );
+                                    // }
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.green,
                                   ),
                                   child: Text(
-                                    item.status == 'waiting_payment'
+                                    item.payment != null
                                         ? 'Detail Pembayaran'
                                         : 'Bayar',
                                   ),

@@ -38,6 +38,7 @@ _ReservationDetailData _$ReservationDetailDataFromJson(
   adminFee: (json['admin_fee'] as num).toInt(),
   deposit: (json['deposit'] as num).toInt(),
   totalPrice: (json['total_price'] as num).toInt(),
+  status: json['status'] as String,
   paymentDueAt: json['payment_due_at'] as String?,
   statusLabel: json['status_label'] as String,
   room:
@@ -66,6 +67,7 @@ Map<String, dynamic> _$ReservationDetailDataToJson(
   'admin_fee': instance.adminFee,
   'deposit': instance.deposit,
   'total_price': instance.totalPrice,
+  'status': instance.status,
   'payment_due_at': instance.paymentDueAt,
   'status_label': instance.statusLabel,
   'room': instance.room,

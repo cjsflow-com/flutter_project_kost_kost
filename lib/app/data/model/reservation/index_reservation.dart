@@ -55,6 +55,9 @@ abstract class IndexReservation  with _$IndexReservation {
 
     @JsonKey(name: 'payment_due_at')
     String? paymentDueAt,
+
+    // payment
+    IndexReservationPayment? payment,
     //
     // @JsonKey(name: 'approved_at')
     // String? approvedAt,
@@ -85,4 +88,54 @@ abstract class IndexReservation  with _$IndexReservation {
 
   factory IndexReservation.fromJson(Map<String, dynamic> json) =>
       _$IndexReservationFromJson(json);
+}
+
+@freezed
+abstract class IndexReservationPayment with _$IndexReservationPayment {
+  const factory IndexReservationPayment({
+    required int id,
+
+    @JsonKey(name: 'reservation_id')
+    required int reservationId,
+
+    @JsonKey(name: 'payment_method_id')
+    required int paymentMethodId,
+
+    @JsonKey(name: 'payment_proof')
+    String? paymentProof,
+
+    @JsonKey(name: 'payment_code')
+    required String paymentCode,
+
+    // dari backend amount bentuknya String: "3600000.00"
+    required String amount,
+
+    required String status,
+
+    @JsonKey(name: 'paid_at')
+    String? paidAt,
+
+    @JsonKey(name: 'uploaded_at')
+    String? uploadedAt,
+
+    @JsonKey(name: 'verified_at')
+    String? verifiedAt,
+
+    @JsonKey(name: 'rejected_at')
+    String? rejectedAt,
+
+    String? note,
+
+    @JsonKey(name: 'created_at')
+    required String createdAt,
+
+    @JsonKey(name: 'updated_at')
+    required String updatedAt,
+
+    @JsonKey(name: 'status_label')
+    required String statusLabel,
+  }) = _IndexReservationPayment;
+
+  factory IndexReservationPayment.fromJson(Map<String, dynamic> json) =>
+      _$IndexReservationPaymentFromJson(json);
 }

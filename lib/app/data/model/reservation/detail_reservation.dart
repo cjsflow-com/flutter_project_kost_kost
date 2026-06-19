@@ -28,6 +28,8 @@ abstract class ReservationDetailData with _$ReservationDetailData {
     required int deposit,
     @JsonKey(name: 'total_price') required int totalPrice,
 
+    required String status,
+
     @JsonKey(name: 'payment_due_at')
     String? paymentDueAt,
 

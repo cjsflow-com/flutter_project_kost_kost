@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
 import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
 import 'package:provider/provider.dart';
@@ -53,7 +54,11 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
               child: Row(
                 children: [
                   InkWell(
-                    onTap: () => DialogHelper.goNamed(context: context, nameRoutes: RouteNames.home_page),
+                    onTap:
+                        () => DialogHelper.goNamed(
+                          context: context,
+                          nameRoutes: RouteNames.home_page,
+                        ),
                     borderRadius: BorderRadius.circular(999),
                     child: Container(
                       width: 36,
@@ -99,31 +104,18 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
             ),
 
             // Tombol Kirim Pembayaran
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: isTablet ? 48 : 16,
-                vertical: 12,
-              ),
-              child: SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // TODO: submit payment
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryGreen,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+            Consumer<ReservationProvider>(
+              builder: (context, provider, child) {
+                final state = provider.detailResponseState;
+
+                return switch (state) {
+                  DataStateSuccess(:final data) => _buildPaymentButtonIfNeeded(
+                    data,
+                    isTablet,
                   ),
-                  child: const Text(
-                    'Kirim Pembayaran',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
-                  ),
-                ),
-              ),
+                  _ => const SizedBox.shrink(),
+                };
+              },
             ),
           ],
         ),
@@ -148,6 +140,8 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
     final showUploadPaymentProof =
         paymentMethod?.type == 'bank_transfer' ||
         paymentMethod?.type == 'e_wallet';
+
+    final showPaymentSection = reservation.statusLabel == "Menunggu Pembayaran";
 
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(
@@ -238,7 +232,6 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
 
           const SizedBox(height: 16),
 
-          // Status Reservasi
           const Text(
             'Status Reservasi',
             style: TextStyle(fontWeight: FontWeight.w700),
@@ -253,88 +246,101 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
           else
             Column(
               children:
-                  histories.map((history) {
-                    return _buildStatusRow(
-                      icon: _getStatusIcon(history.title),
-                      iconColor: _getStatusColor(history.title),
-                      title: history.title,
-                      subtitle: history.description,
-                      currentStatus: reservation.statusLabel,
-                    );
-                  }).toList(),
+              histories.map((history) {
+                return _buildStatusRow(
+                  icon: _getStatusIcon(history.title),
+                  iconColor: _getStatusColor(history.title),
+                  title: history.title,
+                  subtitle: history.description,
+                  currentStatus: reservation.statusLabel,
+                );
+              }).toList(),
             ),
 
-          const SizedBox(height: 16),
+          if(showPaymentSection) ...[
 
-          // Transfer Bank
-          const Text(
-            'Transfer Bank ke:',
-            style: TextStyle(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: 8),
 
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.grey.shade300),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  paymentMethod?.name ?? '-',
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 4),
-                Text(paymentMethod?.accountNumber ?? '-'),
-                const SizedBox(height: 2),
-                Text('a.n. ${paymentMethod?.accountName ?? '-'}'),
-              ],
-            ),
-          ),
-
-          if (showUploadPaymentProof) ...[
             const SizedBox(height: 16),
-
-            // Upload Bukti Pembayaran
-            const Text(
-              'Upload Bukti Pembayaran',
+            // Transfer Bank
+            Text(
+              showUploadPaymentProof ? 'Transfer Bank ke:' : 'Bayar di Tempat',
               style: TextStyle(fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 8),
 
-            GestureDetector(
-              onTap: () {
-                // TODO: upload file
-              },
-              child: Container(
-                width: double.infinity,
-                height: 120,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.grey.shade300),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.upload_file, size: 36, color: Colors.grey),
-                      SizedBox(height: 4),
-                      Text(
-                        'Klik untuk upload bukti pembayaran\nPNG, JPG, PDF maks 2MB',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12, color: Colors.grey),
-                      ),
-                    ],
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.grey.shade300),
+              ),
+              child:
+              showUploadPaymentProof
+                  ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    paymentMethod?.name ?? '-',
+                    style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
+                  const SizedBox(height: 4),
+                  Text(paymentMethod?.accountNumber ?? '-'),
+                  const SizedBox(height: 2),
+                  Text('a.n. ${paymentMethod?.accountName ?? '-'}'),
+                ],
+              )
+                  : Center(
+                child: Text(
+                  'Silahkan anda bayar di kost nya langsung',
+                  style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
               ),
             ),
-          ],
+
+            if (showUploadPaymentProof) ...[
+              const SizedBox(height: 16),
+
+              // Upload Bukti Pembayaran
+              const Text(
+                'Upload Bukti Pembayaran',
+                style: TextStyle(fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(height: 8),
+
+              GestureDetector(
+                onTap: () {
+                  // TODO: upload file
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey.shade300),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.upload_file, size: 36, color: Colors.grey),
+                        SizedBox(height: 4),
+                        Text(
+                          'Klik untuk upload bukti pembayaran\nPNG, JPG, PDF maks 2MB',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+            ]
+          // Status Reservasi
+
         ],
       ),
     );
@@ -381,6 +387,48 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPaymentButtonIfNeeded(
+    ReservationDetailResponse detailResponse,
+    bool isTablet,
+  ) {
+    final reservation = detailResponse.data;
+    final paymentMethod = reservation?.payment?.paymentMethod;
+
+    final showUploadPaymentProof =
+        paymentMethod?.type == 'bank_transfer' ||
+        paymentMethod?.type == 'e_wallet';
+
+    if (!showUploadPaymentProof) {
+      return const SizedBox.shrink();
+    }
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: isTablet ? 48 : 16,
+        vertical: 12,
+      ),
+      child: SizedBox(
+        width: double.infinity,
+        height: 50,
+        child: ElevatedButton(
+          onPressed: () {
+            // TODO: submit payment
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: primaryGreen,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: const Text(
+            'Kirim Pembayaran',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+          ),
         ),
       ),
     );
