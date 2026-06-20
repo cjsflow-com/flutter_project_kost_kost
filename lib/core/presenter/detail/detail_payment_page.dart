@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rimbun_cicio_kost/core/constant/route_names.dart';
 import 'package:rimbun_cicio_kost/core/helper/dialog_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:rimbun_cicio_kost/app/data/model/reservation/detail_reservation.dart';
 import 'package:rimbun_cicio_kost/core/helper/number_helper.dart';
+import 'package:rimbun_cicio_kost/core/presenter/payment/payment_provider.dart';
 import 'package:rimbun_cicio_kost/core/presenter/reservation/reservation_provider.dart';
 
 import '../../state/data_state.dart';
@@ -34,6 +36,8 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
   }
 
   String? uploadedFile;
+  XFile? selectedPaymentProof;
+  Uint8List? selectedPaymentProofBytes;
 
   @override
   Widget build(BuildContext context) {
@@ -246,20 +250,18 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
           else
             Column(
               children:
-              histories.map((history) {
-                return _buildStatusRow(
-                  icon: _getStatusIcon(history.title),
-                  iconColor: _getStatusColor(history.title),
-                  title: history.title,
-                  subtitle: history.description,
-                  currentStatus: reservation.statusLabel,
-                );
-              }).toList(),
+                  histories.map((history) {
+                    return _buildStatusRow(
+                      icon: _getStatusIcon(history.title),
+                      iconColor: _getStatusColor(history.title),
+                      title: history.title,
+                      subtitle: history.description,
+                      currentStatus: reservation.statusLabel,
+                    );
+                  }).toList(),
             ),
 
-          if(showPaymentSection) ...[
-
-
+          if (showPaymentSection) ...[
             const SizedBox(height: 16),
             // Transfer Bank
             Text(
@@ -277,26 +279,26 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
                 border: Border.all(color: Colors.grey.shade300),
               ),
               child:
-              showUploadPaymentProof
-                  ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    paymentMethod?.name ?? '-',
-                    style: const TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(paymentMethod?.accountNumber ?? '-'),
-                  const SizedBox(height: 2),
-                  Text('a.n. ${paymentMethod?.accountName ?? '-'}'),
-                ],
-              )
-                  : Center(
-                child: Text(
-                  'Silahkan anda bayar di kost nya langsung',
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                ),
-              ),
+                  showUploadPaymentProof
+                      ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            paymentMethod?.name ?? '-',
+                            style: const TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(paymentMethod?.accountNumber ?? '-'),
+                          const SizedBox(height: 2),
+                          Text('a.n. ${paymentMethod?.accountName ?? '-'}'),
+                        ],
+                      )
+                      : Center(
+                        child: Text(
+                          'Silahkan anda bayar di kost nya langsung',
+                          style: const TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ),
             ),
 
             if (showUploadPaymentProof) ...[
@@ -310,9 +312,7 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
               const SizedBox(height: 8),
 
               GestureDetector(
-                onTap: () {
-                  // TODO: upload file
-                },
+                onTap: _pickPaymentProof,
                 child: Container(
                   width: double.infinity,
                   height: 120,
@@ -321,26 +321,69 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
                     border: Border.all(color: Colors.grey.shade300),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.upload_file, size: 36, color: Colors.grey),
-                        SizedBox(height: 4),
-                        Text(
-                          'Klik untuk upload bukti pembayaran\nPNG, JPG, PDF maks 2MB',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
-                        ),
-                      ],
-                    ),
+                  child: Center(
+                    child:
+                        selectedPaymentProof == null
+                            ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.upload_file,
+                                  size: 36,
+                                  color: Colors.grey,
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  'Klik untuk upload bukti pembayaran\nPNG, JPG maks 2MB',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            )
+                            : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.check_circle,
+                                  size: 36,
+                                  color: Colors.green,
+                                ),
+                                SizedBox(height: 4),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                  ),
+                                  child: Text(
+                                    selectedPaymentProof!.name,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                const Text(
+                                  'Klik untuk ganti gambar',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
                   ),
                 ),
               ),
             ],
-            ]
-          // Status Reservasi
+          ],
 
+          // Status Reservasi
         ],
       ),
     );
@@ -414,21 +457,38 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
       child: SizedBox(
         width: double.infinity,
         height: 50,
-        child: ElevatedButton(
-          onPressed: () {
-            // TODO: submit payment
+        child: Consumer<PaymentProvider>(
+          builder: (context, paymentProvider, child) {
+            final uploadState = paymentProvider.stateUploadPaymentProof;
+            final isLoading = uploadState is DataStateLoading;
+            return ElevatedButton(
+              onPressed: _submitPaymentProof,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primaryGreen,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child:
+                  isLoading
+                      ? const SizedBox(
+                        width: 22,
+                        height: 22,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                      : const Text(
+                        'Kirim Pembayaran',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+            );
           },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: primaryGreen,
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-          child: const Text(
-            'Kirim Pembayaran',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
-          ),
         ),
       ),
     );
@@ -458,5 +518,77 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
       'Kadaluarsa' => Colors.redAccent,
       _ => Colors.black54,
     };
+  }
+
+  Future<void> _pickPaymentProof() async {
+    final picker = ImagePicker();
+
+    final image = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 80,
+    );
+
+    if (image == null) return;
+
+    final bytes = await image.readAsBytes();
+    final fileSizeInMb = bytes.length / (1024 * 1024);
+
+    if (fileSizeInMb > 2) {
+      if (!mounted) return;
+      DialogHelper.showSnackBarWithBackground(
+        context: context,
+        text: 'Ukuran file maksimal 2MB',
+        colors: Colors.red,
+      );
+      return;
+    }
+    setState(() {
+      selectedPaymentProof = image;
+      selectedPaymentProofBytes = bytes;
+    });
+  }
+
+  Future<void> _submitPaymentProof() async {
+    if (selectedPaymentProof == null || selectedPaymentProofBytes == null) {
+      DialogHelper.showSnackBarWithBackground(
+        context: context,
+        text: 'Silahkan pilih bukti pembayaran terlebih dahulu',
+        colors: Colors.red,
+      );
+      return;
+    }
+
+    await context.read<PaymentProvider>().uploadPaymentProof(
+      reservationId: widget.reservationId,
+      bytes: selectedPaymentProofBytes!,
+      fileName: selectedPaymentProof!.name,
+    );
+
+    if (!mounted) return;
+
+    final state = context.read<PaymentProvider>().stateUploadPaymentProof;
+
+    switch (state) {
+      case DataStateSuccess(:final data):
+        DialogHelper.showSnackBarWithBackground(
+          context: context,
+          text: data.message,
+          colors: Colors.green,
+        );
+        setState(() {
+          selectedPaymentProof = null;
+          selectedPaymentProofBytes = null;
+        });
+        break;
+      case DataStateFailed(:final message):
+        DialogHelper.showSnackBarWithBackground(
+          context: context,
+          text: message,
+          colors: Colors.red,
+        );
+        break;
+      default:
+        break;
+    }
   }
 }

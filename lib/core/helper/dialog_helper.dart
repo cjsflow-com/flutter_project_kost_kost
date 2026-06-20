@@ -12,4 +12,8 @@ class DialogHelper{
   static pushNamed({required BuildContext context, required String nameRoutes}){
     context.pushNamed(nameRoutes);
   }
+
+  static showSnackBarWithBackground({required BuildContext context, required String text, required Color colors}){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text),backgroundColor: colors,));
+  }
 }

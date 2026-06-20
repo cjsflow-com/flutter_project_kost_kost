@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rimbun_cicio_kost/app/data/model/payment/payment.dart';
 import 'package:rimbun_cicio_kost/app/data/model/payment/payment_method.dart';
+import 'package:rimbun_cicio_kost/app/data/model/reservation/upload_payment_response.dart';
 import 'package:rimbun_cicio_kost/app/module/use_case/payment_use_case.dart';
 import 'package:rimbun_cicio_kost/core/state/data_state.dart';
 
-class PaymentProvider extends ChangeNotifier{
-  final PaymentUseCase  _paymentUseCase;
+class PaymentProvider extends ChangeNotifier {
+  final PaymentUseCase _paymentUseCase;
 
   PaymentProvider(this._paymentUseCase);
 
@@ -15,10 +16,15 @@ class PaymentProvider extends ChangeNotifier{
   DataState<CreatePaymentResponse> _statePayment = const DataStateInitial();
   DataState<CreatePaymentResponse> get statePayment => _statePayment;
 
+  DataState<UploadPaymentResponse> _stateUploadPaymentProof =
+      const DataStateInitial();
+  DataState<UploadPaymentResponse> get stateUploadPaymentProof =>
+      _stateUploadPaymentProof;
+
   Future<void> getPaymentMethod() async {
     final result = await _paymentUseCase.getPaymentMethod();
 
-    switch(result){
+    switch (result) {
       case DataStateInitial():
         _state = DataState.loading();
         break;
@@ -34,21 +40,56 @@ class PaymentProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> createPayment(int reservationId, int paymentMethodId, int amount) async {
+  Future<void> uploadPaymentProof({
+    required int reservationId,
+    required List<int> bytes,
+    required String fileName,
+  }) async {
+    _stateUploadPaymentProof = const DataStateLoading();
+    notifyListeners();
+
+    final result = await _paymentUseCase.uploadPaymentProof(
+      reservationId,
+      bytes,
+      fileName,
+    );
+
+    switch (result) {
+      case DataStateSuccess(:final data):
+        _stateUploadPaymentProof = DataState.success(data);
+        break;
+      case DataStateFailed(:final message):
+        _stateUploadPaymentProof = DataState.failed(message);
+        break;
+      default:
+        _stateUploadPaymentProof = const DataStateInitial();
+    }
+    notifyListeners();
+  }
+
+  Future<void> createPayment(
+    int reservationId,
+    int paymentMethodId,
+    int amount,
+  ) async {
     _statePayment = const DataStateLoading();
     notifyListeners();
 
-    final resultCreatePayment = await _paymentUseCase.createResponse(reservationId, paymentMethodId, amount);
+    final resultCreatePayment = await _paymentUseCase.createResponse(
+      reservationId,
+      paymentMethodId,
+      amount,
+    );
 
-    switch(resultCreatePayment){
+    switch (resultCreatePayment) {
       case DataStateSuccess(:final data):
         _statePayment = DataState.success(data);
         break;
       case DataStateFailed(:final message):
         _statePayment = DataState.failed(message);
         break;
-        default:
-          _statePayment = DataState.initial();
+      default:
+        _statePayment = DataState.initial();
     }
     notifyListeners();
   }
