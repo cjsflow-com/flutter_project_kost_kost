@@ -138,21 +138,21 @@ class _ReservationPageState extends State<ReservationPage> {
 
                           Row(
                             children: [
-                              Consumer<ReservationProvider>(
-                                builder: (context, provider, child) {
-                                  final cancelState =
-                                      provider.statusCancelResponse;
+                              if(item.status == 'pending' || item.status == 'waiting_payment') ...[
+                                Consumer<ReservationProvider>(
+                                  builder: (context, provider, child) {
+                                    final cancelState =
+                                        provider.statusCancelResponse;
 
-                                  return buildCancelButton(
-                                    context: context,
-                                    cancelState: cancelState,
-                                    reservationId: item.id,
-                                  );
-                                },
-                              ),
-
+                                    return buildCancelButton(
+                                      context: context,
+                                      cancelState: cancelState,
+                                      reservationId: item.id,
+                                    );
+                                  },
+                                ),
+                              ],
                               const SizedBox(width: 12),
-
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: () {

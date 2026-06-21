@@ -76,7 +76,7 @@ _IndexReservationPayment _$IndexReservationPaymentFromJson(
   paymentMethodId: (json['payment_method_id'] as num).toInt(),
   paymentProof: json['payment_proof'] as String?,
   paymentCode: json['payment_code'] as String,
-  amount: json['amount'] as String,
+  amount: (json['amount'] as num).toInt(),
   status: json['status'] as String,
   paidAt: json['paid_at'] as String?,
   uploadedAt: json['uploaded_at'] as String?,

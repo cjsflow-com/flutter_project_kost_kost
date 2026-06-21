@@ -89,10 +89,10 @@ abstract class PaymentMethodDetail with _$PaymentMethodDetail {
     required int id,
     required String name,
     required String type,
-    required String provider,
+    String? provider,
 
-    @JsonKey(name: 'account_number') required String accountNumber,
-    @JsonKey(name: 'account_name') required String accountName,
+    @JsonKey(name: 'account_number') String? accountNumber,
+    @JsonKey(name: 'account_name') String? accountName,
   }) = _PaymentMethodDetail;
 
   factory PaymentMethodDetail.fromJson(Map<String, dynamic> json) =>

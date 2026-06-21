@@ -222,7 +222,7 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
                     borderRadius: BorderRadius.circular(999),
                   ),
                   child: Text(
-                    reservation.statusLabel,
+                    reservation.status,
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
@@ -442,11 +442,14 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
     final reservation = detailResponse.data;
     final paymentMethod = reservation?.payment?.paymentMethod;
 
+    final showPaymentSection =
+        reservation?.statusLabel == "Menunggu Pembayaran";
+
     final showUploadPaymentProof =
         paymentMethod?.type == 'bank_transfer' ||
         paymentMethod?.type == 'e_wallet';
 
-    if (!showUploadPaymentProof) {
+    if (!showUploadPaymentProof || !showPaymentSection) {
       return const SizedBox.shrink();
     }
     return Padding(
@@ -496,14 +499,14 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
 
   IconData _getStatusIcon(String status) {
     return switch (status) {
-      'Menunggu Konfirmasi' => Icons.circle,
+      'Menunggu Konfirmasi' => Icons.info,
       'Menunggu Pembayaran' => Icons.file_copy,
-      'Bukti Pembayaran Telah Diupload' => Icons.receipt_long,
+      'Bukti Pembayaran Diupload' => Icons.receipt_long,
       'Disetujui' => Icons.check_circle,
       'Ditolak' => Icons.cancel,
       'Dibatalkan' => Icons.block,
       'Kadaluarsa' => Icons.timer_off,
-      _ => Icons.info,
+      _ => Icons.warning,
     };
   }
 
@@ -511,7 +514,7 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
     return switch (status) {
       'Menunggu Konfirmasi' => Colors.orange,
       'Menunggu Pembayaran' => Colors.blue,
-      'Bukti Pembayaran Telah Diupload' => Colors.orangeAccent,
+      'Bukti Pembayaran Diupload' => Colors.orangeAccent,
       'Disetujui' => Colors.green,
       'Ditolak' => Colors.red,
       'Dibatalkan' => Colors.grey,
@@ -575,6 +578,7 @@ class _PaymentStatusPageFullState extends State<PaymentStatusPageFull> {
           text: data.message,
           colors: Colors.green,
         );
+        DialogHelper.goNamed(context: context, nameRoutes: RouteNames.reservation_page);
         setState(() {
           selectedPaymentProof = null;
           selectedPaymentProofBytes = null;

@@ -668,7 +668,7 @@ $IndexReservationPaymentCopyWith<$Res>? get payment {
 mixin _$IndexReservationPayment {
 
  int get id;@JsonKey(name: 'reservation_id') int get reservationId;@JsonKey(name: 'payment_method_id') int get paymentMethodId;@JsonKey(name: 'payment_proof') String? get paymentProof;@JsonKey(name: 'payment_code') String get paymentCode;// dari backend amount bentuknya String: "3600000.00"
- String get amount; String get status;@JsonKey(name: 'paid_at') String? get paidAt;@JsonKey(name: 'uploaded_at') String? get uploadedAt;@JsonKey(name: 'verified_at') String? get verifiedAt;@JsonKey(name: 'rejected_at') String? get rejectedAt; String? get note;@JsonKey(name: 'created_at') String get createdAt;@JsonKey(name: 'updated_at') String get updatedAt;@JsonKey(name: 'status_label') String get statusLabel;
+ int get amount; String get status;@JsonKey(name: 'paid_at') String? get paidAt;@JsonKey(name: 'uploaded_at') String? get uploadedAt;@JsonKey(name: 'verified_at') String? get verifiedAt;@JsonKey(name: 'rejected_at') String? get rejectedAt; String? get note;@JsonKey(name: 'created_at') String get createdAt;@JsonKey(name: 'updated_at') String get updatedAt;@JsonKey(name: 'status_label') String get statusLabel;
 /// Create a copy of IndexReservationPayment
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -701,7 +701,7 @@ abstract mixin class $IndexReservationPaymentCopyWith<$Res>  {
   factory $IndexReservationPaymentCopyWith(IndexReservationPayment value, $Res Function(IndexReservationPayment) _then) = _$IndexReservationPaymentCopyWithImpl;
 @useResult
 $Res call({
- int id,@JsonKey(name: 'reservation_id') int reservationId,@JsonKey(name: 'payment_method_id') int paymentMethodId,@JsonKey(name: 'payment_proof') String? paymentProof,@JsonKey(name: 'payment_code') String paymentCode, String amount, String status,@JsonKey(name: 'paid_at') String? paidAt,@JsonKey(name: 'uploaded_at') String? uploadedAt,@JsonKey(name: 'verified_at') String? verifiedAt,@JsonKey(name: 'rejected_at') String? rejectedAt, String? note,@JsonKey(name: 'created_at') String createdAt,@JsonKey(name: 'updated_at') String updatedAt,@JsonKey(name: 'status_label') String statusLabel
+ int id,@JsonKey(name: 'reservation_id') int reservationId,@JsonKey(name: 'payment_method_id') int paymentMethodId,@JsonKey(name: 'payment_proof') String? paymentProof,@JsonKey(name: 'payment_code') String paymentCode, int amount, String status,@JsonKey(name: 'paid_at') String? paidAt,@JsonKey(name: 'uploaded_at') String? uploadedAt,@JsonKey(name: 'verified_at') String? verifiedAt,@JsonKey(name: 'rejected_at') String? rejectedAt, String? note,@JsonKey(name: 'created_at') String createdAt,@JsonKey(name: 'updated_at') String updatedAt,@JsonKey(name: 'status_label') String statusLabel
 });
 
 
@@ -726,7 +726,7 @@ as int,paymentMethodId: null == paymentMethodId ? _self.paymentMethodId : paymen
 as int,paymentProof: freezed == paymentProof ? _self.paymentProof : paymentProof // ignore: cast_nullable_to_non_nullable
 as String?,paymentCode: null == paymentCode ? _self.paymentCode : paymentCode // ignore: cast_nullable_to_non_nullable
 as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
 as String?,uploadedAt: freezed == uploadedAt ? _self.uploadedAt : uploadedAt // ignore: cast_nullable_to_non_nullable
 as String?,verifiedAt: freezed == verifiedAt ? _self.verifiedAt : verifiedAt // ignore: cast_nullable_to_non_nullable
@@ -820,7 +820,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'reservation_id')  int reservationId, @JsonKey(name: 'payment_method_id')  int paymentMethodId, @JsonKey(name: 'payment_proof')  String? paymentProof, @JsonKey(name: 'payment_code')  String paymentCode,  String amount,  String status, @JsonKey(name: 'paid_at')  String? paidAt, @JsonKey(name: 'uploaded_at')  String? uploadedAt, @JsonKey(name: 'verified_at')  String? verifiedAt, @JsonKey(name: 'rejected_at')  String? rejectedAt,  String? note, @JsonKey(name: 'created_at')  String createdAt, @JsonKey(name: 'updated_at')  String updatedAt, @JsonKey(name: 'status_label')  String statusLabel)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'reservation_id')  int reservationId, @JsonKey(name: 'payment_method_id')  int paymentMethodId, @JsonKey(name: 'payment_proof')  String? paymentProof, @JsonKey(name: 'payment_code')  String paymentCode,  int amount,  String status, @JsonKey(name: 'paid_at')  String? paidAt, @JsonKey(name: 'uploaded_at')  String? uploadedAt, @JsonKey(name: 'verified_at')  String? verifiedAt, @JsonKey(name: 'rejected_at')  String? rejectedAt,  String? note, @JsonKey(name: 'created_at')  String createdAt, @JsonKey(name: 'updated_at')  String updatedAt, @JsonKey(name: 'status_label')  String statusLabel)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _IndexReservationPayment() when $default != null:
 return $default(_that.id,_that.reservationId,_that.paymentMethodId,_that.paymentProof,_that.paymentCode,_that.amount,_that.status,_that.paidAt,_that.uploadedAt,_that.verifiedAt,_that.rejectedAt,_that.note,_that.createdAt,_that.updatedAt,_that.statusLabel);case _:
@@ -841,7 +841,7 @@ return $default(_that.id,_that.reservationId,_that.paymentMethodId,_that.payment
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'reservation_id')  int reservationId, @JsonKey(name: 'payment_method_id')  int paymentMethodId, @JsonKey(name: 'payment_proof')  String? paymentProof, @JsonKey(name: 'payment_code')  String paymentCode,  String amount,  String status, @JsonKey(name: 'paid_at')  String? paidAt, @JsonKey(name: 'uploaded_at')  String? uploadedAt, @JsonKey(name: 'verified_at')  String? verifiedAt, @JsonKey(name: 'rejected_at')  String? rejectedAt,  String? note, @JsonKey(name: 'created_at')  String createdAt, @JsonKey(name: 'updated_at')  String updatedAt, @JsonKey(name: 'status_label')  String statusLabel)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id, @JsonKey(name: 'reservation_id')  int reservationId, @JsonKey(name: 'payment_method_id')  int paymentMethodId, @JsonKey(name: 'payment_proof')  String? paymentProof, @JsonKey(name: 'payment_code')  String paymentCode,  int amount,  String status, @JsonKey(name: 'paid_at')  String? paidAt, @JsonKey(name: 'uploaded_at')  String? uploadedAt, @JsonKey(name: 'verified_at')  String? verifiedAt, @JsonKey(name: 'rejected_at')  String? rejectedAt,  String? note, @JsonKey(name: 'created_at')  String createdAt, @JsonKey(name: 'updated_at')  String updatedAt, @JsonKey(name: 'status_label')  String statusLabel)  $default,) {final _that = this;
 switch (_that) {
 case _IndexReservationPayment():
 return $default(_that.id,_that.reservationId,_that.paymentMethodId,_that.paymentProof,_that.paymentCode,_that.amount,_that.status,_that.paidAt,_that.uploadedAt,_that.verifiedAt,_that.rejectedAt,_that.note,_that.createdAt,_that.updatedAt,_that.statusLabel);case _:
@@ -861,7 +861,7 @@ return $default(_that.id,_that.reservationId,_that.paymentMethodId,_that.payment
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id, @JsonKey(name: 'reservation_id')  int reservationId, @JsonKey(name: 'payment_method_id')  int paymentMethodId, @JsonKey(name: 'payment_proof')  String? paymentProof, @JsonKey(name: 'payment_code')  String paymentCode,  String amount,  String status, @JsonKey(name: 'paid_at')  String? paidAt, @JsonKey(name: 'uploaded_at')  String? uploadedAt, @JsonKey(name: 'verified_at')  String? verifiedAt, @JsonKey(name: 'rejected_at')  String? rejectedAt,  String? note, @JsonKey(name: 'created_at')  String createdAt, @JsonKey(name: 'updated_at')  String updatedAt, @JsonKey(name: 'status_label')  String statusLabel)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id, @JsonKey(name: 'reservation_id')  int reservationId, @JsonKey(name: 'payment_method_id')  int paymentMethodId, @JsonKey(name: 'payment_proof')  String? paymentProof, @JsonKey(name: 'payment_code')  String paymentCode,  int amount,  String status, @JsonKey(name: 'paid_at')  String? paidAt, @JsonKey(name: 'uploaded_at')  String? uploadedAt, @JsonKey(name: 'verified_at')  String? verifiedAt, @JsonKey(name: 'rejected_at')  String? rejectedAt,  String? note, @JsonKey(name: 'created_at')  String createdAt, @JsonKey(name: 'updated_at')  String updatedAt, @JsonKey(name: 'status_label')  String statusLabel)?  $default,) {final _that = this;
 switch (_that) {
 case _IndexReservationPayment() when $default != null:
 return $default(_that.id,_that.reservationId,_that.paymentMethodId,_that.paymentProof,_that.paymentCode,_that.amount,_that.status,_that.paidAt,_that.uploadedAt,_that.verifiedAt,_that.rejectedAt,_that.note,_that.createdAt,_that.updatedAt,_that.statusLabel);case _:
@@ -885,7 +885,7 @@ class _IndexReservationPayment implements IndexReservationPayment {
 @override@JsonKey(name: 'payment_proof') final  String? paymentProof;
 @override@JsonKey(name: 'payment_code') final  String paymentCode;
 // dari backend amount bentuknya String: "3600000.00"
-@override final  String amount;
+@override final  int amount;
 @override final  String status;
 @override@JsonKey(name: 'paid_at') final  String? paidAt;
 @override@JsonKey(name: 'uploaded_at') final  String? uploadedAt;
@@ -929,7 +929,7 @@ abstract mixin class _$IndexReservationPaymentCopyWith<$Res> implements $IndexRe
   factory _$IndexReservationPaymentCopyWith(_IndexReservationPayment value, $Res Function(_IndexReservationPayment) _then) = __$IndexReservationPaymentCopyWithImpl;
 @override @useResult
 $Res call({
- int id,@JsonKey(name: 'reservation_id') int reservationId,@JsonKey(name: 'payment_method_id') int paymentMethodId,@JsonKey(name: 'payment_proof') String? paymentProof,@JsonKey(name: 'payment_code') String paymentCode, String amount, String status,@JsonKey(name: 'paid_at') String? paidAt,@JsonKey(name: 'uploaded_at') String? uploadedAt,@JsonKey(name: 'verified_at') String? verifiedAt,@JsonKey(name: 'rejected_at') String? rejectedAt, String? note,@JsonKey(name: 'created_at') String createdAt,@JsonKey(name: 'updated_at') String updatedAt,@JsonKey(name: 'status_label') String statusLabel
+ int id,@JsonKey(name: 'reservation_id') int reservationId,@JsonKey(name: 'payment_method_id') int paymentMethodId,@JsonKey(name: 'payment_proof') String? paymentProof,@JsonKey(name: 'payment_code') String paymentCode, int amount, String status,@JsonKey(name: 'paid_at') String? paidAt,@JsonKey(name: 'uploaded_at') String? uploadedAt,@JsonKey(name: 'verified_at') String? verifiedAt,@JsonKey(name: 'rejected_at') String? rejectedAt, String? note,@JsonKey(name: 'created_at') String createdAt,@JsonKey(name: 'updated_at') String updatedAt,@JsonKey(name: 'status_label') String statusLabel
 });
 
 
@@ -954,7 +954,7 @@ as int,paymentMethodId: null == paymentMethodId ? _self.paymentMethodId : paymen
 as int,paymentProof: freezed == paymentProof ? _self.paymentProof : paymentProof // ignore: cast_nullable_to_non_nullable
 as String?,paymentCode: null == paymentCode ? _self.paymentCode : paymentCode // ignore: cast_nullable_to_non_nullable
 as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
 as String?,uploadedAt: freezed == uploadedAt ? _self.uploadedAt : uploadedAt // ignore: cast_nullable_to_non_nullable
 as String?,verifiedAt: freezed == verifiedAt ? _self.verifiedAt : verifiedAt // ignore: cast_nullable_to_non_nullable

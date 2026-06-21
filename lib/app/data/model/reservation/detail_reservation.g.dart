@@ -120,9 +120,9 @@ _PaymentMethodDetail _$PaymentMethodDetailFromJson(Map<String, dynamic> json) =>
       id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       type: json['type'] as String,
-      provider: json['provider'] as String,
-      accountNumber: json['account_number'] as String,
-      accountName: json['account_name'] as String,
+      provider: json['provider'] as String?,
+      accountNumber: json['account_number'] as String?,
+      accountName: json['account_name'] as String?,
     );
 
 Map<String, dynamic> _$PaymentMethodDetailToJson(

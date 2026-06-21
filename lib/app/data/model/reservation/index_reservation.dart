@@ -108,7 +108,7 @@ abstract class IndexReservationPayment with _$IndexReservationPayment {
     required String paymentCode,
 
     // dari backend amount bentuknya String: "3600000.00"
-    required String amount,
+    required int amount,
 
     required String status,
 
