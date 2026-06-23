@@ -86,7 +86,16 @@ class _WelcomePageState extends State<WelcomePage> {
                               ),
                             ),
                             Text(
-                              'Kos',
+                              'Cicio',
+                              style: TextStyle(
+                                fontSize: 28,
+                                height: 0.9,
+                                fontWeight: FontWeight.w800,
+                                color: WelcomePage.primaryGreen,
+                              ),
+                            ),
+                            Text(
+                              'Kost',
                               style: TextStyle(
                                 fontSize: 28,
                                 height: 0.9,

@@ -108,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         const SizedBox(height: 14),
         const Text(
-          'Rimbun Kos',
+          'Rimbun Cicio Kost',
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.w900,

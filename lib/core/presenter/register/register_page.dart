@@ -103,7 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         const SizedBox(height: 14),
         const Text(
-          'Rimbun Kos',
+          'Rimbun Cicio Kost ',
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.w900,

@@ -243,7 +243,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Cicio Rimbun Kos',
+                  'Rimbun Cicio Kost',
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w800,
