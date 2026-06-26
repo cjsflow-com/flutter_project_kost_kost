@@ -1,16 +1,56 @@
-# rimbun_cicio_kost
+# 🚀 Nama Aplikasi
 
-A new Flutter project.
+Deskripsi singkat aplikasi.
 
-## Getting Started
+Aplikasi **Rimbun Cicio Kost** merupakan aplikasi mobile berbasis Flutter yang dirancang khusus untuk memudahkan pengelolaan dan pelayanan informasi bagi penghuni maupun calon penghuni **Rimbun Cicio Kost**.
 
-This project is a starting point for a Flutter application.
+Melalui aplikasi ini, pengguna dapat memperoleh informasi mengenai kost, melihat fasilitas yang tersedia, melakukan pemesanan kamar, serta mengakses berbagai informasi penting secara praktis dan cepat langsung dari perangkat Android.
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## ✨ Fitur
+
+- Login & Register
+- Integrasi REST API
+- Database lokal (SQLite)
+- Notifikasi
+- Responsive UI
+- Dark Mode
+- Multi Platform
+
+---
+
+## 🛠️ Library / Dependencies
+
+- Flutter SDK
+- http
+- provider
+- sqflite
+- shared_preferences
+- intl
+- image_picker
+- path_provider
+
+---
+
+## 📦 Download APK
+
+Klik link di bawah untuk mengunduh aplikasi:
+
+[⬇️ Download APK](https://github.com/cjsflow-com/flutter_project_kost_kost/releases/tag/version_0.1)
+
+---
+
+## 📋 Requirement
+
+- Flutter 3.x
+- Dart 3.x
+- Android SDK 35
+- JDK 17
+
+---
+
+## 👨‍💻 Developer
+
+Developed with ❤️ by Candra Julius Sinaga
