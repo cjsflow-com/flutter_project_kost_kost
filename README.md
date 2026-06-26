@@ -1,4 +1,4 @@
-# 🚀 Nama Aplikasi
+# 🚀 Rimbun Cicio Kost
 
 Deskripsi singkat aplikasi.
 
