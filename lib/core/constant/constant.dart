@@ -13,7 +13,7 @@ const PROFILE_PAGE = "/profile";
 const FAVORITE_PAGE = "/favorite";
 
 // const BASE_URL = "http://10.9.0.16:5000/api";
-const BASE_URL = "http://192.168.1.24:5000/api";
+const BASE_URL = "https://rimbunciciokost.my.id/api";
 // ENDPOINT
 const _PREFIX_AUTH = "/auth";
 const GET_ROOMS = "/rooms";
