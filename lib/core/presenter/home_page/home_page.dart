@@ -50,12 +50,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     loaderAnimation = Tween(
       begin: 1.0,
       end: 1.4,
-    ).animate(
-      CurvedAnimation(
-        parent: loaderController,
-        curve: Curves.easeIn,
-      ),
-    );
+    ).animate(CurvedAnimation(parent: loaderController, curve: Curves.easeIn));
 
     loaderController.repeat(reverse: true);
 
@@ -115,10 +110,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         builder: (context, provider, _) {
           final state = provider.state;
 
-          return _buildHomeContent(
-            provider: provider,
-            state: state,
-          );
+          return _buildHomeContent(provider: provider, state: state);
         },
       ),
     );
@@ -144,12 +136,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
           const SizedBox(height: 12),
 
-          Expanded(
-            child: _buildListContent(
-              provider: provider,
-              state: state,
-            ),
-          ),
+          Expanded(child: _buildListContent(provider: provider, state: state)),
         ],
       ),
     );
@@ -160,76 +147,79 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     required DataState<RoomResponse> state,
   }) {
     return switch (state) {
-      DataStateInitial() || DataStateLoading() => Center(
-        child: RGBProgressIndicator(),
-      ),
+      DataStateInitial() ||
+      DataStateLoading() => Center(child: RGBProgressIndicator()),
 
       DataStateFailed(:final message) => Center(
         child: Padding(
           padding: const EdgeInsets.all(20),
-          child: Text(
-            message,
-            textAlign: TextAlign.center,
-          ),
+          child: Text(message, textAlign: TextAlign.center),
         ),
       ),
 
-      DataStateSuccess() => provider.rooms.isEmpty
-          ? _buildEmptyState()
-          : RefreshIndicator(
-        onRefresh: () => _homeProvider.refreshRooms(),
-        child: ListView.builder(
-          physics: const AlwaysScrollableScrollPhysics(),
-          controller: provider.scrollController,
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-          itemCount: provider.rooms.length +
-              (provider.pageItems == null ? 0 : 1),
-          itemBuilder: (context, index) {
-            if (index == provider.rooms.length &&
-                provider.pageItems != null) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 18),
-                child: Center(
-                  child: AnimatedBuilder(
-                    animation: loaderAnimation,
-                    builder: (context, child) {
-                      return Transform.rotate(
-                        angle: loaderController.status ==
-                            AnimationStatus.forward
-                            ? (math.pi * 2) * loaderController.value
-                            : -(math.pi * 2) * loaderController.value,
-                        child: CustomPaint(
-                          foregroundPainter: LoaderAnimation(
-                            radiusRatio: loaderAnimation.value,
-                          ),
-                          size: const Size(50, 50),
+      DataStateSuccess() =>
+        provider.rooms.isEmpty
+            ? _buildEmptyState()
+            : RefreshIndicator(
+              onRefresh: () => _homeProvider.refreshRooms(),
+              child: ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
+                controller: provider.scrollController,
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+                itemCount:
+                    provider.rooms.length +
+                    (provider.pageItems == null ? 0 : 1),
+                itemBuilder: (context, index) {
+                  if (index == provider.rooms.length &&
+                      provider.pageItems != null) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      child: Center(
+                        child: AnimatedBuilder(
+                          animation: loaderAnimation,
+                          builder: (context, child) {
+                            return Transform.rotate(
+                              angle:
+                                  loaderController.status ==
+                                          AnimationStatus.forward
+                                      ? (math.pi * 2) * loaderController.value
+                                      : -(math.pi * 2) * loaderController.value,
+                              child: CustomPaint(
+                                foregroundPainter: LoaderAnimation(
+                                  radiusRatio: loaderAnimation.value,
+                                ),
+                                size: const Size(50, 50),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
-                ),
-              );
-            }
+                      ),
+                    );
+                  }
 
-            final rooms = provider.rooms[index];
+                  final rooms = provider.rooms[index];
 
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: RoomCard(
-                id: rooms.id,
-                statusName: rooms.statusName,
-                roomName: rooms.title,
-                price:
-                '${NumberHelper.formatIdr(rooms.pricePerMonth)}/bulan',
-                imageUrl: rooms.images.isNotEmpty
-                    ? '${rooms.thumbnail}/${rooms.images[0].image}'
-                    : 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=400',
-                facilities: rooms.facilities,
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: RoomCard(
+                      id: rooms.id,
+                      statusName: rooms.statusName,
+                      roomName: rooms.title,
+                      price:
+                          '${NumberHelper.formatIdr(rooms.pricePerMonth)}/bulan',
+                      imageUrl:
+                          rooms.images.isNotEmpty
+                              ? '${rooms.thumbnail}/${rooms.images[0].image}'
+                              : 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=400',
+                      facilities: rooms.facilities,
+                      roomSize: rooms.roomSize,
+                      floor: rooms.floor,
+                      capacity: rooms.capacity,
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
-      ),
+            ),
     };
   }
 
@@ -311,11 +301,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
               child: Row(
                 children: [
-                  const Icon(
-                    Icons.search,
-                    size: 20,
-                    color: Color(0xFF8A8A8A),
-                  ),
+                  const Icon(Icons.search, size: 20, color: Color(0xFF8A8A8A)),
                   const SizedBox(width: 8),
                   Expanded(
                     child: TextField(
@@ -337,7 +323,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         _debounce?.cancel();
                         _debounce = Timer(
                           const Duration(milliseconds: 500),
-                              () {
+                          () {
                             context.read<HomeProvider>().searchRooms(value);
                           },
                         );
@@ -412,11 +398,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         padding: const EdgeInsets.all(24),
         children: const [
           SizedBox(height: 140),
-          Icon(
-            Icons.search_off,
-            size: 58,
-            color: Colors.grey,
-          ),
+          Icon(Icons.search_off, size: 58, color: Colors.grey),
           SizedBox(height: 14),
           Text(
             'Kamar tidak ditemukan',
@@ -447,9 +429,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       context: context,
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
         final provider = context.read<HomeProvider>();
@@ -575,11 +555,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 color: const Color(0xFFE8F5E9),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(
-                icon,
-                color: HomePage.primaryGreen,
-                size: 20,
-              ),
+              child: Icon(icon, color: HomePage.primaryGreen, size: 20),
             ),
 
             const SizedBox(width: 12),

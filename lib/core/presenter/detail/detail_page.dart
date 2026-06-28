@@ -9,6 +9,7 @@ import 'package:rimbun_cicio_kost/core/helper/number_helper.dart';
 import 'package:rimbun_cicio_kost/core/helper/shared_prefrences_helper.dart';
 import 'package:rimbun_cicio_kost/core/presenter/auth/auth_provider.dart';
 import 'package:rimbun_cicio_kost/core/presenter/component/widgets/facility_box.dart';
+import 'package:rimbun_cicio_kost/core/presenter/component/widgets/facility_item.dart';
 import 'package:rimbun_cicio_kost/core/presenter/component/widgets/rgb_progress_indicator.dart';
 import 'package:rimbun_cicio_kost/core/presenter/detail/detail_provider.dart';
 import 'package:rimbun_cicio_kost/core/presenter/favorite/favorite_provider.dart';
@@ -220,7 +221,7 @@ class _DetailKostPageState extends State<DetailKostPage> {
           const SizedBox(height: 6),
 
           Text(
-            "Rp${NumberHelper.formatIdr(room.pricePerMonth)}/bulan",
+            "${NumberHelper.formatIdr(room.pricePerMonth)}/bulan",
             style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w900,
@@ -229,6 +230,10 @@ class _DetailKostPageState extends State<DetailKostPage> {
           ),
 
           const SizedBox(height: 12),
+
+          _buildRoomInfo(room),
+
+          const SizedBox(height: 15),
 
           Text(
             room.description,
@@ -258,7 +263,17 @@ class _DetailKostPageState extends State<DetailKostPage> {
             child: Row(
               children:
                   room.facilities
-                      .map((f) => FacilityBox(icon: Icons.wifi, label: f.name))
+                      .map(
+                        (f) => FacilityItem(
+                          icon: Image.network(
+                            "${room.thumbnail}/${f.icon}",
+                            width: 22,
+                            height: 22,
+                            fit: BoxFit.contain,
+                          ),
+                          label: f.name,
+                        ),
+                      )
                       .toList(),
             ),
           ),
@@ -403,21 +418,42 @@ class _CircleIconButton extends StatelessWidget {
   }
 }
 
-class _Dot extends StatelessWidget {
-  final bool isActive;
-
-  const _Dot({required this.isActive});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: isActive ? 8 : 6,
-      height: isActive ? 8 : 6,
-      margin: const EdgeInsets.symmetric(horizontal: 3),
-      decoration: BoxDecoration(
-        color: isActive ? Colors.white : Colors.white.withOpacity(0.55),
-        shape: BoxShape.circle,
+Widget _buildRoomInfo(Room room) {
+  return Row(
+    children: [
+      Expanded(child: _buildInfoItem(Icons.square_foot, '${room.roomSize} m²')),
+      Expanded(
+        child: _buildInfoItem(Icons.layers_outlined, 'Lantai ${room.floor}'),
       ),
-    );
-  }
+      Expanded(
+        child: _buildInfoItem(Icons.people_outline, '${room.capacity} Orang'),
+      ),
+    ],
+  );
+}
+
+Widget _buildInfoItem(IconData icon, String text) {
+  return Container(
+    margin: const EdgeInsets.only(right: 8),
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(color: Colors.grey.shade200),
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(icon, size: 18, color: DetailKostPage.primaryGreen),
+        const SizedBox(width: 6),
+        Flexible(
+          child: Text(
+            text,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+          ),
+        ),
+      ],
+    ),
+  );
 }

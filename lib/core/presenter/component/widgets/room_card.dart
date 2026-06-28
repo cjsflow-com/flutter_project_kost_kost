@@ -11,6 +11,9 @@ class RoomCard extends StatelessWidget {
   final String imageUrl;
   final String statusName;
   final List<Facility> facilities;
+  final String roomSize;
+  final int floor;
+  final int capacity;
 
   const RoomCard({
     super.key,
@@ -20,6 +23,9 @@ class RoomCard extends StatelessWidget {
     required this.statusName,
     required this.imageUrl,
     required this.facilities,
+    required this.roomSize,
+    required this.floor,
+    required this.capacity,
   });
 
   static const Color primaryGreen = Color(0xFF0F5B2B);
@@ -122,6 +128,68 @@ class RoomCard extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 12),
+
+                  Wrap(
+                    spacing: 12,
+                    runSpacing: 6,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.square_foot,
+                            size: 14,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(width: 3),
+                          Text(
+                            '$roomSize m²',
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.layers_outlined,
+                            size: 14,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(width: 3),
+                          Text(
+                            'Lt. $floor',
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.people_outline,
+                            size: 14,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(width: 3),
+                          Text(
+                            '$capacity org',
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 3,),
                   Wrap(
                     spacing: 10,
                     runSpacing: 6,

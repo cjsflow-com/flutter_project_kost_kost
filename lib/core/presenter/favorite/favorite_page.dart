@@ -64,9 +64,10 @@ class _FavoritePageState extends State<FavoritePage> {
                       builder: (context) {
                         final rooms = data.data.rooms ?? [];
 
-                        final favoriteRooms = rooms.where((room) {
-                          return favoriteIds.contains(room.id.toString());
-                        }).toList();
+                        final favoriteRooms =
+                            rooms.where((room) {
+                              return favoriteIds.contains(room.id.toString());
+                            }).toList();
 
                         if (favoriteRooms.isEmpty) {
                           return _buildEmptyState();
@@ -78,9 +79,7 @@ class _FavoritePageState extends State<FavoritePage> {
                                 .read<FavoriteProvider>()
                                 .getFavorite();
 
-                            await context
-                                .read<HomeProvider>()
-                                .fetchRooms();
+                            await context.read<HomeProvider>().fetchRooms();
                           },
                           child: LayoutBuilder(
                             builder: (context, constraints) {
@@ -89,16 +88,16 @@ class _FavoritePageState extends State<FavoritePage> {
                               if (isTablet) {
                                 return GridView.builder(
                                   physics:
-                                  const AlwaysScrollableScrollPhysics(),
+                                      const AlwaysScrollableScrollPhysics(),
                                   padding: const EdgeInsets.all(16),
                                   itemCount: favoriteRooms.length,
                                   gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    mainAxisSpacing: 14,
-                                    crossAxisSpacing: 14,
-                                    childAspectRatio: 3.2,
-                                  ),
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        mainAxisSpacing: 14,
+                                        crossAxisSpacing: 14,
+                                        childAspectRatio: 3.2,
+                                      ),
                                   itemBuilder: (context, index) {
                                     final room = favoriteRooms[index];
                                     return _buildRoomCard(room);
@@ -107,8 +106,7 @@ class _FavoritePageState extends State<FavoritePage> {
                               }
 
                               return ListView.separated(
-                                physics:
-                                const AlwaysScrollableScrollPhysics(),
+                                physics: const AlwaysScrollableScrollPhysics(),
                                 padding: const EdgeInsets.all(16),
                                 itemCount: favoriteRooms.length,
                                 separatorBuilder: (context, index) {
@@ -137,9 +135,10 @@ class _FavoritePageState extends State<FavoritePage> {
   }
 
   Widget _buildRoomCard(dynamic room) {
-    final imageUrl = room.images.isNotEmpty
-        ? '${room.thumbnail}/${room.images.first.image}'
-        : 'https://via.placeholder.com/400';
+    final imageUrl =
+        room.images.isNotEmpty
+            ? '${room.thumbnail}/${room.images.first.image}'
+            : 'https://via.placeholder.com/400';
 
     return RoomCard(
       id: room.id.toString(),
@@ -148,6 +147,9 @@ class _FavoritePageState extends State<FavoritePage> {
       statusName: room.statusName,
       imageUrl: imageUrl,
       facilities: room.facilities,
+      roomSize: room.roomSize,
+      floor: room.floor,
+      capacity: room.capacity,
     );
   }
 
@@ -155,9 +157,7 @@ class _FavoritePageState extends State<FavoritePage> {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
-      decoration: const BoxDecoration(
-        color: FavoritePage.backgroundColor,
-      ),
+      decoration: const BoxDecoration(color: FavoritePage.backgroundColor),
       child: Row(
         children: [
           Container(
@@ -174,11 +174,7 @@ class _FavoritePageState extends State<FavoritePage> {
                 ),
               ],
             ),
-            child: const Icon(
-              Icons.favorite,
-              color: Colors.red,
-              size: 22,
-            ),
+            child: const Icon(Icons.favorite, color: Colors.red, size: 22),
           ),
           const SizedBox(width: 12),
           const Expanded(
@@ -276,19 +272,12 @@ class _FavoritePageState extends State<FavoritePage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
-              Icons.error_outline,
-              size: 48,
-              color: Colors.red,
-            ),
+            const Icon(Icons.error_outline, size: 48, color: Colors.red),
             const SizedBox(height: 12),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 13,
-                color: Color(0xFF555555),
-              ),
+              style: const TextStyle(fontSize: 13, color: Color(0xFF555555)),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
