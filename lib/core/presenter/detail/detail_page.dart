@@ -356,7 +356,13 @@ class _DetailKostPageState extends State<DetailKostPage> {
         width: double.infinity,
         height: 50,
         child: ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
+            final authProvider = context.read<AuthProvider>();
+
+            await authProvider.checkLogin();
+
+            if (!context.mounted) return;
+
             final dataSend = {
               'title': rooms.title,
               'status': rooms.statusName,
@@ -366,6 +372,20 @@ class _DetailKostPageState extends State<DetailKostPage> {
               'thumbnail': rooms.thumbnail,
               'roomId': int.parse(rooms.id),
             };
+
+            if (!authProvider.isLoggedIn) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'Silahkan login terlebih dahulu untuk melanjutkan proses reservasi',
+                  ),
+                  backgroundColor: Colors.red,
+                ),
+              );
+              context.goNamed(RouteNames.login);
+              return;
+            }
+
             context.pushNamed(
               RouteNames.form_reservation_page,
               extra: dataSend,

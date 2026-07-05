@@ -230,7 +230,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                     height: 45,
                                     child: OutlinedButton(
                                       onPressed: () {
-                                         DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.register);
+                                         DialogHelper.pushNamed(context: context, nameRoutes: RouteNames.home_page);
                                       },
                                       style: OutlinedButton.styleFrom(
                                         foregroundColor: WelcomePage.primaryGreen,
@@ -245,7 +245,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                         ),
                                       ),
                                       child: const Text(
-                                        'Daftar',
+                                        'Cari kost anda',
                                         style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w700,

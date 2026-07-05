@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       backgroundColor: HomePage.backgroundColor,
       floatingActionButton: Consumer<AuthProvider>(
         builder: (context, provider, child) {
-          if (!provider.isLoggedIn) return const SizedBox();
+          if (!provider.isLoggedIn) return const SizedBox.shrink();
 
           return FloatingActionButton(
             backgroundColor: Colors.red,
