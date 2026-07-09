@@ -39,7 +39,6 @@ class RoomCard extends StatelessWidget {
         context.pushNamed(RouteNames.detail_page, pathParameters: {'id': id});
       },
       child: Container(
-        height: 118,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -59,7 +58,7 @@ class RoomCard extends StatelessWidget {
               child: Image.network(
                 imageUrl,
                 width: 100,
-                height: 98,
+                height: 100,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
